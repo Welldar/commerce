@@ -80,9 +80,12 @@ header {
 
   li {
     list-style: none;
-    display: grid;
-    grid-template-rows: auto 300px auto;
-    gap: 10px;
+
+    a {
+      display: grid;
+      grid-template-rows: auto 300px auto;
+      gap: 10px;
+    }
   }
 }
 
