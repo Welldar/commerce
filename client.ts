@@ -28,6 +28,15 @@ export function product() {
     .then(({ body }) => body);
 }
 
+export function productById(id: string) {
+  return apiRoot
+    .productProjections()
+    .withId({ ID: id })
+    .get()
+    .execute()
+    .then(({ body }) => body);
+}
+
 export function productSearch(Id: Category['id']) {
   return apiRoot
     .productProjections()

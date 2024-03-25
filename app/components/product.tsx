@@ -14,7 +14,7 @@ export function ProductCard({
   const images = product.masterVariant.images;
   return (
     <>
-      <Link href={`/product/${product.slug[locale]}`}>
+      <Link href={`/product/${product.id}`}>
         <h3>{product.name[locale]}</h3>
       </Link>
       {images ? (
@@ -23,7 +23,7 @@ export function ProductCard({
           className={styles.image + ' ' + 'keen-slider__slide'}
         ></Carousel>
       ) : null}
-      <Link href={`/product/${product.slug[locale]}`}>
+      <Link href={`/product/${product.id}`}>
         <div className={styles.desc}>{desc}</div>
       </Link>
     </>
