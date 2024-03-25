@@ -1,10 +1,17 @@
+'use client';
 import { useKeenSlider } from 'keen-slider/react';
 import 'keen-slider/keen-slider.min.css';
 import { useState } from 'react';
 import Image from 'next/image';
 import { type Image as img } from '@commercetools/platform-sdk';
 
-export default function Carousel({ slides }: { slides: img[] }) {
+export default function Carousel({
+  slides,
+  className,
+}: {
+  slides: img[];
+  className: string;
+}) {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [loaded, setLoaded] = useState(false);
   const [sliderRef, instanceRef] = useKeenSlider<HTMLDivElement>({
@@ -19,44 +26,25 @@ export default function Carousel({ slides }: { slides: img[] }) {
 
   return (
     <>
-      <div className="navigation-wrapper">
-        <div ref={sliderRef} className="keen-slider">
-          {slides.map(im => (
-            <Image
-              src={im.url}
-              alt=""
-              key={im.url}
-              width={im.dimensions.w}
-              height={im.dimensions.h}
-            ></Image>
-          ))}
-        </div>
-        {loaded && instanceRef.current && (
-          <>
-            <Arrow
-              left
-              onClick={(e: any) =>
-                e.stopPropagation() || instanceRef.current?.prev()
-              }
-              disabled={currentSlide === 0}
-            />
-
-            <Arrow
-              onClick={(e: any) =>
-                e.stopPropagation() || instanceRef.current?.next()
-              }
-              disabled={
-                currentSlide ===
-                instanceRef.current.track.details.slides.length - 1
-              }
-            />
-          </>
-        )}
+      <div ref={sliderRef} className="keen-slider">
+        {slides.map(im => (
+          <Image
+            className={className}
+            style={{ visibility: loaded ? 'visible' : 'hidden' }}
+            src={im.url}
+            alt=""
+            key={im.url}
+            width={im.dimensions.w}
+            height={im.dimensions.h}
+          ></Image>
+        ))}
       </div>
       {loaded && instanceRef.current && (
         <div className="dots">
           {[
-            ...Array(instanceRef.current.track.details.slides.length).keys(),
+            ...new Array(instanceRef.current.track.details.slides.length)
+              .fill(0)
+              .map((item, ind) => ind),
           ].map(idx => {
             return (
               <button
@@ -71,30 +59,5 @@ export default function Carousel({ slides }: { slides: img[] }) {
         </div>
       )}
     </>
-  );
-}
-
-function Arrow(props: {
-  disabled: boolean;
-  left?: boolean;
-  onClick: (e: any) => void;
-}) {
-  const disabled = props.disabled ? ' arrow--disabled' : '';
-  return (
-    <svg
-      onClick={props.onClick}
-      className={`arrow ${
-        props.left ? 'arrow--left' : 'arrow--right'
-      } ${disabled}`}
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 24 24"
-    >
-      {props.left && (
-        <path d="M16.67 0l2.83 2.829-9.339 9.175 9.339 9.167-2.83 2.829-12.17-11.996z" />
-      )}
-      {!props.left && (
-        <path d="M5 3l3.057-3 11.943 12-11.943 12-3.057-3 9-9z" />
-      )}
-    </svg>
   );
 }

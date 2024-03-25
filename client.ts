@@ -25,3 +25,11 @@ export function product() {
     .execute()
     .then(({ body }) => body);
 }
+
+export function category() {
+  return apiRoot
+    .categories()
+    .get()
+    .execute()
+    .then(({ body }) => body);
+}
