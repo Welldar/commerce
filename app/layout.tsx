@@ -23,7 +23,9 @@ export default function RootLayout({
       <body className={inter.className}>
         <AuthProvider>
           <Header></Header>
-          <ProductsProvider>{children}</ProductsProvider>
+          <main>
+            <ProductsProvider>{children}</ProductsProvider>
+          </main>
         </AuthProvider>
         ;
       </body>

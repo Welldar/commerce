@@ -1,12 +1,12 @@
 'use client';
 import { product } from '@/client';
-import { Product } from '@commercetools/platform-sdk';
+import { Product, ProductProjection } from '@commercetools/platform-sdk';
 import { useContext, createContext, useState, useEffect } from 'react';
 
-const ProductsContext = createContext<Product[] | null>(null);
+const ProductsContext = createContext<ProductProjection[] | null>(null);
 
 export function ProductsProvider({ children }: { children: React.ReactNode }) {
-  const [products, setProducts] = useState<Product[] | null>(null);
+  const [products, setProducts] = useState<ProductProjection[] | null>(null);
   useEffect(() => {
     const download = async () => {
       const products = await product();

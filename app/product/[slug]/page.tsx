@@ -8,13 +8,11 @@ export default function Page({ params }: { params: { slug: string } }) {
 
   if (!products) return null;
 
-  const product = products.find(
-    product => product.masterData.current.slug[locale] == params.slug
-  );
+  const product = products.find(product => product.slug[locale] == params.slug);
 
   return product ? (
     <>
-      <h1>{product.masterData.current.name[locale]}</h1>
+      <h1>{product.name[locale]}</h1>
     </>
   ) : (
     notFound()

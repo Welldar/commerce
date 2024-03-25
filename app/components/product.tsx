@@ -1,6 +1,5 @@
-import { ProductData } from '@commercetools/platform-sdk';
+import { ProductProjection } from '@commercetools/platform-sdk';
 import styles from './product.module.css';
-import Image from 'next/image';
 import Link from 'next/link';
 import Carousel from './carousel';
 
@@ -9,7 +8,7 @@ export function ProductCard({
   product,
 }: {
   locale: string;
-  product: ProductData;
+  product: ProductProjection;
 }) {
   const desc = product.description?.[locale] ?? '';
   const images = product.masterVariant.images;
@@ -17,14 +16,6 @@ export function ProductCard({
     <>
       <Link href={`/product/${product.slug[locale]}`}>
         <h3>{product.name[locale]}</h3>
-
-        {/* <Image
-        width={product.masterVariant.images?.[0].dimensions.w}
-        height={product.masterVariant.images?.[0].dimensions.h}
-        className={styles.image}
-        src={product.masterVariant.images?.[0].url ?? ''}
-        alt={desc}
-      ></Image> */}
       </Link>
       {images ? (
         <Carousel

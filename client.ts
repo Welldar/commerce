@@ -1,5 +1,6 @@
 import { ctpClient } from './BuildClient';
 import {
+  Category,
   CustomerSignin,
   ErrorResponse,
   createApiBuilderFromCtpClient,
@@ -20,8 +21,23 @@ export function login(htmlBody: CustomerSignin) {
 }
 export function product() {
   return apiRoot
-    .products()
-    .get()
+    .productProjections()
+    .search()
+    .get({ queryArgs: { localeProjection: 'en-US' } })
+    .execute()
+    .then(({ body }) => body);
+}
+
+export function productSearch(Id: Category['id']) {
+  return apiRoot
+    .productProjections()
+    .search()
+    .get({
+      queryArgs: {
+        'filter.query': `categories.id: subtree("${Id}")`,
+        localeProjection: 'en-US',
+      },
+    })
     .execute()
     .then(({ body }) => body);
 }
@@ -29,7 +45,7 @@ export function product() {
 export function category() {
   return apiRoot
     .categories()
-    .get()
+    .get({ queryArgs: { limit: 30 } })
     .execute()
     .then(({ body }) => body);
 }
