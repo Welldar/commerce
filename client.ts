@@ -19,11 +19,17 @@ export function login(htmlBody: CustomerSignin) {
     .then(({ body }) => body)
     .catch((body: ErrorResponse) => null);
 }
-export function product() {
+export function product(
+  options: {
+    [key: string]: string | string[] | undefined;
+  } = {}
+) {
+  options = { ...options, localeProjection: 'en-US' };
+
   return apiRoot
     .productProjections()
     .search()
-    .get({ queryArgs: { localeProjection: 'en-US' } })
+    .get({ queryArgs: options })
     .execute()
     .then(({ body }) => body);
 }

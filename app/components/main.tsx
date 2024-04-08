@@ -1,7 +1,7 @@
-import { Product, ProductProjection } from '@commercetools/platform-sdk';
+import { ProductProjection } from '@commercetools/platform-sdk';
 import { Filters } from './filters';
+import { ProductList } from './productsList';
 import { CategoryList } from './categoryList';
-import { ProductCard } from './product';
 
 export default function Main({
   products,
@@ -10,17 +10,10 @@ export default function Main({
   products: ProductProjection[];
   slug: string;
 }) {
-  const locale = 'en-US';
   return (
     <>
       <Filters></Filters>
-      <ul className="grid">
-        {products.map(product => (
-          <li key={product.id}>
-            <ProductCard locale={locale} product={product}></ProductCard>
-          </li>
-        ))}
-      </ul>
+      <ProductList products={products}></ProductList>
       <CategoryList slug={slug}></CategoryList>
     </>
   );
