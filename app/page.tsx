@@ -1,4 +1,4 @@
-import { product } from '@/client';
+import { products } from '@/service';
 import Main from './components/main';
 
 export default async function Page({
@@ -10,7 +10,7 @@ export default async function Page({
 }) {
   console.log(searchParams);
 
-  const productsResponse = await product(searchParams);
+  const productsResponse = await products(searchParams);
 
   return <Main slug="" products={productsResponse.results}></Main>;
 }

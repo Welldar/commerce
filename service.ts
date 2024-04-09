@@ -50,7 +50,7 @@ class ApiClient {
 const client = new ApiClient();
 
 export async function products(
-  options: options
+  options?: options
 ): Promise<ProductProjectionPagedSearchResponse> {
   return client.request('product-projections', 'GET', options);
 }
@@ -68,7 +68,7 @@ export async function product(id: string): Promise<ProductProjection> {
 }
 
 export async function category(
-  options: options
+  options?: options
 ): Promise<CategoryPagedQueryResponse> {
   return client.request('categories', 'GET', options);
 }

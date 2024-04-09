@@ -1,5 +1,4 @@
-import { useProducts } from '@/app/components/productsHook';
-import { productById } from '@/client';
+import { product as productById } from '@/service';
 import { notFound } from 'next/navigation';
 
 export default async function Page({ params }: { params: { id: string } }) {

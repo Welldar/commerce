@@ -1,6 +1,5 @@
 import { ProductProjection } from '@commercetools/platform-sdk';
 import { ProductCard } from './product';
-import { product } from '@/client';
 
 export async function ProductList({
   products,

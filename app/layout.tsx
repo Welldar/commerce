@@ -4,7 +4,6 @@ import './globals.css';
 
 import Header from './components/header';
 import { AuthProvider } from './components/auth';
-import { ProductsProvider } from './components/productsHook';
 
 const inter = Inter({ subsets: ['latin'] });
 
