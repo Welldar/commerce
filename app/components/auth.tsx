@@ -1,39 +1,66 @@
 'use client';
 import { useRouter } from 'next/navigation';
-import { useContext, createContext, useState } from 'react';
-import { login } from '@/client';
+import { useContext, createContext, useState, useEffect } from 'react';
 import { Customer, CustomerSignin } from '@commercetools/platform-sdk';
 
 type authContext = {
   user: Customer | null;
-  loginAction: (data: CustomerSignin) => void;
+  loginAction: (data: FormData) => Promise<boolean>;
   logOut: () => void;
 };
 
-export const AuthContext = createContext<authContext | null>(null);
+const AuthContext = createContext<authContext | null>(null);
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<Customer | null>(null);
+  const [loading, setLoading] = useState(true);
   const router = useRouter();
 
-  const loginAction = async (data: CustomerSignin) => {
+  const loginAction = async (data: FormData) => {
     try {
-      const user = await login(data);
+      const response = await fetch('/login/api', {
+        method: 'POST',
+        body: data,
+      });
 
-      if (!user) return console.log('no such a user');
-
-      setUser(user.customer);
-      router.push('/');
-      return;
+      switch (response.status) {
+        case 200:
+          setUser(await response.json());
+          return true;
+          break;
+        case 401:
+          console.log(response.statusText);
+          break;
+      }
     } catch (err) {
       console.error(err);
     }
+
+    return false;
   };
 
   const logOut = () => {
     setUser(null);
     router.push('/login');
   };
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      const response = await fetch('./me');
+      switch (response.status) {
+        case 200:
+          setUser(await response.json());
+          break;
+        case 401:
+          console.log('not sign in');
+          break;
+        default:
+          break;
+      }
+    };
+
+    fetchUser();
+  }, []);
 
   return (
     <AuthContext.Provider value={{ user, loginAction, logOut }}>

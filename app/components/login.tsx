@@ -1,7 +1,5 @@
 'use client';
-import { buildApiRoot } from '@/BuildClient';
 import styles from './login.module.css';
-import { login } from '@/client';
 import { useRouter } from 'next/navigation';
 import { useAuth } from './auth';
 
@@ -9,30 +7,16 @@ export default function Login({ isLogin = false }: { isLogin?: boolean }) {
   const router = useRouter();
   const { loginAction, user } = useAuth();
 
-  if (user) router.push('/');
   return (
     <>
       <form
         onSubmit={async e => {
           e.preventDefault();
           const form = new FormData(e.currentTarget);
-          const email = form.get('email')?.toString();
-          const password = form.get('password')?.toString();
 
-          if (!email || !password) return;
+          const success = await loginAction(form);
 
-          loginAction({ email, password });
-
-          const apiRootCustomer = buildApiRoot(password, email);
-
-          // apiRootCustomer
-          //   .me()
-          //   .orders()
-          //   .get()
-          //   .execute()
-          //   .then(({ body }) => console.log(body));
-
-          router.push('/');
+          if (success) router.push('/');
         }}
         className={styles.main}
       >

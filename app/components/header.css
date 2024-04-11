@@ -1,0 +1,26 @@
+.header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  box-shadow: 0 2px 2px hsla(0, 10%, 10%, 0.1);
+  margin-bottom: 15px;
+  height: 60px;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background-color: white;
+
+  a {
+    padding: 8px 32px;
+    border-radius: 5px;
+
+    &:hover:not(.active) {
+      background-color: hsl(0deg 0% 67.72% / 25%);
+    }
+  }
+}
+
+.active {
+  background-color: hsl(0deg 0% 67.72% / 50%);
+}
