@@ -1,4 +1,4 @@
-import { category } from '@/client';
+import { category } from '@/service';
 import Link from 'next/link';
 import './category.css';
 

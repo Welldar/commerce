@@ -2,6 +2,7 @@ import { ProductProjection } from '@commercetools/platform-sdk';
 import styles from './product.module.css';
 import Link from 'next/link';
 import Carousel from './carousel';
+import { BuyButton } from './BuyButton';
 
 export function ProductCard({
   locale,
@@ -12,6 +13,7 @@ export function ProductCard({
 }) {
   const desc = product.description?.[locale] ?? '';
   const images = product.masterVariant.images;
+
   return (
     <>
       <Link href={`/product/${product.id}`}>
@@ -26,6 +28,7 @@ export function ProductCard({
       <Link href={`/product/${product.id}`}>
         <div className={styles.desc}>{desc}</div>
       </Link>
+      <BuyButton prices={product.masterVariant.prices}></BuyButton>
     </>
   );
 }

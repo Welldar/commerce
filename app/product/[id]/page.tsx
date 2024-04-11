@@ -6,11 +6,5 @@ export default async function Page({ params }: { params: { id: string } }) {
 
   const locale = 'en-US';
 
-  return product ? (
-    <>
-      <h1>{product.name[locale]}</h1>
-    </>
-  ) : (
-    notFound()
-  );
+  return product ? <h1>{product.name[locale]}</h1> : notFound();
 }

@@ -19,10 +19,9 @@ export function Filters() {
 
   return (
     <div>
-      <h2>Фильтры</h2>
+      <h2>Sort by</h2>
       <form>
         <label htmlFor="sort">
-          Сортировать
           <select
             name="sort"
             id="sort"
