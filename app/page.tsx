@@ -6,11 +6,9 @@ export default async function Page({
   searchParams,
 }: {
   params: { slug: string };
-  searchParams?: { [key: string]: string | string[] | undefined };
+  searchParams?: { [key: string]: string | string[] };
 }) {
-  console.log(searchParams);
-
-  const productsResponse = await products(searchParams);
+  const productsResponse = await products({ queryArgs: searchParams });
 
   return <Main slug="" products={productsResponse.results}></Main>;
 }
