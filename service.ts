@@ -1,5 +1,6 @@
 import {
   CategoryPagedQueryResponse,
+  Customer,
   ProductProjection,
   ProductProjectionPagedSearchResponse,
 } from '@commercetools/platform-sdk';
@@ -24,25 +25,89 @@ class ApiClient {
 
     const response = await fetch(
       `${this.authUrl}/oauth/token?grant_type=client_credentials`,
-      { method: 'POST', headers: { Authorization } }
+      {
+        method: 'POST',
+        headers: { Authorization },
+        next: { revalidate: 60 * 60 * 47 },
+      }
     );
 
-    console.log(response);
-
     const { access_token, token_type } =
-      (await response.json()) as authResponse;
-    return (this.bearerAuthHeader = `${token_type} ${access_token}`);
+      (await response.json()) as authClientResponse;
+
+    this.bearerAuthHeader = `${token_type} ${access_token}`;
+    return this.bearerAuthHeader;
+  }
+
+  async authorizeUser({
+    email,
+    password,
+  }: {
+    email: string;
+    password: string;
+  }): Promise<authUserRespone> {
+    const Authorization = this.basicAuthHeader;
+
+    // &scope=view_published_products:${this.projectKey}%20manage_my_orders:${this.projectKey}%20manage_my_profile:${this.projectKey}
+
+    const response = await fetch(
+      `${this.authUrl}/oauth/${this.projectKey}/customers/token?grant_type=password&username=${email}&password=${password}`,
+      { method: 'POST', headers: { Authorization }, cache: 'no-cache' }
+    );
+
+    return response.json();
+  }
+
+  async refreshToken(token: string): Promise<authClientResponse> {
+    const Authorization = this.basicAuthHeader;
+    const response = await fetch(
+      `${this.authUrl}/oauth/token?grant_type=refresh_token&refresh_token=${token}`,
+      {
+        method: 'POST',
+        headers: {
+          Authorization,
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+      }
+    );
+
+    return response.json();
+  }
+
+  makeSearchQuery(queryArgs = {}) {
+    let searchQuery = '';
+
+    for (let [q, value] of Object.entries(queryArgs)) {
+      if (Array.isArray(value)) {
+        value.forEach(v => (searchQuery += `${q}=${v}`));
+      } else searchQuery += `${q}=${value}`;
+    }
+
+    return searchQuery;
   }
 
   async request(path: string, method: method, options: options = {}) {
     const url = new URL(`${this.apiUrl}/${this.projectKey}/${path}`);
-    const search = new URLSearchParams(options.queryArgs);
-    url.search = search.toString();
+
+    url.search = this.makeSearchQuery(options.queryArgs);
+
+    if (options.token) options.token = `Bearer ${options.token}`;
 
     const Authorization =
-      this.bearerAuthHeader ?? (await this.authorizeClient());
+      options.token ?? this.bearerAuthHeader ?? (await this.authorizeClient());
 
-    const response = await fetch(url, { headers: { Authorization } });
+    console.log(Authorization, path);
+
+    const fetchData = (Authorization: string) =>
+      fetch(url, { headers: { Authorization } });
+
+    let response = await fetchData(Authorization);
+
+    if (response.status == 401) {
+      const Authorization = await this.authorizeClient();
+      response = await fetchData(Authorization);
+    }
+
     return response.json();
   }
 }
@@ -73,13 +138,29 @@ export async function category(
   return client.request('categories', 'GET', options);
 }
 
-async function user() {}
+export async function login(credentials: { email: string; password: string }) {
+  return client.authorizeUser(credentials);
+}
+export async function user(token: string): Promise<Customer> {
+  return client.request('me', 'GET', { token });
+}
 
-type authResponse = {
+export async function refreshToken(token: string) {
+  return client.refreshToken(token);
+}
+
+export const accessCookie = 'access-token';
+export const refreshCookie = 'refresh-token';
+
+type authClientResponse = {
   access_token: string;
   expires_in: number; // seconds (2 days)
   scope: string;
   token_type: string;
+};
+
+type authUserRespone = authClientResponse & {
+  refresh_token: string;
 };
 
 type method = 'GET' | 'POST';
@@ -87,11 +168,8 @@ type method = 'GET' | 'POST';
 type options = {
   offset?: number;
   limit?: number;
-  queryArgs?: Partial<queryArgs>;
+  token?: string;
+  queryArgs?: queryArgs;
 };
 
-type queryArgs = {
-  sort: string;
-  localeProjection: string;
-  'filter.query': string;
-};
+type queryArgs = { [key: string]: string | string[] };
