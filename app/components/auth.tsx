@@ -7,6 +7,7 @@ type authContext = {
   user: Customer | null;
   loginAction: (data: FormData) => Promise<boolean>;
   logOut: () => void;
+  loading: boolean;
 };
 
 const AuthContext = createContext<authContext | null>(null);
@@ -45,25 +46,36 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   };
 
   useEffect(() => {
+    let ignore = false;
+
     const fetchUser = async () => {
       const response = await fetch('./me');
-      switch (response.status) {
-        case 200:
-          setUser(await response.json());
-          break;
-        case 401:
-          console.log('not sign in');
-          break;
-        default:
-          break;
+
+      if (!ignore) {
+        switch (response.status) {
+          case 200:
+            setUser(await response.json());
+            break;
+          case 401:
+            console.log('not sign in');
+            break;
+          default:
+            break;
+        }
+
+        setLoading(false);
       }
     };
 
     fetchUser();
+
+    return () => {
+      ignore = true;
+    };
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user, loginAction, logOut }}>
+    <AuthContext.Provider value={{ user, loginAction, logOut, loading }}>
       {children}
     </AuthContext.Provider>
   );
