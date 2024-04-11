@@ -1,0 +1,17 @@
+.buy {
+  background-color: hsl(50, 50%, 50%);
+  padding: 10px;
+  border: none;
+  color: white;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+
+  & :is(span:first-child, span:last-child) {
+    flex-grow: 1;
+  }
+
+  &:hover {
+    background-color: hsl(50deg 85.04% 16.6%);
+  }
+}
