@@ -49,7 +49,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     let ignore = false;
 
     const fetchUser = async () => {
-      const response = await fetch('./me');
+      const response = await fetch('/me');
 
       if (!ignore) {
         switch (response.status) {

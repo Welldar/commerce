@@ -87,9 +87,11 @@ class ApiClient {
   }
 
   async request(path: string, method: method, options: options = {}) {
-    const url = new URL(`${this.apiUrl}/${this.projectKey}/${path}`);
+    const url = `${this.apiUrl}/${this.projectKey}/${path}${
+      options.queryArgs ? '?' + options.queryArgs.toString() : ''
+    }`;
 
-    url.search = this.makeSearchQuery(options.queryArgs);
+    console.log(url, ' eldar ');
 
     if (options.token) options.token = `Bearer ${options.token}`;
 
@@ -123,8 +125,11 @@ export async function products(
 export async function productsByCategory(
   id: string
 ): Promise<ProductProjectionPagedSearchResponse> {
+  const params = new URLSearchParams({
+    'filter.query': `categories.id: subtree("${id}")`,
+  });
   return client.request('product-projections/search', 'GET', {
-    queryArgs: { 'filter.query': `categories.id: subtree("${id}")` },
+    queryArgs: params,
   });
 }
 
@@ -172,4 +177,6 @@ type options = {
   queryArgs?: queryArgs;
 };
 
-type queryArgs = { [key: string]: string | string[] };
+// type queryArgs = { [key: string]: string | string[] };
+
+type queryArgs = URLSearchParams;
