@@ -27,6 +27,7 @@ function Product(
       </Link>
       {images ? (
         <Carousel
+          sizes="(max-width: 768px) 50vw, 25vw"
           slides={images}
           className={styles.image + ' ' + 'keen-slider__slide'}
         ></Carousel>
