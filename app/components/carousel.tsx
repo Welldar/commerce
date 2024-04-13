@@ -8,9 +8,11 @@ import { type Image as img } from '@commercetools/platform-sdk';
 export default function Carousel({
   slides,
   className,
+  sizes,
 }: {
   slides: img[];
   className: string;
+  sizes: string;
 }) {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [loaded, setLoaded] = useState(false);
@@ -36,6 +38,7 @@ export default function Carousel({
             key={im.url}
             width={im.dimensions.w}
             height={im.dimensions.h}
+            sizes={sizes}
           ></Image>
         ))}
       </div>
