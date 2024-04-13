@@ -3,20 +3,26 @@ import styles from './product.module.css';
 import Link from 'next/link';
 import Carousel from './carousel';
 import { BuyButton } from './BuyButton';
+import { ForwardedRef, Ref, RefObject, forwardRef } from 'react';
 
-export function ProductCard({
-  locale,
-  product,
-}: {
-  locale: string;
-  product: ProductProjection;
-}) {
+export const ProductCard = forwardRef(Product);
+
+function Product(
+  {
+    locale,
+    product,
+  }: {
+    locale: string;
+    product: ProductProjection;
+  },
+  ref: ForwardedRef<any>
+) {
   const desc = product.description?.[locale] ?? '';
   const images = product.masterVariant.images;
 
   return (
     <>
-      <Link href={`/product/${product.id}`}>
+      <Link ref={ref} href={`/product/${product.id}`}>
         <h3>{product.name[locale]}</h3>
       </Link>
       {images ? (
