@@ -1,6 +1,6 @@
 import { category } from '@/service';
 import Link from 'next/link';
-import './category.css';
+import styles from './category.module.css';
 
 export async function CategoryList({ slug }: { slug: string }) {
   const cat = await category();
@@ -18,7 +18,7 @@ export async function CategoryList({ slug }: { slug: string }) {
 
   nav.push(id);
 
-  const navLinks = nav.map(c =>
+  const breadcrumbs = nav.map(c =>
     c ? (
       <Link key={c.id} href={c.slug[locale]}>
         {c.name[locale]}
@@ -26,7 +26,7 @@ export async function CategoryList({ slug }: { slug: string }) {
     ) : null
   );
 
-  navLinks.unshift(
+  breadcrumbs.unshift(
     <Link key="/" href="/">
       All
     </Link>
@@ -34,9 +34,9 @@ export async function CategoryList({ slug }: { slug: string }) {
 
   return (
     <div>
-      <h2>Категории</h2>
-      <nav>{navLinks}</nav>
-      <ul>
+      <h2 className={styles.h2}>Категории</h2>
+      <nav className={styles.nav}>{breadcrumbs}</nav>
+      <ul className={styles.list}>
         {currentTree.map(c => (
           <li key={c.id}>
             <Link href={`/category/${c.slug[locale]}`}>{c.name[locale]}</Link>

@@ -1,0 +1,39 @@
+.h2 {
+  margin-bottom: 15px;
+}
+
+.nav {
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: 10px;
+  margin-bottom: 10px;
+}
+
+.nav a:hover {
+  color: hsl(0deg 0% 67.72% / 80%);
+}
+
+.nav a:hover::after {
+  color: black;
+}
+
+.nav a::after {
+  content: ' >  ';
+}
+
+.nav a:last-child::after {
+  content: '';
+}
+
+.list li {
+  margin-bottom: 5px;
+}
+
+.list li a {
+  padding: 2px 5px;
+  border-radius: 3px;
+}
+
+.list li a:hover {
+  background-color: hsl(0deg 0% 67.72% / 25%);
+}
