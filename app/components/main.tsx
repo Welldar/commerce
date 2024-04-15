@@ -6,14 +6,16 @@ import { CategoryList } from './categoryList';
 export default function Main({
   products,
   slug,
+  id,
 }: {
   products: ProductProjection[];
   slug: string;
+  id?: string;
 }) {
   return (
     <>
       <Filters></Filters>
-      <ProductList products={products}></ProductList>
+      <ProductList id={id} products={products}></ProductList>
       <CategoryList slug={slug}></CategoryList>
     </>
   );

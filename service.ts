@@ -117,15 +117,19 @@ class ApiClient {
 const client = new ApiClient();
 
 export async function products(
-  options?: options
+  options: options = {},
+  id?: string
 ): Promise<ProductProjectionPagedSearchResponse> {
-  if (options?.queryArgs) {
+  if (options.queryArgs) {
     options.queryArgs.set('priceCurrency', 'USD');
     options.queryArgs.set('priceCountry', 'US');
     options.queryArgs.get('sort')
       ? null
       : options.queryArgs.set('sort', 'lastModifiedAt desc');
   }
+
+  if (id)
+    options.queryArgs?.set('filter.query', `categories.id: subtree("${id}")`);
 
   return client.request('product-projections/search', 'GET', options);
 }

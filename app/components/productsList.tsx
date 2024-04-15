@@ -5,7 +5,13 @@ import { useInView } from 'react-intersection-observer';
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 
-export function ProductList({ products }: { products: ProductProjection[] }) {
+export function ProductList({
+  products,
+  id,
+}: {
+  products: ProductProjection[];
+  id?: string;
+}) {
   const [allProducts, setAllProducts] = useState(products);
   const [offset, setOffset] = useState(0);
   const searchParams = useSearchParams();
@@ -18,6 +24,7 @@ export function ProductList({ products }: { products: ProductProjection[] }) {
         const newOffset = offset + 20;
         const params = new URLSearchParams(searchParams.toString());
         params.set('offset', newOffset.toString());
+        if (id) params.set('category', id);
         const response = await fetch(`/product?${params.toString()}`);
         const newProducts = (await response.json()) as ProductProjection[];
 

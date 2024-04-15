@@ -1,13 +1,25 @@
 import Main from '@/app/components/main';
-import { category, productsByCategory } from '@/service';
+import { parseParams } from '@/app/utility';
+import { category, products } from '@/service';
 import { notFound } from 'next/navigation';
 
-export default async function Page({ params }: { params: { slug: string } }) {
+export default async function Page({
+  params,
+  searchParams,
+}: {
+  params: { slug: string };
+  searchParams?: { [key: string]: string | string[] | undefined };
+}) {
   const cat = await category();
   const id = cat.results.find(c => c.slug['en-US'] == params.slug)?.id;
 
   if (!id) return notFound();
-  const products = await productsByCategory(id);
 
-  return <Main slug={params.slug} products={products.results}></Main>;
+  const query = parseParams(searchParams);
+
+  const productsData = await products({ queryArgs: query }, id);
+
+  return (
+    <Main slug={params.slug} products={productsData.results} id={id}></Main>
+  );
 }
