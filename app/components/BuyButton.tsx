@@ -24,8 +24,8 @@ export function BuyButton({
     <button className="buy">
       <span>
         <span className={discounted ? 'discount' : ''}>
-          {discounted ? `${discountPrice}` : null}
-          <span>{fullPrice}</span>
+          {fullPrice}
+          <span>{discounted ? `${discountPrice}` : null}</span>
         </span>
       </span>
       <span>|</span>

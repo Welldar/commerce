@@ -48,6 +48,6 @@
     padding: 3px 4px;
     border-radius: 5px;
     background-color: var(--discount-bg-color);
-    transform: translateY(14px) translateX(53%) rotate(18deg);
+    transform: translateY(15px) translateX(20%) rotate(10deg);
   }
 }
