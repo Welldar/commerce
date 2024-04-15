@@ -2,11 +2,13 @@
 import { ProductProjection } from '@commercetools/platform-sdk';
 import { ProductCard } from './product';
 import { useInView } from 'react-intersection-observer';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useSearchParams } from 'next/navigation';
 
 export function ProductList({ products }: { products: ProductProjection[] }) {
   const [allProducts, setAllProducts] = useState(products);
   const [offset, setOffset] = useState(0);
+  const searchParams = useSearchParams();
   const { ref } = useInView({
     triggerOnce: true,
     onChange: inView => {
@@ -14,7 +16,9 @@ export function ProductList({ products }: { products: ProductProjection[] }) {
 
       const fetchProducts = async () => {
         const newOffset = offset + 20;
-        const response = await fetch(`/product?offset=${newOffset}`);
+        const params = new URLSearchParams(searchParams.toString());
+        params.set('offset', newOffset.toString());
+        const response = await fetch(`/product?${params.toString()}`);
         const newProducts = (await response.json()) as ProductProjection[];
 
         setOffset(newOffset);
@@ -25,6 +29,10 @@ export function ProductList({ products }: { products: ProductProjection[] }) {
     },
   });
   const locale = 'en-US';
+
+  useEffect(() => {
+    setAllProducts(products);
+  }, [products]);
 
   return (
     <ul className="grid">

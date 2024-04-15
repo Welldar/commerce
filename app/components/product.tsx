@@ -35,7 +35,10 @@ function Product(
       <Link href={`/product/${product.id}`}>
         <div className={styles.desc}>{desc}</div>
       </Link>
-      <BuyButton prices={product.masterVariant.prices}></BuyButton>
+      <BuyButton
+        price={product.masterVariant.scopedPrice!}
+        discounted={product.masterVariant.scopedPriceDiscounted!}
+      ></BuyButton>
     </>
   );
 }

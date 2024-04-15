@@ -1,26 +1,31 @@
-import { Price } from '@commercetools/platform-sdk';
+import { ScopedPrice, TypedMoney } from '@commercetools/platform-sdk';
+import { formatter } from '../utility';
 import './buy.css';
 
-export function BuyButton({ prices }: { prices: Price[] | undefined }) {
-  const priceObject = prices?.find(price => price.value.currencyCode == 'USD');
+function formatPrice(price: TypedMoney) {
+  return formatter.format(
+    price.centAmount / Math.pow(10, price.fractionDigits)
+  );
+}
 
-  let priceTxt: string;
-
-  if (!priceObject) priceTxt = 'unavailable';
-  else {
-    const price =
-      priceObject?.value.centAmount /
-      Math.pow(10, priceObject?.value.fractionDigits);
-
-    priceTxt = price.toLocaleString('en-US', {
-      style: 'currency',
-      currency: 'USD',
-    });
-  }
+export function BuyButton({
+  price,
+  discounted,
+}: {
+  price: ScopedPrice;
+  discounted: boolean;
+}) {
+  const discountPrice = discounted
+    ? formatPrice(price.currentValue)
+    : undefined;
+  const fullPrice = formatPrice(price.value);
 
   return (
     <button className="buy">
-      <span>{priceTxt}</span>
+      <span className={discounted ? 'discount' : ''}>
+        {discounted ? `${discountPrice}` : null}
+        <span>{fullPrice}</span>
+      </span>
       <span>|</span>
       <span>Add to cart</span>
     </button>

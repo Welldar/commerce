@@ -13,5 +13,44 @@
 
   &:hover {
     background-color: hsl(50deg 85.04% 16.6%);
+
+    & .discount span {
+      background-color: hsl(49.15deg 100% 50%);
+      color: black;
+
+      &::after {
+        background-color: black;
+      }
+    }
+  }
+
+  .discount {
+    position: relative;
+    z-index: 2;
+  }
+
+  .discount span {
+    font-weight: 600;
+    left: 50%;
+    --discount-padding: 3px;
+    position: absolute;
+    z-index: -1;
+    color: hsl(0deg 0% 90%);
+    font-size: 0.8em;
+    padding: var(--discount-padding) 4px;
+    border-radius: 5px;
+    background-color: hsl(0deg 0% 0%);
+    transform: translateY(-17px) translateX(36%) rotate(351deg);
+
+    &::after {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%) rotate(350deg);
+      display: block;
+      content: '';
+      width: calc(100% - 2 * var(--discount-padding));
+      height: 1px;
+      background-color: hsl(0deg 0% 90%);
+    }
   }
 }
