@@ -119,7 +119,15 @@ const client = new ApiClient();
 export async function products(
   options?: options
 ): Promise<ProductProjectionPagedSearchResponse> {
-  return client.request('product-projections', 'GET', options);
+  if (options?.queryArgs) {
+    options.queryArgs.set('priceCurrency', 'USD');
+    options.queryArgs.set('priceCountry', 'US');
+    options.queryArgs.get('sort')
+      ? null
+      : options.queryArgs.set('sort', 'lastModifiedAt desc');
+  }
+
+  return client.request('product-projections/search', 'GET', options);
 }
 
 export async function productsByCategory(
