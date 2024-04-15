@@ -1,4 +1,5 @@
 .buy {
+  --discount-bg-color: hsl(0deg 0% 0%);
   background-color: hsl(50, 50%, 50%);
   padding: 10px;
   border: none;
@@ -7,50 +8,46 @@
   gap: 10px;
   align-items: center;
 
-  & :is(span:first-child, span:last-child) {
+  > span:first-child,
+  > span:last-child {
     flex-grow: 1;
   }
 
   &:hover {
     background-color: hsl(50deg 85.04% 16.6%);
+    --discount-bg-color: hsl(49.15deg 100% 50%);
 
     & .discount span {
-      background-color: hsl(49.15deg 100% 50%);
       color: black;
-
-      &::after {
-        background-color: black;
-      }
     }
   }
 
   .discount {
     position: relative;
     z-index: 2;
+
+    &:has(span)::after {
+      left: 0;
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%) rotate(353deg);
+      display: block;
+      content: '';
+      width: 100%;
+      height: 1px;
+      background-color: white;
+    }
   }
 
   .discount span {
     font-weight: 600;
     left: 50%;
-    --discount-padding: 3px;
     position: absolute;
     z-index: -1;
     color: hsl(0deg 0% 90%);
-    font-size: 0.8em;
-    padding: var(--discount-padding) 4px;
+    padding: 3px 4px;
     border-radius: 5px;
-    background-color: hsl(0deg 0% 0%);
-    transform: translateY(-17px) translateX(36%) rotate(351deg);
-
-    &::after {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%) rotate(350deg);
-      display: block;
-      content: '';
-      width: calc(100% - 2 * var(--discount-padding));
-      height: 1px;
-      background-color: hsl(0deg 0% 90%);
-    }
+    background-color: var(--discount-bg-color);
+    transform: translateY(14px) translateX(53%) rotate(18deg);
   }
 }

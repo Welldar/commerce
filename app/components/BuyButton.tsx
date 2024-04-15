@@ -22,9 +22,11 @@ export function BuyButton({
 
   return (
     <button className="buy">
-      <span className={discounted ? 'discount' : ''}>
-        {discounted ? `${discountPrice}` : null}
-        <span>{fullPrice}</span>
+      <span>
+        <span className={discounted ? 'discount' : ''}>
+          {discounted ? `${discountPrice}` : null}
+          <span>{fullPrice}</span>
+        </span>
       </span>
       <span>|</span>
       <span>Add to cart</span>
