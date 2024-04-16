@@ -1,13 +1,12 @@
 'use client';
 
+import { shortFormatter } from '@/app/utility';
+import { useQueryRouting } from '../customHooks';
 import styles from './price-range.module.css';
-import { createQueryString, shortFormatter } from '../utility';
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
 export function PriceRange() {
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
-  const router = useRouter();
+  const queryRouting = useQueryRouting();
+
   return (
     <form
       className={styles['price-range']}
@@ -22,12 +21,7 @@ export function PriceRange() {
           formData.get('from')?.toString().replaceAll(',', '') ?? '*';
         const to = formData.get('to')?.toString().replaceAll(',', '') ?? '*';
 
-        const query = createQueryString(
-          'price_range',
-          `${from}:${to}`,
-          searchParams
-        );
-        router.push(pathname + '?' + query);
+        queryRouting('price_range', `${from}:${to}`);
       }}
       onInput={e => {
         if (e.target instanceof HTMLInputElement) {
@@ -41,11 +35,11 @@ export function PriceRange() {
     >
       <label htmlFor="from" className={styles['price-input']}>
         <span>from</span>
-        <input id="from" type="text" name="from" />
+        <input id="from" type="text" name="from" inputMode="numeric" />
       </label>
       <label htmlFor="to" className={styles['price-input']}>
         <span>to</span>
-        <input id="to" type="text" name="to" />
+        <input id="to" type="text" name="to" inputMode="numeric" />
       </label>
       <button type="submit" style={{ display: 'none' }}></button>
     </form>

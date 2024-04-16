@@ -1,5 +1,5 @@
 import { ProductProjection } from '@commercetools/platform-sdk';
-import { Filters } from './filters';
+import { Filters } from './filters/filters';
 import { ProductList } from './productsList';
 import { CategoryList } from './categoryList';
 

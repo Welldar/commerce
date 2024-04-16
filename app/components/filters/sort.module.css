@@ -1,7 +1,3 @@
-.root {
-  font-size: 14px;
-}
-
 .sort {
   padding: 2px 2px;
   border: 2px solid brown;
@@ -13,8 +9,4 @@
   border-bottom: none;
   border-bottom-left-radius: 0;
   border-bottom-right-radius: 0;
-}
-
-.h3 {
-  margin-bottom: 15px;
 }
