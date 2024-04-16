@@ -2,6 +2,8 @@
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useCallback } from 'react';
 import styles from './filters.module.css';
+import { shortFormatter } from '../utility';
+import { PriceRange } from './price-range';
 
 export function Filters() {
   const router = useRouter();
@@ -19,7 +21,7 @@ export function Filters() {
   );
 
   return (
-    <div>
+    <div className={styles.root}>
       <h3 className={styles.h3}>Sort by</h3>
       <label htmlFor="sort">
         <select
@@ -45,6 +47,7 @@ export function Filters() {
         </select>
       </label>
       <h3 className={styles.h3}>Filter by</h3>
+      <PriceRange></PriceRange>
     </div>
   );
 }

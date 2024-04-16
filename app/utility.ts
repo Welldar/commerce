@@ -1,8 +1,26 @@
+import { ReadonlyURLSearchParams } from 'next/navigation';
+
 export const formatter = new Intl.NumberFormat('en-US', {
   currency: 'USD',
   style: 'currency',
   trailingZeroDisplay: 'stripIfInteger',
 });
+
+export const shortFormatter = new Intl.NumberFormat('en-US', {
+  style: 'decimal',
+  maximumFractionDigits: 0,
+});
+
+export const createQueryString = function (
+  name: string,
+  value: string,
+  searchParams: ReadonlyURLSearchParams
+) {
+  const params = new URLSearchParams(searchParams.toString());
+  params.set(name, value);
+
+  return params.toString();
+};
 
 export const parseParams = function (
   searchParams: {

@@ -126,10 +126,23 @@ export async function products(
     options.queryArgs.get('sort')
       ? null
       : options.queryArgs.set('sort', 'lastModifiedAt desc');
+
+    const priceRange = options.queryArgs.get('price_range');
+
+    if (priceRange) {
+      const [from, to] = priceRange.split(':');
+      options.queryArgs.append(
+        'filter.query',
+        `variants.scopedPrice.currentValue.centAmount:range(${from} to ${to})`
+      );
+    }
   }
 
   if (id)
-    options.queryArgs?.set('filter.query', `categories.id: subtree("${id}")`);
+    options.queryArgs?.append(
+      'filter.query',
+      `categories.id: subtree("${id}")`
+    );
 
   return client.request('product-projections/search', 'GET', options);
 }

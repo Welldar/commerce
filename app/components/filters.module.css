@@ -1,3 +1,7 @@
+.root {
+  font-size: 14px;
+}
+
 .sort {
   padding: 2px 2px;
   border: 2px solid brown;
