@@ -2,8 +2,9 @@
 import { ProductProjection } from '@commercetools/platform-sdk';
 import { ProductCard } from './product';
 import { useInView } from 'react-intersection-observer';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
+import { productsResponse } from '@/service';
 
 export function ProductList({
   products,
@@ -43,11 +44,13 @@ export function ProductList({
 
   return (
     <ul className="grid">
-      {allProducts.map((product, idx, arr) => (
-        <li key={product.id} ref={arr.length - 1 == idx ? ref : null}>
-          <ProductCard locale={locale} product={product}></ProductCard>
-        </li>
-      ))}
+      {products.length == 0
+        ? 'Nothing was found'
+        : products.map((product, idx, arr) => (
+            <li key={product.id} ref={arr.length - 1 == idx ? ref : null}>
+              <ProductCard locale={locale} product={product}></ProductCard>
+            </li>
+          ))}
     </ul>
   );
 }

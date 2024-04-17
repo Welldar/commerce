@@ -1,6 +1,7 @@
 import {
   CategoryPagedQueryResponse,
   Customer,
+  ErrorResponse,
   ProductProjection,
   ProductProjectionPagedSearchResponse,
 } from '@commercetools/platform-sdk';
@@ -116,10 +117,14 @@ class ApiClient {
 
 const client = new ApiClient();
 
+export type productsResponse =
+  | ProductProjectionPagedSearchResponse
+  | ErrorResponse;
+
 export async function products(
   options: options = {},
   id?: string
-): Promise<ProductProjectionPagedSearchResponse> {
+): Promise<productsResponse> {
   if (options.queryArgs) {
     options.queryArgs.set('priceCurrency', 'USD');
     options.queryArgs.set('priceCountry', 'US');
