@@ -3,6 +3,8 @@
   border: 2px solid brown;
   border-radius: 15px;
   outline: none;
+  width: 100%;
+  padding: 4px;
 }
 
 .sort:focus {
