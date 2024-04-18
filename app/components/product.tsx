@@ -11,14 +11,27 @@ function Product(
   {
     locale,
     product,
+    asc,
   }: {
     locale: string;
     product: ProductProjection;
+    asc: boolean | undefined;
   },
   ref: ForwardedRef<any>
 ) {
   const desc = product.description?.[locale] ?? '';
-  const images = product.masterVariant.images;
+
+  const variants = [product.masterVariant, ...product.variants].filter(
+    variant => variant.isMatchingVariant
+  );
+
+  if (asc != undefined)
+    variants.sort(({ scopedPrice: p1 }, { scopedPrice: p2 }) => {
+      if (asc) return p1!.currentValue.centAmount - p2!.currentValue.centAmount;
+      else return p2!.currentValue.centAmount - p1!.currentValue.centAmount;
+    });
+  const displayedVariant = variants[0];
+  const images = displayedVariant.images;
 
   return (
     <>
@@ -36,8 +49,8 @@ function Product(
         <div className={styles.desc}>{desc}</div>
       </Link>
       <BuyButton
-        price={product.masterVariant.scopedPrice!}
-        discounted={product.masterVariant.scopedPriceDiscounted!}
+        price={displayedVariant.scopedPrice!}
+        discounted={displayedVariant.scopedPriceDiscounted!}
       ></BuyButton>
     </>
   );

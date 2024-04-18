@@ -16,6 +16,9 @@ export function ProductList({
   const [allProducts, setAllProducts] = useState(products);
   const [offset, setOffset] = useState(0);
   const searchParams = useSearchParams();
+
+  const asc = searchParams.get('sort')?.endsWith('asc');
+
   const { ref } = useInView({
     triggerOnce: true,
     onChange: inView => {
@@ -48,7 +51,11 @@ export function ProductList({
         ? 'Nothing was found'
         : allProducts.map((product, idx, arr) => (
             <li key={product.id} ref={arr.length - 1 == idx ? ref : null}>
-              <ProductCard locale={locale} product={product}></ProductCard>
+              <ProductCard
+                asc={asc}
+                locale={locale}
+                product={product}
+              ></ProductCard>
             </li>
           ))}
     </ul>

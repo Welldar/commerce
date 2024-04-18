@@ -119,6 +119,7 @@ export async function products(
   if (options.queryArgs) {
     options.queryArgs.set('priceCurrency', 'USD');
     options.queryArgs.set('priceCountry', 'US');
+    options.queryArgs.set('markMatchingVariants', 'true');
     options.queryArgs.get('sort')
       ? null
       : options.queryArgs.set('sort', 'lastModifiedAt desc');
