@@ -44,9 +44,9 @@ export function ProductList({
 
   return (
     <ul className="grid">
-      {products.length == 0
+      {allProducts.length == 0
         ? 'Nothing was found'
-        : products.map((product, idx, arr) => (
+        : allProducts.map((product, idx, arr) => (
             <li key={product.id} ref={arr.length - 1 == idx ? ref : null}>
               <ProductCard locale={locale} product={product}></ProductCard>
             </li>

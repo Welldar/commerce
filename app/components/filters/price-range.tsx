@@ -6,14 +6,15 @@ import styles from './price-range.module.css';
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 
 export function PriceRange() {
-  const queryRouting = useQueryRouting();
+  const { queryRouting, searchParams, deleteQ } = useQueryRouting();
+  const [from, to] = searchParams.get('price_range')?.split(':') ?? ['', ''];
 
   const makeQueryValue = (form: HTMLFormElement) => {
     const formData = new FormData(form);
     const parseInput = (field: 'from' | 'to') => {
       const value = formData.get(field)!.toString().replaceAll(',', '');
 
-      return +value ? value.concat('00') : '*';
+      return +value ? value : '';
     };
     const from = parseInput('from');
     const to = parseInput('to');
@@ -30,18 +31,20 @@ export function PriceRange() {
 
         const { from, to } = makeQueryValue(e.target as HTMLFormElement);
 
+        if (from == to && from == '') return deleteQ('price_range');
+
         queryRouting('price_range', `${from}:${to}`);
       }}
     >
-      <PriceInput field="from"></PriceInput>
-      <PriceInput field="to"></PriceInput>
+      <PriceInput field="from" price={from}></PriceInput>
+      <PriceInput field="to" price={to}></PriceInput>
       <button type="submit" style={{ display: 'none' }}></button>
     </form>
   );
 }
 
-function PriceInput({ field }: { field: string }) {
-  const [value, setValue] = useState('');
+function PriceInput({ field, price }: { field: string; price: string }) {
+  const [value, setValue] = useState(price);
   const [caretPos, setCaretPos] = useState(0);
   const [trigger, setTrigger] = useState(true);
   const ref = useRef<HTMLInputElement>(null);

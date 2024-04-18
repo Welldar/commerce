@@ -2,7 +2,22 @@ import styles from './sort.module.css';
 import { useQueryRouting } from '../customHooks';
 
 export function Sort() {
-  const queryRouting = useQueryRouting();
+  const { queryRouting, searchParams } = useQueryRouting();
+
+  const options = [
+    { name: 'new', value: 'lastModifiedAt desc' },
+    { name: 'alphabetic asc', value: 'name.en-US asc' },
+    { name: 'alphabetic desc', value: 'name.en-US  desc' },
+    {
+      name: 'price asc',
+      value: 'variants.scopedPrice.currentValue.centAmount asc',
+    },
+    {
+      name: 'price desc',
+      value: 'variants.scopedPrice.currentValue.centAmount desc',
+    },
+  ];
+  const selected = searchParams.get('sort') ?? options[0].value;
 
   return (
     <>
@@ -12,18 +27,13 @@ export function Sort() {
           className={styles.sort}
           id="sort"
           onChange={e => queryRouting('sort', e.target.value)}
+          defaultValue={selected}
         >
-          <option value="lastModifiedAt desc" defaultChecked>
-            newest
-          </option>
-          <option value="name.en-US asc">alphabetic asc</option>
-          <option value="name.en-US  desc">alphabetic desc</option>
-          <option value="variants.scopedPrice.currentValue.centAmount asc">
-            price asc
-          </option>
-          <option value="variants.scopedPrice.currentValue.centAmount desc">
-            price desc
-          </option>
+          {options.map(({ name, value }) => (
+            <option value={value} key={name}>
+              {name}
+            </option>
+          ))}
         </select>
       </label>
     </>

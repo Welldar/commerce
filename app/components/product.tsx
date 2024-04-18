@@ -3,7 +3,7 @@ import styles from './product.module.css';
 import Link from 'next/link';
 import Carousel from './carousel';
 import { BuyButton } from './BuyButton';
-import { ForwardedRef, Ref, RefObject, forwardRef } from 'react';
+import { ForwardedRef, forwardRef } from 'react';
 
 export const ProductCard = forwardRef(Product);
 

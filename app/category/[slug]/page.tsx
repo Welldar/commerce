@@ -19,7 +19,5 @@ export default async function Page({
 
   const productsData = await products({ queryArgs: query }, id);
 
-  return (
-    <Main slug={params.slug} products={productsData.results} id={id}></Main>
-  );
+  return <Main slug={params.slug} products={productsData} id={id}></Main>;
 }
