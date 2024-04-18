@@ -3,6 +3,8 @@ import './header.css';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useAuth } from './auth';
+import { useQueryRouting } from './customHooks';
+import { useEffect, useRef } from 'react';
 
 export default function Header() {
   const pathname = usePathname();
@@ -13,6 +15,7 @@ export default function Header() {
 
   return (
     <header className="header">
+      <SearchBar></SearchBar>
       <Link className={pathname == '/' ? 'active' : ''} href="/">
         Main
       </Link>
@@ -45,5 +48,41 @@ export default function Header() {
         </>
       )}
     </header>
+  );
+}
+
+function SearchBar() {
+  const ref = useRef<HTMLFormElement>(null);
+  const { queryRouting, searchParams } = useQueryRouting();
+  const defaultValue = searchParams.get('text.en-US') ?? '';
+
+  useEffect(() => {
+    if (ref.current) {
+      ref.current.onformdata = e => console.log(e);
+    }
+  }, []);
+  return (
+    <form
+      className="search"
+      ref={ref}
+      onSubmit={e => {
+        const value =
+          new FormData(e.currentTarget).get('text')?.toString() ?? '';
+        e.preventDefault();
+        queryRouting('text.en-US', value);
+      }}
+    >
+      <input
+        type="text"
+        className="search--input"
+        maxLength={256}
+        placeholder="Search..."
+        name="text"
+        defaultValue={defaultValue}
+      />
+      <button type="submit" className="search--button">
+        Find
+      </button>
+    </form>
   );
 }

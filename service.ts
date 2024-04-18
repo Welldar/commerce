@@ -75,19 +75,10 @@ class ApiClient {
     return response.json();
   }
 
-  makeSearchQuery(queryArgs = {}) {
-    let searchQuery = '';
-
-    for (let [q, value] of Object.entries(queryArgs)) {
-      if (Array.isArray(value)) {
-        value.forEach(v => (searchQuery += `${q}=${v}`));
-      } else searchQuery += `${q}=${value}`;
-    }
-
-    return searchQuery;
-  }
-
   async request(path: string, method: method, options: options = {}) {
+    options.queryArgs?.set('localeProjection', 'en-US');
+    options.queryArgs?.set('withTotal', 'false');
+
     const url = `${this.apiUrl}/${this.projectKey}/${path}${
       options.queryArgs ? '?' + options.queryArgs.toString() : ''
     }`;
@@ -135,7 +126,10 @@ export async function products(
     const priceRange = options.queryArgs.get('price_range');
 
     if (priceRange) {
-      const [from, to] = priceRange.split(':');
+      let [from, to] = priceRange
+        .split(':')
+        .map(item => (item ? item.concat('00') : '*'));
+
       options.queryArgs.append(
         'filter.query',
         `variants.scopedPrice.currentValue.centAmount:range(${from} to ${to})`
@@ -150,17 +144,6 @@ export async function products(
     );
 
   return client.request('product-projections/search', 'GET', options);
-}
-
-export async function productsByCategory(
-  id: string
-): Promise<ProductProjectionPagedSearchResponse> {
-  const params = new URLSearchParams({
-    'filter.query': `categories.id: subtree("${id}")`,
-  });
-  return client.request('product-projections/search', 'GET', {
-    queryArgs: params,
-  });
 }
 
 export async function product(id: string): Promise<ProductProjection> {

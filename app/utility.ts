@@ -22,6 +22,16 @@ export const createQueryString = function (
   return params.toString();
 };
 
+export const deleteQuery = function (
+  name: string,
+  searchParams: ReadonlyURLSearchParams
+) {
+  const params = new URLSearchParams(searchParams.toString());
+  params.delete(name);
+
+  return params.toString();
+};
+
 export const parseParams = function (
   searchParams: {
     [key: string]: string | string[] | undefined;

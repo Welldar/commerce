@@ -24,3 +24,28 @@
 .active {
   background-color: hsl(0deg 0% 67.72% / 50%);
 }
+
+.search {
+  width: 300px;
+  background-color: brown;
+  border-radius: 15px;
+  display: flex;
+}
+
+.search--input {
+  border: 2px solid brown;
+  border-right: none;
+  border-radius: 15px;
+  outline: none;
+  padding: 7px 11px;
+}
+
+.search--button {
+  border: 2px solid brown;
+  border-left: none;
+  border-radius: 15px;
+  background-color: inherit;
+  color: white;
+
+  flex-grow: 1;
+}
