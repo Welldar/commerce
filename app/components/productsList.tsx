@@ -43,6 +43,7 @@ export function ProductList({
 
   useEffect(() => {
     setAllProducts(products);
+    setOffset(0);
   }, [products]);
 
   return (

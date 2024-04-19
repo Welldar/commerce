@@ -30,7 +30,7 @@ function Product(
       if (asc) return p1!.currentValue.centAmount - p2!.currentValue.centAmount;
       else return p2!.currentValue.centAmount - p1!.currentValue.centAmount;
     });
-  const displayedVariant = variants[0];
+  const displayedVariant = variants[0] ?? product.masterVariant;
   const images = displayedVariant.images;
 
   return (
