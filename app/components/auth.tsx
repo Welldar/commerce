@@ -1,10 +1,12 @@
 'use client';
 import { useRouter } from 'next/navigation';
 import { useContext, createContext, useState, useEffect } from 'react';
-import { Customer, CustomerSignin } from '@commercetools/platform-sdk';
+import { Customer } from '@commercetools/platform-sdk';
+
+type userData = Customer | null;
 
 type authContext = {
-  user: Customer | null;
+  user: userData;
   loginAction: (data: FormData) => Promise<boolean>;
   logOut: () => void;
   loading: boolean;
@@ -13,7 +15,7 @@ type authContext = {
 const AuthContext = createContext<authContext | null>(null);
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-  const [user, setUser] = useState<Customer | null>(null);
+  const [user, setUser] = useState<userData>(null);
   const [loading, setLoading] = useState(true);
   const router = useRouter();
 

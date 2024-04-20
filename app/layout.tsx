@@ -5,6 +5,7 @@ import './globals.css';
 
 import Header from './components/header';
 import { AuthProvider } from './components/auth';
+import { CartProvider } from './components/useCart';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -22,8 +23,10 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <AuthProvider>
-          <Header></Header>
-          <main>{children}</main>;
+          <CartProvider>
+            <Header></Header>
+            <main>{children}</main>;
+          </CartProvider>
         </AuthProvider>
       </body>
     </html>
