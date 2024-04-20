@@ -5,11 +5,16 @@ import { usePathname } from 'next/navigation';
 import { useAuth } from './auth';
 import { useQueryRouting } from './customHooks';
 import { useEffect, useRef } from 'react';
+import { formatPrice } from '../utility';
+import svg from './cart.svg';
+import Image from 'next/image';
+import { useCart } from './useCart';
 
 export default function Header() {
   const pathname = usePathname();
 
-  const { user, logOut, loading } = useAuth();
+  const { logOut, loading, user } = useAuth();
+  const { cart } = useCart();
 
   const hidden = loading ? 'hidden' : '';
 
@@ -47,6 +52,22 @@ export default function Header() {
           </Link>
         </>
       )}
+      <Link className={`${hidden}  ${pathname == '/cart'}`} href="/cart">
+        Cart
+      </Link>
+      <div className="cart">
+        <Image
+          className="cart-svg"
+          src={svg.src}
+          width={svg.width}
+          height={svg.height}
+          alt=""
+        ></Image>
+        <span className="amount">{cart?.totalLineItemQuantity ?? 0}</span>
+        <span className="total-price">
+          {cart?.totalPrice ? formatPrice(cart?.totalPrice) : 0}
+        </span>
+      </div>
     </header>
   );
 }

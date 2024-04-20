@@ -49,3 +49,34 @@
 
   flex-grow: 1;
 }
+
+.cart {
+  position: relative;
+}
+
+.cart-svg {
+  width: 40px;
+  height: auto;
+  vertical-align: middle;
+}
+
+.amount,
+.total-price {
+  font-size: 12px;
+  position: absolute;
+  padding: 2px 8px;
+  border-radius: 8px;
+  color: white;
+}
+
+.amount {
+  top: 0;
+  background-color: brown;
+  transform: translate(-50%, 0%);
+}
+
+.total-price {
+  bottom: 0;
+  background-color: seagreen;
+  transform: translate(-50%, 0%);
+}
