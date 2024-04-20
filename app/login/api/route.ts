@@ -45,13 +45,6 @@ export async function POST(request: NextRequest) {
     httpOnly: true,
     secure: true,
   });
-  cookies().set({
-    name: 'customer.id',
-    value: userData.id,
-    expires: Date.now() + year,
-    httpOnly: true,
-    secure: true,
-  });
 
   return NextResponse.json(userData, { status: 200, headers: {} });
 }
