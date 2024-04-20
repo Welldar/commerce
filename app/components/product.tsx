@@ -1,9 +1,11 @@
+'use client';
 import { ProductProjection } from '@commercetools/platform-sdk';
 import styles from './product.module.css';
 import Link from 'next/link';
 import Carousel from './carousel';
 import { BuyButton } from './BuyButton';
 import { ForwardedRef, forwardRef } from 'react';
+import { useCart } from './useCart';
 
 export const ProductCard = forwardRef(Product);
 
@@ -19,7 +21,9 @@ function Product(
   },
   ref: ForwardedRef<any>
 ) {
+  const { addItemToCart } = useCart();
   const desc = product.description?.[locale] ?? '';
+  const productId = product.id;
 
   const variants = [product.masterVariant, ...product.variants].filter(
     variant => variant.isMatchingVariant
@@ -32,6 +36,7 @@ function Product(
     });
   const displayedVariant = variants[0] ?? product.masterVariant;
   const images = displayedVariant.images;
+  const variantId = displayedVariant.id;
 
   return (
     <>
@@ -51,6 +56,7 @@ function Product(
       <BuyButton
         price={displayedVariant.scopedPrice!}
         discounted={displayedVariant.scopedPriceDiscounted!}
+        onClick={() => addItemToCart({ productId, variantId })}
       ></BuyButton>
     </>
   );

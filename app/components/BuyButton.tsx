@@ -1,19 +1,15 @@
 import { ScopedPrice, TypedMoney } from '@commercetools/platform-sdk';
-import { formatter } from '../utility';
+import { formatPrice } from '../utility';
 import './buy.css';
-
-function formatPrice(price: TypedMoney) {
-  return formatter.format(
-    price.centAmount / Math.pow(10, price.fractionDigits)
-  );
-}
 
 export function BuyButton({
   price,
   discounted,
+  onClick,
 }: {
   price: ScopedPrice;
   discounted: boolean;
+  onClick: () => void;
 }) {
   const discountPrice = discounted
     ? formatPrice(price.currentValue)
@@ -21,7 +17,7 @@ export function BuyButton({
   const fullPrice = formatPrice(price.value);
 
   return (
-    <button className="buy">
+    <button className="buy" onClick={onClick}>
       <span>
         <span className={discounted ? 'discount' : ''}>
           {fullPrice}
