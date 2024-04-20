@@ -1,10 +1,16 @@
 import {
+  Cart,
+  CartDraft,
   CategoryPagedQueryResponse,
   Customer,
   ErrorResponse,
+  LineItemDraft,
+  MyCartUpdateAction,
   ProductProjection,
   ProductProjectionPagedSearchResponse,
+  ResourceNotFoundError,
 } from '@commercetools/platform-sdk';
+import { cookies } from 'next/headers';
 
 class ApiClient {
   authUrl = 'https://auth.europe-west1.gcp.commercetools.com';
@@ -59,6 +65,17 @@ class ApiClient {
     return response.json();
   }
 
+  async authorizeAnon(): Promise<authUserRespone> {
+    const Authorization = this.basicAuthHeader;
+
+    const response = await fetch(
+      `${this.authUrl}/oauth/${this.projectKey}/anonymous/token?grant_type=client_credentials`,
+      { method: 'POST', headers: { Authorization }, cache: 'no-cache' }
+    );
+
+    return response.json();
+  }
+
   async refreshToken(token: string): Promise<authClientResponse> {
     const Authorization = this.basicAuthHeader;
     const response = await fetch(
@@ -93,7 +110,11 @@ class ApiClient {
     console.log(Authorization, path);
 
     const fetchData = (Authorization: string) =>
-      fetch(url, { headers: { Authorization } });
+      fetch(url, {
+        method,
+        body: JSON.stringify(options.body),
+        headers: { Authorization, 'Content-Type': 'application/json' },
+      });
 
     let response = await fetchData(Authorization);
 
@@ -164,12 +185,50 @@ export async function user(token: string): Promise<Customer> {
   return client.request('me', 'GET', { token });
 }
 
+export async function getCart(
+  token: string
+): Promise<Cart | ResourceNotFoundError> {
+  return client.request('me/active-cart', 'GET', { token });
+}
+
+export async function createCart(
+  token: string,
+  lineItem: LineItemDraft
+): Promise<Cart> {
+  const body: CartDraft = {
+    currency: 'USD',
+    country: 'US',
+    locale: 'en-US',
+    lineItems: [lineItem],
+  };
+  return client.request('me/carts', 'POST', { body, token });
+}
+
+export async function addLineItem(
+  token: string,
+  version: number,
+  lineItem: LineItemDraft
+): Promise<Cart> {
+  const body: { version: number; actions: MyCartUpdateAction[] } = {
+    version,
+    actions: [{ action: 'addLineItem', ...lineItem }],
+  };
+
+  return client.request('me/carts', 'POST', { body, token });
+}
+
 export async function refreshToken(token: string) {
   return client.refreshToken(token);
 }
 
+export async function getAnonToken() {
+  return client.authorizeAnon();
+}
+
 export const accessCookie = 'access-token';
 export const refreshCookie = 'refresh-token';
+export const anonymousCookie = 'anon-token';
+export const anonymousRefreshCookie = 'refresh-anon-token';
 
 type authClientResponse = {
   access_token: string;
@@ -189,8 +248,43 @@ type options = {
   limit?: number;
   token?: string;
   queryArgs?: queryArgs;
+  body?: object;
 };
 
-// type queryArgs = { [key: string]: string | string[] };
-
 type queryArgs = URLSearchParams;
+
+export async function getSession() {
+  const cookiesJar = cookies();
+
+  let access_token = cookiesJar.get(accessCookie)?.value;
+  const refresh_token = cookiesJar.get(refreshCookie)?.value;
+  const anonymous_token = cookiesJar.get(anonymousCookie)?.value;
+
+  if (!access_token && refresh_token) {
+    const { access_token: token, expires_in } = await refreshToken(
+      refresh_token
+    );
+
+    setSecureCookie(accessCookie, token, expires_in);
+
+    access_token = token;
+  }
+
+  return { access_token, refresh_token, anonymous_token };
+}
+
+export function setSecureCookie(
+  name: string,
+  value: string,
+  maxAge: number = 60 * 60 * 24 * 365
+) {
+  const cookiesJar = cookies();
+
+  cookiesJar.set({
+    name,
+    value,
+    httpOnly: true,
+    maxAge,
+    secure: true,
+  });
+}
