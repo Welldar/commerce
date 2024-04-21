@@ -14,7 +14,7 @@ export default function Main({
   id?: string;
 }) {
   return (
-    <>
+    <main>
       <Filters></Filters>
       {'results' in products ? (
         <ProductList id={id} products={products.results}></ProductList>
@@ -22,6 +22,6 @@ export default function Main({
         <div>{products.message}</div>
       )}
       <CategoryList slug={slug}></CategoryList>
-    </>
+    </main>
   );
 }
