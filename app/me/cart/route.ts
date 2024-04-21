@@ -32,8 +32,6 @@ export async function POST(request: NextRequest) {
 
   const lineItem = (await request.json()) as LineItemDraft;
 
-  console.log(cart, ' getCart');
-
   if ('errors' in cart) {
     cart = await createCart(token, lineItem);
   } else {
@@ -44,6 +42,8 @@ export async function POST(request: NextRequest) {
   let status = 200;
 
   if ('errors' in cart) status = 400;
+
+  console.log(status);
 
   return NextResponse.json(cart, { status });
 }

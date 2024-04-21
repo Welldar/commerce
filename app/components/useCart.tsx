@@ -17,11 +17,16 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   const router = useRouter();
 
   const addItemToCart = async (lineItem: LineItemDraft) => {
-    const response = await fetch('me/cart', {
-      method: 'POST',
-      body: JSON.stringify(lineItem),
-    });
-    setCart(await response.json());
+    try {
+      const response = await fetch('me/cart', {
+        method: 'POST',
+        body: JSON.stringify(lineItem),
+      });
+
+      const cart = await response.json();
+
+      response.ok ? setCart(cart) : console.log(cart);
+    } catch (error) {}
   };
 
   useEffect(() => {
