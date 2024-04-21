@@ -1,10 +1,17 @@
+import { CentPrecisionMoney, TypedMoney } from '@commercetools/platform-sdk';
 import { ReadonlyURLSearchParams } from 'next/navigation';
 
-export const formatter = new Intl.NumberFormat('en-US', {
+const formatter = new Intl.NumberFormat('en-US', {
   currency: 'USD',
   style: 'currency',
   trailingZeroDisplay: 'stripIfInteger',
 });
+
+export function formatPrice(price: TypedMoney | CentPrecisionMoney) {
+  return formatter.format(
+    price.centAmount / Math.pow(10, price.fractionDigits)
+  );
+}
 
 export const shortFormatter = new Intl.NumberFormat('en-US', {
   style: 'decimal',
