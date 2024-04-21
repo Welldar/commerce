@@ -32,13 +32,20 @@ export async function POST(request: NextRequest) {
 
   const lineItem = (await request.json()) as LineItemDraft;
 
+  console.log(cart, ' getCart');
+
   if ('errors' in cart) {
     cart = await createCart(token, lineItem);
   } else {
-    cart = await addLineItem(token, cart.version, lineItem);
+    cart = await addLineItem(token, cart.id, cart.version, lineItem);
+    console.log(cart, ' addItem');
   }
 
-  return NextResponse.json(cart, { status: 200 });
+  let status = 200;
+
+  if ('errors' in cart) status = 400;
+
+  return NextResponse.json(cart, { status });
 }
 
 export async function GET(request: NextRequest) {

@@ -206,6 +206,7 @@ export async function createCart(
 
 export async function addLineItem(
   token: string,
+  cartId: string,
   version: number,
   lineItem: LineItemDraft
 ): Promise<Cart> {
@@ -214,7 +215,7 @@ export async function addLineItem(
     actions: [{ action: 'addLineItem', ...lineItem }],
   };
 
-  return client.request('me/carts', 'POST', { body, token });
+  return client.request(`me/carts/${cartId}`, 'POST', { body, token });
 }
 
 export async function refreshToken(token: string) {
