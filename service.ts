@@ -171,6 +171,12 @@ export async function products(
 }
 
 export async function product(id: string): Promise<ProductProjection> {
+  const options = { queryArgs: new URLSearchParams() };
+  if (options.queryArgs) {
+    options.queryArgs.set('priceCurrency', 'USD');
+    options.queryArgs.set('priceCountry', 'US');
+    options.queryArgs.set('markMatchingVariants', 'true');
+  }
   return client.request(`product-projections/${id}`, 'GET');
 }
 
