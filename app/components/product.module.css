@@ -18,3 +18,32 @@
   flex-direction: column;
   height: inherit;
 }
+
+.checkout {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.variants img {
+  width: 200px;
+  height: 200px;
+  object-fit: contain;
+  border-radius: 10px;
+  border: 2px solid white;
+}
+
+.variants img:hover {
+  border: 2px solid saddlebrown;
+  cursor: pointer;
+}
+
+.variants {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+img.highlighted {
+  border: 2px solid saddlebrown;
+}

@@ -9,6 +9,8 @@ export function BuyButton({
   price: Price;
   onClick?: () => void;
 }) {
+  if (!price) return <div>no price</div>;
+
   const discounted = price.discounted;
   const discountPrice = discounted
     ? formatPrice(price.discounted.value)

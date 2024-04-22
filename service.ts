@@ -175,9 +175,8 @@ export async function product(id: string): Promise<ProductProjection> {
   if (options.queryArgs) {
     options.queryArgs.set('priceCurrency', 'USD');
     options.queryArgs.set('priceCountry', 'US');
-    options.queryArgs.set('markMatchingVariants', 'true');
   }
-  return client.request(`product-projections/${id}`, 'GET');
+  return client.request(`product-projections/${id}`, 'GET', options);
 }
 
 export async function category(
