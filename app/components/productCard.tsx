@@ -54,8 +54,7 @@ function Product(
         <div className={styles.desc}>{desc}</div>
       </Link>
       <BuyButton
-        price={displayedVariant.scopedPrice!}
-        discounted={displayedVariant.scopedPriceDiscounted!}
+        price={displayedVariant.price!}
         onClick={() => addItemToCart({ productId, variantId })}
       ></BuyButton>
     </>
