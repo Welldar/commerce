@@ -1,63 +1,25 @@
-'use client';
 import { ProductProjection } from '@commercetools/platform-sdk';
-import styles from './product.module.css';
-import Link from 'next/link';
 import Carousel from './carousel';
-import { BuyButton } from './BuyButton';
-import { ForwardedRef, forwardRef } from 'react';
-import { useCart } from './useCart';
+import styles from './product.module.css';
 
-export const ProductCard = forwardRef(Product);
-
-function Product(
-  {
-    locale,
-    product,
-    asc,
-  }: {
-    locale: string;
-    product: ProductProjection;
-    asc: boolean | undefined;
-  },
-  ref: ForwardedRef<any>
-) {
-  const { addItemToCart } = useCart();
-  const desc = product.description?.[locale] ?? '';
-  const productId = product.id;
-
-  const variants = [product.masterVariant, ...product.variants].filter(
-    variant => variant.isMatchingVariant
-  );
-
-  if (asc != undefined)
-    variants.sort(({ scopedPrice: p1 }, { scopedPrice: p2 }) => {
-      if (asc) return p1!.currentValue.centAmount - p2!.currentValue.centAmount;
-      else return p2!.currentValue.centAmount - p1!.currentValue.centAmount;
-    });
-  const displayedVariant = variants[0] ?? product.masterVariant;
-  const images = displayedVariant.images;
-  const variantId = displayedVariant.id;
-
+export function Product({ product }: { product: ProductProjection }) {
+  const locale = 'en-US';
+  const images = product.masterVariant.images;
   return (
-    <>
-      <Link ref={ref} href={`/product/${product.id}`}>
-        <h3>{product.name[locale]}</h3>
-      </Link>
-      {images ? (
-        <Carousel
-          sizes="(max-width: 768px) 50vw, 25vw"
-          slides={images}
-          className={styles.image + ' ' + 'keen-slider__slide'}
-        ></Carousel>
-      ) : null}
-      <Link href={`/product/${product.id}`}>
-        <div className={styles.desc}>{desc}</div>
-      </Link>
-      <BuyButton
-        price={displayedVariant.scopedPrice!}
-        discounted={displayedVariant.scopedPriceDiscounted!}
-        onClick={() => addItemToCart({ productId, variantId })}
-      ></BuyButton>
-    </>
+    <div className={styles.wrapper}>
+      <div className={styles.carousel}>
+        {images ? (
+          <Carousel
+            className={styles.image + ' ' + 'keen-slider__slide'}
+            sizes="50vw"
+            slides={images}
+          ></Carousel>
+        ) : null}
+      </div>
+      <div>
+        <h2>{product.name[locale]}</h2>
+        <div>{product.description?.[locale]}</div>
+      </div>
+    </div>
   );
 }
