@@ -5,6 +5,8 @@ import {
   Customer,
   ErrorResponse,
   LineItemDraft,
+  MyCartChangeLineItemQuantityAction,
+  MyCartUpdate,
   MyCartUpdateAction,
   ProductProjection,
   ProductProjectionPagedSearchResponse,
@@ -204,17 +206,11 @@ export async function createCart(
   return client.request('me/carts', 'POST', { body, token });
 }
 
-export async function addLineItem(
+export async function updateCart(
   token: string,
   cartId: string,
-  version: number,
-  lineItem: LineItemDraft
+  body: MyCartUpdate
 ): Promise<Cart> {
-  const body: { version: number; actions: MyCartUpdateAction[] } = {
-    version,
-    actions: [{ action: 'addLineItem', ...lineItem }],
-  };
-
   return client.request(`me/carts/${cartId}`, 'POST', { body, token });
 }
 

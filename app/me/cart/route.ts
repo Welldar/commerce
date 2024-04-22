@@ -1,5 +1,5 @@
 import {
-  addLineItem,
+  updateCart,
   anonymousCookie,
   anonymousRefreshCookie,
   createCart,
@@ -11,6 +11,8 @@ import {
 import {
   CartAddLineItemAction,
   LineItemDraft,
+  MyCartAddLineItemAction,
+  MyCartUpdate,
 } from '@commercetools/platform-sdk';
 import { NextRequest, NextResponse } from 'next/server';
 
@@ -35,15 +37,17 @@ export async function POST(request: NextRequest) {
   if ('errors' in cart) {
     cart = await createCart(token, lineItem);
   } else {
-    cart = await addLineItem(token, cart.id, cart.version, lineItem);
-    console.log(cart, ' addItem');
+    const action: MyCartAddLineItemAction = {
+      action: 'addLineItem',
+      ...lineItem,
+    };
+    const body: MyCartUpdate = { version: cart.version, actions: [action] };
+    cart = await updateCart(token, cart.id, body);
   }
 
   let status = 200;
 
   if ('errors' in cart) status = 400;
-
-  console.log(status);
 
   return NextResponse.json(cart, { status });
 }

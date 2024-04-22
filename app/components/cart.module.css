@@ -24,6 +24,9 @@
   flex-grow: 1;
 }
 
+.h4 {
+  text-align: center;
+}
 .h5 {
   font-size: 16px;
   margin-bottom: 10px;
@@ -55,10 +58,16 @@
   line-height: 21px;
 }
 
+.quantity button span {
+  position: relative;
+  top: -1px;
+}
+
 .quantity {
   text-align: center;
   display: flex;
   gap: 10px;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
 }

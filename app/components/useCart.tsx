@@ -1,12 +1,17 @@
 'use client';
 import { useRouter } from 'next/navigation';
 import { useContext, createContext, useState, useEffect } from 'react';
-import { Cart, LineItemDraft } from '@commercetools/platform-sdk';
+import {
+  Cart,
+  LineItemDraft,
+  MyCartChangeLineItemQuantityAction,
+} from '@commercetools/platform-sdk';
 
 type cartContext = {
   cart: Cart | null;
   loading: boolean;
   addItemToCart: (lineItem: LineItemDraft) => void;
+  updateQuantity: (lineItemId: string, quantity: number) => void;
 };
 
 const CartContext = createContext<cartContext | null>(null);
@@ -17,16 +22,31 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   const router = useRouter();
 
   const addItemToCart = async (lineItem: LineItemDraft) => {
-    try {
-      const response = await fetch('me/cart', {
-        method: 'POST',
-        body: JSON.stringify(lineItem),
-      });
+    const response = await fetch('/me/cart', {
+      method: 'POST',
+      body: JSON.stringify(lineItem),
+    });
 
-      const cart = await response.json();
+    const cart = await response.json();
 
-      response.ok ? setCart(cart) : console.log(cart);
-    } catch (error) {}
+    response.ok ? setCart(cart) : console.log(cart);
+  };
+
+  const updateQuantity = async (lineItemId: string, quantity: number) => {
+    const body: MyCartChangeLineItemQuantityAction = {
+      action: 'changeLineItemQuantity',
+      lineItemId,
+      quantity,
+    };
+
+    const response = await fetch('/me/cart/update', {
+      method: 'POST',
+      body: JSON.stringify(body),
+    });
+
+    const cart = await response.json();
+
+    response.ok ? setCart(cart) : console.log(cart);
   };
 
   useEffect(() => {
@@ -62,7 +82,9 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   return (
-    <CartContext.Provider value={{ cart, loading, addItemToCart }}>
+    <CartContext.Provider
+      value={{ cart, loading, addItemToCart, updateQuantity }}
+    >
       {children}
     </CartContext.Provider>
   );

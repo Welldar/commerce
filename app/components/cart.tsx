@@ -8,22 +8,32 @@ import { formatPrice } from '../utility';
 export function Cart() {
   const { cart } = useCart();
 
+  const empty = <h4 className={styles.h4}>You didnt buy anything</h4>;
+
   return (
     <>
       {cart ? (
-        <div className={styles.wrapper}>
-          {cart.lineItems.map(lineItem => (
-            <ProductInCart key={lineItem.id} product={lineItem}></ProductInCart>
-          ))}
-        </div>
+        cart.totalLineItemQuantity ? (
+          <div className={styles.wrapper}>
+            {cart.lineItems.map(lineItem => (
+              <ProductInCart
+                key={lineItem.id}
+                product={lineItem}
+              ></ProductInCart>
+            ))}
+          </div>
+        ) : (
+          empty
+        )
       ) : (
-        <h4>You didnt buy anything</h4>
+        empty
       )}
     </>
   );
 }
 
 function ProductInCart({ product }: { product: LineItem }) {
+  const { updateQuantity } = useCart();
   const locale = 'en-US';
   const variant = product.variant;
   const img = variant.images?.[0];
@@ -62,9 +72,17 @@ function ProductInCart({ product }: { product: LineItem }) {
       </div>
       <div>
         <div className={styles.quantity}>
-          <button>-</button>
+          <button
+            onClick={() => updateQuantity(product.id, product.quantity - 1)}
+          >
+            <span>-</span>
+          </button>
           <span>{product.quantity}</span>
-          <button>+</button>
+          <button
+            onClick={() => updateQuantity(product.id, product.quantity + 1)}
+          >
+            <span>+</span>
+          </button>
         </div>
         <div>
           {formatPrice(product.price.discounted?.value ?? product.price.value)}{' '}
