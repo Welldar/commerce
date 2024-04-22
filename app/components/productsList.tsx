@@ -1,10 +1,9 @@
 'use client';
 import { ProductProjection } from '@commercetools/platform-sdk';
-import { ProductCard } from './product';
+import { ProductCard } from './productCard';
 import { useInView } from 'react-intersection-observer';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
-import { productsResponse } from '@/service';
 
 export function ProductList({
   products,
