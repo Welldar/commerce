@@ -1,6 +1,13 @@
 'use client';
 import { useRouter } from 'next/navigation';
-import { useContext, createContext, useState, useEffect } from 'react';
+import {
+  useContext,
+  createContext,
+  useState,
+  useEffect,
+  Dispatch,
+  SetStateAction,
+} from 'react';
 import {
   Cart,
   LineItemDraft,
@@ -12,6 +19,7 @@ type cartContext = {
   loading: boolean;
   addItemToCart: (lineItem: LineItemDraft) => void;
   updateQuantity: (lineItemId: string, quantity: number) => void;
+  setCart: Dispatch<SetStateAction<Cart | null>>;
 };
 
 const CartContext = createContext<cartContext | null>(null);
@@ -19,7 +27,6 @@ const CartContext = createContext<cartContext | null>(null);
 export function CartProvider({ children }: { children: React.ReactNode }) {
   const [cart, setCart] = useState<Cart | null>(null);
   const [loading, setLoading] = useState(true);
-  const router = useRouter();
 
   const addItemToCart = async (lineItem: LineItemDraft) => {
     const response = await fetch('/me/cart', {
@@ -83,7 +90,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
 
   return (
     <CartContext.Provider
-      value={{ cart, loading, addItemToCart, updateQuantity }}
+      value={{ cart, loading, addItemToCart, updateQuantity, setCart }}
     >
       {children}
     </CartContext.Provider>

@@ -192,10 +192,15 @@ export async function user(token: string): Promise<Customer> {
   return client.request('me', 'GET', { token });
 }
 
-export async function getCart(
-  token: string
-): Promise<Cart | ResourceNotFoundError> {
-  return client.request('me/active-cart', 'GET', { token });
+export async function getCart(token: string): Promise<Cart | null> {
+  const response = (await client.request('me/active-cart', 'GET', {
+    token,
+  })) as Cart | ResourceNotFoundError;
+
+  const predicate = (cart: Cart | ResourceNotFoundError): cart is Cart =>
+    'errors' in cart ? false : true;
+
+  return predicate(response) ? response : null;
 }
 
 export async function createCart(

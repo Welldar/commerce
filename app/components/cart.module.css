@@ -35,11 +35,11 @@
 .wrapper {
   font-size: 14px;
   width: 600px;
-  margin: auto;
+  margin: 40px auto;
   padding: 20px;
   flex-direction: column;
-  border: 1px solid black;
   border-radius: 10px;
+  box-shadow: 2px 2px 20px 15px hsl(0deg 0% 0% / 12.16%);
   --color: hsla(32, 100%, 50%);
   --hover-buy-bg-color: hsla(32, 100%, 50%, 0.15);
 }

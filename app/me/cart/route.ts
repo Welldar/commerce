@@ -34,7 +34,7 @@ export async function POST(request: NextRequest) {
 
   const lineItem = (await request.json()) as LineItemDraft;
 
-  if ('errors' in cart) {
+  if (!cart) {
     cart = await createCart(token, lineItem);
   } else {
     const action: MyCartAddLineItemAction = {
@@ -60,7 +60,7 @@ export async function GET(request: NextRequest) {
 
   const cart = await getCart(access_token ?? refresh_token!);
 
-  if ('errors' in cart) {
+  if (!cart) {
     return NextResponse.json('', { status: 404 });
   }
 

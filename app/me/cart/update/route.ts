@@ -14,9 +14,9 @@ export async function POST(request: NextRequest) {
 
   const update = (await request.json()) as MyCartChangeLineItemQuantityAction;
 
-  const body: MyCartUpdate = { version: cart.version, actions: [update] };
+  const body: MyCartUpdate = { version: cart!.version, actions: [update] };
 
-  cart = await updateCart(token, cart.id, body);
+  cart = await updateCart(token, cart!.id, body);
 
   let status = 200;
 
