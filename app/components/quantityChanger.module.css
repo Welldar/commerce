@@ -1,0 +1,25 @@
+.button {
+  background: none;
+  border: 2px solid black;
+  outline: none;
+  font-size: 2em;
+  color: black;
+  width: 25px;
+  height: 25px;
+  border-radius: 5px;
+  line-height: 21px;
+  font-weight: 600;
+}
+
+.button span {
+  position: relative;
+  top: -2px;
+}
+
+.quantity {
+  text-align: center;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  justify-content: space-between;
+}
