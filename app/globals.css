@@ -21,6 +21,7 @@
   );
 
   overflow-y: scroll;
+  line-height: 1.4;
 }
 
 * {

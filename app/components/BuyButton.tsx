@@ -5,9 +5,11 @@ import './buy.css';
 export function BuyButton({
   price,
   onClick,
+  children,
 }: {
   price: Price;
   onClick?: () => void;
+  children?: React.ReactElement;
 }) {
   if (!price) return <div>no price</div>;
 
@@ -26,7 +28,7 @@ export function BuyButton({
         </span>
       </span>
       <span>|</span>
-      <span>Add to cart</span>
+      {children ? children : <span>Add to cart</span>}
     </button>
   );
 }

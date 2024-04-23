@@ -6,10 +6,11 @@ import { BuyButton } from './BuyButton';
 import Image from 'next/image';
 import { useState } from 'react';
 import { useCart } from './useCart';
+import { QuantityChanger } from './quantityChanger';
 
 export function Product({ product }: { product: ProductProjection }) {
   const [displayedInd, setDisplayedInd] = useState(0);
-  const { addItemToCart, updateQuantity, cart } = useCart();
+  const { addItemToCart, cart } = useCart();
   const locale = 'en-US';
 
   const variants = [product.masterVariant, ...product.variants];
@@ -50,6 +51,14 @@ export function Product({ product }: { product: ProductProjection }) {
   const productId = product.id;
   const variantId = displayedVariant.id;
 
+  const productInCart = cart?.lineItems.find(
+    ({ productId: id }) => productId == id
+  );
+
+  const variantInCart = productInCart?.variant;
+
+  const inCart = variantInCart?.id == variantId;
+
   return (
     <div className={styles.wrapper}>
       <div className={styles.carousel}>
@@ -76,7 +85,14 @@ export function Product({ product }: { product: ProductProjection }) {
         <BuyButton
           price={displayedVariant.price!}
           onClick={() => addItemToCart({ productId, variantId })}
-        ></BuyButton>
+        >
+          {inCart ? (
+            <QuantityChanger
+              quantity={productInCart?.quantity!}
+              lineItemId={productInCart?.id!}
+            ></QuantityChanger>
+          ) : undefined}
+        </BuyButton>
       </div>
     </div>
   );
