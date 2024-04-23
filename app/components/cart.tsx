@@ -4,6 +4,7 @@ import { useCart } from './useCart';
 import Image from 'next/image';
 import styles from './cart.module.css';
 import { formatPrice } from '../utility';
+import { QuantityChanger } from './quantityChanger';
 
 export function Cart() {
   const { cart } = useCart();
@@ -33,7 +34,6 @@ export function Cart() {
 }
 
 function ProductInCart({ product }: { product: LineItem }) {
-  const { updateQuantity } = useCart();
   const locale = 'en-US';
   const variant = product.variant;
   const img = variant.images?.[0];
@@ -71,19 +71,10 @@ function ProductInCart({ product }: { product: LineItem }) {
         </span>
       </div>
       <div>
-        <div className={styles.quantity}>
-          <button
-            onClick={() => updateQuantity(product.id, product.quantity - 1)}
-          >
-            <span>-</span>
-          </button>
-          <span>{product.quantity}</span>
-          <button
-            onClick={() => updateQuantity(product.id, product.quantity + 1)}
-          >
-            <span>+</span>
-          </button>
-        </div>
+        <QuantityChanger
+          quantity={product.quantity}
+          lineItemId={product.id}
+        ></QuantityChanger>
         <div>
           {formatPrice(product.price.discounted?.value ?? product.price.value)}{' '}
           for each

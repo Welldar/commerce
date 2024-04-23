@@ -4,7 +4,10 @@
   grid-template-columns: 300px 3fr 1fr;
   gap: 40px;
   margin: auto;
-  height: 400px;
+}
+
+.wrapper h2 {
+  margin-bottom: 10px;
 }
 
 .image {
@@ -26,8 +29,8 @@
 }
 
 .variants img {
-  width: 200px;
-  height: 200px;
+  width: 150px;
+  height: 150px;
   object-fit: contain;
   border-radius: 10px;
   border: 2px solid white;
@@ -46,4 +49,24 @@
 
 img.highlighted {
   border: 2px solid saddlebrown;
+}
+
+.color {
+  vertical-align: middle;
+  margin-left: 10px;
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 1px solid rgb(150, 150, 150);
+}
+.colorLabel {
+  color: gray;
+}
+
+.attr {
+  display: flex;
+  gap: 20px;
+  margin: 10px 0;
+  justify-content: space-between;
 }

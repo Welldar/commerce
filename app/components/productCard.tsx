@@ -1,11 +1,9 @@
-'use client';
 import { ProductProjection } from '@commercetools/platform-sdk';
 import styles from './product-card.module.css';
 import Link from 'next/link';
 import Carousel from './carousel';
 import { BuyButton } from './BuyButton';
 import { ForwardedRef, forwardRef } from 'react';
-import { useCart } from './useCart';
 
 export const ProductCard = forwardRef(Product);
 
@@ -21,7 +19,6 @@ function Product(
   },
   ref: ForwardedRef<any>
 ) {
-  const { addItemToCart } = useCart();
   const desc = product.description?.[locale] ?? '';
   const productId = product.id;
 
@@ -54,8 +51,8 @@ function Product(
         <div className={styles.desc}>{desc}</div>
       </Link>
       <BuyButton
-        price={displayedVariant.price!}
-        onClick={() => addItemToCart({ productId, variantId })}
+        productId={productId}
+        productVariant={displayedVariant}
       ></BuyButton>
     </>
   );

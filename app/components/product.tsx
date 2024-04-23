@@ -6,11 +6,10 @@ import { BuyButton } from './BuyButton';
 import Image from 'next/image';
 import { useState } from 'react';
 import { useCart } from './useCart';
-import { QuantityChanger } from './quantityChanger';
 
 export function Product({ product }: { product: ProductProjection }) {
   const [displayedInd, setDisplayedInd] = useState(0);
-  const { addItemToCart, cart } = useCart();
+  const { cart } = useCart();
   const locale = 'en-US';
 
   const variants = [product.masterVariant, ...product.variants];
@@ -48,6 +47,9 @@ export function Product({ product }: { product: ProductProjection }) {
     attr => attr.name == 'colorlabel'
   )?.value[locale];
 
+  const color = displayedVariant.attributes?.find(attr => attr.name == 'color')
+    ?.value[locale];
+
   const productId = product.id;
   const variantId = displayedVariant.id;
 
@@ -74,8 +76,24 @@ export function Product({ product }: { product: ProductProjection }) {
         <h2>{product.name[locale]}</h2>
         <div>{product.description?.[locale]}</div>
 
-        <div>{productSpec ? productSpec : null}</div>
-        <div>{colorLabel ? 'Color: ' + colorLabel : null}</div>
+        <div className={styles.attr}>
+          <div className={styles.productSpec}>
+            {productSpec ? productSpec : null}
+          </div>
+          <div>
+            {colorLabel ? (
+              <>
+                <span className={styles.colorLabel}>Color: {colorLabel}</span>
+                {color ? (
+                  <span
+                    className={styles.color}
+                    style={{ backgroundColor: color }}
+                  ></span>
+                ) : null}
+              </>
+            ) : null}
+          </div>
+        </div>
         <div className={styles.variants}>{variantsThumbnails}</div>
       </div>
       <div className={styles.checkout}>
@@ -83,16 +101,9 @@ export function Product({ product }: { product: ProductProjection }) {
           {availableQuantity ? 'Left in stock ' + availableQuantity : null}
         </div>
         <BuyButton
-          price={displayedVariant.price!}
-          onClick={() => addItemToCart({ productId, variantId })}
-        >
-          {inCart ? (
-            <QuantityChanger
-              quantity={productInCart?.quantity!}
-              lineItemId={productInCart?.id!}
-            ></QuantityChanger>
-          ) : undefined}
-        </BuyButton>
+          productId={productId}
+          productVariant={displayedVariant}
+        ></BuyButton>
       </div>
     </div>
   );

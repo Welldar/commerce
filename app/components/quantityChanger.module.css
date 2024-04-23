@@ -1,19 +1,33 @@
 .button {
-  background: none;
-  border: 2px solid black;
-  outline: none;
-  font-size: 2em;
-  color: black;
+  color: var(--color);
   width: 25px;
   height: 25px;
-  border-radius: 5px;
-  line-height: 21px;
-  font-weight: 600;
+  border-radius: 50%;
+  position: relative;
 }
 
-.button span {
-  position: relative;
-  top: -2px;
+.button:hover {
+  background-color: var(--hover-buy-bg-color);
+  cursor: pointer;
+}
+
+.button::after,
+.button:last-child::before {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translateY(-50%) translateX(-50%);
+  content: '';
+  display: block;
+  width: 80%;
+  height: 2px;
+  background-color: var(--color);
+  border-radius: 50%;
+}
+
+.button:last-child::before {
+  width: 2px;
+  height: 80%;
 }
 
 .quantity {

@@ -1,16 +1,24 @@
-import { Price } from '@commercetools/platform-sdk';
+'use client';
+import {
+  Price,
+  ProductProjection,
+  ProductVariant,
+} from '@commercetools/platform-sdk';
 import { formatPrice } from '../utility';
 import './buy.css';
+import { useCart } from './useCart';
+import { QuantityChanger } from './quantityChanger';
 
 export function BuyButton({
-  price,
-  onClick,
-  children,
+  productVariant,
+  productId,
 }: {
-  price: Price;
-  onClick?: () => void;
-  children?: React.ReactElement;
+  productVariant: ProductVariant;
+  productId: string;
 }) {
+  const { addItemToCart, cart } = useCart();
+  const price = productVariant.price;
+
   if (!price) return <div>no price</div>;
 
   const discounted = price.discounted;
@@ -19,8 +27,23 @@ export function BuyButton({
     : undefined;
   const fullPrice = formatPrice(price.value);
 
+  const productInCart = cart?.lineItems.find(
+    ({ productId: id }) => productId == id
+  );
+
+  const variantInCart = productInCart?.variant;
+
+  const inCart = variantInCart?.id == productVariant.id;
+
   return (
-    <button className="buy" onClick={onClick}>
+    <button
+      className={`buy ${inCart ? 'inCart' : ''}`}
+      onClick={() =>
+        inCart
+          ? undefined
+          : addItemToCart({ productId, variantId: productVariant.id })
+      }
+    >
       <span>
         <span className={discounted ? 'discount' : ''}>
           {fullPrice}
@@ -28,7 +51,14 @@ export function BuyButton({
         </span>
       </span>
       <span>|</span>
-      {children ? children : <span>Add to cart</span>}
+      {inCart ? (
+        <QuantityChanger
+          lineItemId={productInCart?.id!}
+          quantity={productInCart?.quantity!}
+        ></QuantityChanger>
+      ) : (
+        <span>Add to cart</span>
+      )}
     </button>
   );
 }

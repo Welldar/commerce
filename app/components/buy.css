@@ -1,7 +1,10 @@
 .buy {
   --discount-bg-color: hsl(0deg 0% 0%);
+  --color: white;
+  --hover-buy-bg-color: hsla(0, 0%, 100%, 0.15);
   background-color: hsl(50, 50%, 50%);
-  padding: 10px;
+  padding: 0 10px;
+  height: 40px;
   border: none;
   color: white;
   display: flex;
@@ -11,15 +14,11 @@
   > span:first-child,
   > span:last-child {
     flex-grow: 1;
+    flex-basis: 0;
   }
 
-  &:hover {
-    background-color: hsl(50deg 85.04% 16.6%);
-    --discount-bg-color: hsl(49.15deg 100% 50%);
-
-    & .discount span {
-      color: black;
-    }
+  &.inCart:hover {
+    cursor: default;
   }
 
   .discount {
@@ -49,5 +48,15 @@
     border-radius: 5px;
     background-color: var(--discount-bg-color);
     transform: translateY(15px) translateX(20%) rotate(10deg);
+  }
+}
+
+.buy:not(.inCart):hover {
+  background-color: hsl(50deg 85.04% 16.6%);
+  --discount-bg-color: hsl(49.15deg 100% 50%);
+  cursor: pointer;
+
+  & .discount span {
+    color: black;
   }
 }

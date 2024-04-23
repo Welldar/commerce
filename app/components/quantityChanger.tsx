@@ -18,9 +18,7 @@ export function QuantityChanger({
           e.stopPropagation();
           updateQuantity(lineItemId, quantity - 1);
         }}
-      >
-        <span>-</span>
-      </span>
+      ></span>
       <span>{quantity}</span>
       <span
         className={styles.button}
@@ -28,9 +26,7 @@ export function QuantityChanger({
           e.stopPropagation();
           updateQuantity(lineItemId, quantity + 1);
         }}
-      >
-        <span>+</span>
-      </span>
+      ></span>
     </span>
   );
 }
