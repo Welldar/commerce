@@ -1,7 +1,8 @@
 'use client';
 import { useRouter } from 'next/navigation';
 import { useContext, createContext, useState, useEffect } from 'react';
-import { Customer } from '@commercetools/platform-sdk';
+import { Cart, Customer } from '@commercetools/platform-sdk';
+import { useCart } from './useCart';
 
 type userData = Customer | null;
 
@@ -17,6 +18,7 @@ const AuthContext = createContext<authContext | null>(null);
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<userData>(null);
   const [loading, setLoading] = useState(true);
+  const { setCart } = useCart();
   const router = useRouter();
 
   const loginAction = async (data: FormData) => {
@@ -28,7 +30,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
       switch (response.status) {
         case 200:
-          setUser(await response.json());
+          const { customer, cart } = (await response.json()) as {
+            customer: Customer;
+            cart: Cart | null;
+          };
+          setUser(customer);
+          setCart(cart);
           return true;
           break;
         case 401:
@@ -42,9 +49,15 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     return false;
   };
 
-  const logOut = () => {
-    setUser(null);
-    router.push('/login');
+  const logOut = async () => {
+    const response = await fetch('/logout');
+    if (response.ok) {
+      setUser(null);
+      setCart(null);
+      router.push('/');
+    } else {
+      console.error(response.statusText);
+    }
   };
 
   useEffect(() => {
