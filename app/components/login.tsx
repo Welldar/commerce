@@ -5,7 +5,7 @@ import { useAuth } from './auth';
 
 export default function Login({ isLogin = false }: { isLogin?: boolean }) {
   const router = useRouter();
-  const { loginAction, user } = useAuth();
+  const { loginAction } = useAuth();
 
   return (
     <>

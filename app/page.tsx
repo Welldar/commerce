@@ -5,7 +5,6 @@ import { parseParams } from './utility';
 export default async function Page({
   searchParams,
 }: {
-  params: { slug: string };
   searchParams?: { [key: string]: string | string[] | undefined };
 }) {
   const query = parseParams(searchParams);
