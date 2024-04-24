@@ -1,4 +1,3 @@
-'use client';
 import { Suspense } from 'react';
 import './filters.css';
 import { PriceRange } from './price-range';
@@ -9,9 +8,8 @@ export function Filters() {
     <div className="filters">
       <Suspense>
         <Sort />
-      </Suspense>
-      <h3>Filter by</h3>
-      <Suspense>
+
+        <h3>Filter by</h3>
         <PriceRange />
       </Suspense>
     </div>

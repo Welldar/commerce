@@ -1,3 +1,4 @@
+'use client';
 import styles from './sort.module.css';
 import { useQueryRouting } from '../customHooks';
 

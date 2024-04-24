@@ -7,6 +7,7 @@ import { ProductList } from './productsList';
 import { CategoryList } from './categoryList';
 import { productsResponse } from '@/service';
 import { Suspense } from 'react';
+import Loading from '../loading';
 
 export default function Main({
   products,
@@ -21,7 +22,7 @@ export default function Main({
     <main>
       <Filters />
       {products ? (
-        <Suspense>
+        <Suspense fallback={<h1>loading from main</h1>}>
           <ProductList id={id} products={products.results} />
         </Suspense>
       ) : (
