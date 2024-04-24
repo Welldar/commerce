@@ -138,7 +138,7 @@ export type productsResponse =
 export async function products(
   options: options = {},
   id?: string
-): Promise<productsResponse> {
+): Promise<ProductProjectionPagedSearchResponse | null> {
   if (options.queryArgs) {
     options.queryArgs.set('priceCurrency', 'USD');
     options.queryArgs.set('priceCountry', 'US');
@@ -167,7 +167,18 @@ export async function products(
       `categories.id: subtree("${id}")`
     );
 
-  return client.request('product-projections/search', 'GET', options);
+  const predicate = (
+    products: productsResponse
+  ): products is ProductProjectionPagedSearchResponse =>
+    'errors' in products ? false : true;
+
+  const response = (await client.request(
+    'product-projections/search',
+    'GET',
+    options
+  )) as productsResponse;
+
+  return predicate(response) ? response : null;
 }
 
 export async function product(id: string): Promise<ProductProjection> {

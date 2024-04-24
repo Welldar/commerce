@@ -7,10 +7,12 @@ export async function GET(request: NextRequest) {
 
   searchParams.delete('category');
 
-  const { results } = await products(
+  const productsData = await products(
     { queryArgs: searchParams },
     id ?? undefined
   );
 
-  return NextResponse.json(results, { status: 200 });
+  return NextResponse.json(productsData ? productsData.results : [], {
+    status: 200,
+  });
 }

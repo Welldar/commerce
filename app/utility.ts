@@ -4,7 +4,7 @@ import { ReadonlyURLSearchParams } from 'next/navigation';
 const formatter = new Intl.NumberFormat('en-US', {
   currency: 'USD',
   style: 'currency',
-  trailingZeroDisplay: 'stripIfInteger',
+  // trailingZeroDisplay: 'stripIfInteger',
 });
 
 export function formatPrice(price: TypedMoney | CentPrecisionMoney) {
