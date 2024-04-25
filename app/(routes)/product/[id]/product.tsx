@@ -4,34 +4,50 @@ import Carousel from '@/app/_components/carousel';
 import styles from './product.module.css';
 import { BuyButton } from '@/app/_components/BuyButton';
 import Image from 'next/image';
+import { notFound, useSearchParams } from 'next/navigation';
 import { useState } from 'react';
-import { useCart } from '@/app/_hooks/useCart';
 
 export function Product({ product }: { product: ProductProjection }) {
-  const [displayedInd, setDisplayedInd] = useState(0);
-  const { cart } = useCart();
+  const searchParams = useSearchParams();
+  const variantId = searchParams.get('variantId') ?? '1';
+  const [displayedId, setDesplayedId] = useState(+variantId);
   const locale = 'en-US';
-
   const variants = [product.masterVariant, ...product.variants];
 
-  const variantsThumbnails = variants
-    .map(variant => variant.images?.[0])
-    .map((img, i) =>
-      img ? (
-        <Image
-          className={displayedInd == i ? styles.highlighted : ''}
-          onClick={() => setDisplayedInd(i)}
-          key={img.url}
-          src={img.url}
-          alt=""
-          width={img.dimensions.w}
-          height={img.dimensions.h}
-          sizes="10vw"
-        ></Image>
-      ) : null
-    );
+  const variantsThumbnails = variants.map(({ id, images }) => {
+    const img = images?.[0];
 
-  const displayedVariant = variants[displayedInd];
+    return img ? (
+      <Image
+        key={id}
+        onClick={() => {
+          const newParams = new URLSearchParams(searchParams);
+
+          newParams.set('variantId', `${id}`);
+
+          window.history.replaceState(
+            null,
+            '',
+            `${product.id}?${newParams.toString()}`
+          );
+
+          setDesplayedId(id);
+        }}
+        className={displayedId == id ? styles.highlighted : ''}
+        src={img.url}
+        alt=""
+        width={img.dimensions.w}
+        height={img.dimensions.h}
+        sizes="10vw"
+      />
+    ) : (
+      <div>No photo</div>
+    );
+  });
+
+  const displayedVariant = variants.find(({ id }) => id == displayedId);
+
+  if (!displayedVariant) return notFound();
 
   const images = displayedVariant.images;
   const availableQuantity = displayedVariant.availability?.availableQuantity;
@@ -49,17 +65,6 @@ export function Product({ product }: { product: ProductProjection }) {
 
   const color = displayedVariant.attributes?.find(attr => attr.name == 'color')
     ?.value[locale];
-
-  const productId = product.id;
-  const variantId = displayedVariant.id;
-
-  const productInCart = cart?.lineItems.find(
-    ({ productId: id }) => productId == id
-  );
-
-  const variantInCart = productInCart?.variant;
-
-  const inCart = variantInCart?.id == variantId;
 
   return (
     <div className={styles.wrapper}>
@@ -100,10 +105,7 @@ export function Product({ product }: { product: ProductProjection }) {
         <div>
           {availableQuantity ? 'Left in stock ' + availableQuantity : null}
         </div>
-        <BuyButton
-          productId={productId}
-          productVariant={displayedVariant}
-        ></BuyButton>
+        <BuyButton productId={product.id} productVariant={displayedVariant} />
       </div>
     </div>
   );
