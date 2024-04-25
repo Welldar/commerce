@@ -1,13 +1,8 @@
-import {
-  ProductProjection,
-  ProductProjectionPagedSearchResponse,
-} from '@commercetools/platform-sdk';
+import { ProductProjectionPagedSearchResponse } from '@commercetools/platform-sdk';
 import { Filters } from './filters/filters';
 import { ProductList } from './productsList';
 import { CategoryList } from './categoryList';
-import { productsResponse } from '@/service';
 import { Suspense } from 'react';
-import Loading from '../loading';
 
 export default function Main({
   products,

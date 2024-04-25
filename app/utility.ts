@@ -4,13 +4,12 @@ import { ReadonlyURLSearchParams } from 'next/navigation';
 const formatter = new Intl.NumberFormat('en-US', {
   currency: 'USD',
   style: 'currency',
-  // trailingZeroDisplay: 'stripIfInteger',
 });
 
 export function formatPrice(price: TypedMoney | CentPrecisionMoney) {
-  return formatter.format(
-    price.centAmount / Math.pow(10, price.fractionDigits)
-  );
+  return formatter
+    .format(price.centAmount / Math.pow(10, price.fractionDigits))
+    .replace('.00', '');
 }
 
 export const shortFormatter = new Intl.NumberFormat('en-US', {

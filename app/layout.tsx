@@ -6,8 +6,6 @@ import './globals.css';
 import Header from './components/header';
 import { AuthProvider } from './components/auth';
 import { CartProvider } from './components/useCart';
-import { Suspense } from 'react';
-import Loading from './loading';
 
 const inter = Inter({ subsets: ['latin'] });
 
