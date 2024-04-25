@@ -33,11 +33,12 @@ function Product(
     });
   const displayedVariant = variants[0] ?? product.masterVariant;
   const images = displayedVariant.images;
-  const variantId = displayedVariant.id;
+
+  const href = `/product/${product.id}?variantId=${displayedVariant.id}`;
 
   return (
     <>
-      <Link ref={ref} href={`/product/${product.id}`}>
+      <Link ref={ref} href={href}>
         <h3>{product.name[locale]}</h3>
       </Link>
       {images ? (
@@ -46,9 +47,11 @@ function Product(
           slides={images}
           className={styles.image + ' ' + 'keen-slider__slide'}
         ></Carousel>
-      ) : null}
-      <Link href={`/product/${product.id}`}>
-        <div className={styles.desc}>{desc}</div>
+      ) : (
+        <div>No photo</div>
+      )}
+      <Link href={href} className={styles.desc}>
+        {desc}
       </Link>
       <BuyButton
         productId={productId}
