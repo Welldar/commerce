@@ -10,26 +10,24 @@ import Link from 'next/link';
 export function Cart() {
   const { cart } = useCart();
 
-  const empty = <h4 className={styles.h4}>You didnt buy anything</h4>;
+  const empty = <h2 className={styles.h2}>You didnt buy anything</h2>;
 
   return (
     <>
-      {cart ? (
-        cart.totalLineItemQuantity ? (
-          <div className={styles.wrapper}>
-            {cart.lineItems.map(lineItem => (
-              <ProductInCart
-                key={lineItem.id}
-                product={lineItem}
-              ></ProductInCart>
-            ))}
-          </div>
-        ) : (
-          empty
-        )
-      ) : (
-        empty
-      )}
+      {
+        <div className={styles.wrapper}>
+          {cart
+            ? cart.totalLineItemQuantity
+              ? cart.lineItems.map(lineItem => (
+                  <ProductInCart
+                    key={lineItem.id}
+                    product={lineItem}
+                  ></ProductInCart>
+                ))
+              : empty
+            : empty}
+        </div>
+      }
     </>
   );
 }
