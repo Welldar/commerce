@@ -3,6 +3,8 @@ import { parseParams } from '@/app/_utils/utility';
 import { category, products } from '@/app/_services/commerce';
 import { notFound } from 'next/navigation';
 
+export const revalidate = 0;
+
 export default async function Page({
   params,
   searchParams,

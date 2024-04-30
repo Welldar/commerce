@@ -2,6 +2,8 @@ import { products } from '@/app/_services/commerce';
 import Main from '@/app/_components/main';
 import { parseParams } from '@/app/_utils/utility';
 
+export const revalidate = 0;
+
 export default async function Page({
   searchParams,
 }: {
