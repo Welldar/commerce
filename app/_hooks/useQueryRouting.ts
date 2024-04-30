@@ -9,10 +9,12 @@ export function useQueryRouting() {
   const router = useRouter();
 
   const queryRouting = useCallback(
-    (name: string, value: string) =>
-      router.push(
-        pathname + '?' + createQueryString(name, value, searchParams)
-      ),
+    (
+      name: string,
+      value: string,
+      path: string = pathname,
+      params = searchParams
+    ) => router.push(path + '?' + createQueryString(name, value, params)),
     [searchParams, pathname, router]
   );
 
@@ -22,5 +24,5 @@ export function useQueryRouting() {
     [router, searchParams, pathname]
   );
 
-  return { queryRouting, searchParams, deleteQ };
+  return { queryRouting, searchParams, deleteQ, pathname };
 }

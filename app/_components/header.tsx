@@ -1,7 +1,7 @@
 'use client';
 import './header.css';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { ReadonlyURLSearchParams, usePathname } from 'next/navigation';
 import { useAuth } from '../_hooks/useAuth';
 import { useQueryRouting } from '../_hooks/useQueryRouting';
 import { Suspense } from 'react';
@@ -21,8 +21,10 @@ export default function Header() {
 }
 
 function SearchBar() {
-  const { queryRouting, searchParams } = useQueryRouting();
+  const { queryRouting, searchParams, pathname } = useQueryRouting();
   const defaultValue = searchParams.get('text.en-US') ?? '';
+
+  const searchable = pathname == '/' || pathname.includes('category');
 
   return (
     <form
@@ -30,8 +32,16 @@ function SearchBar() {
       onSubmit={e => {
         const value =
           new FormData(e.currentTarget).get('text')?.toString() ?? '';
+
+        queryRouting(
+          'text.en-US',
+          value,
+          searchable ? pathname : '/',
+          searchable
+            ? searchParams
+            : new ReadonlyURLSearchParams(new URLSearchParams())
+        );
         e.preventDefault();
-        queryRouting('text.en-US', value);
       }}
     >
       <input
