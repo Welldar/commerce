@@ -99,22 +99,25 @@ function HeaderInner() {
           </Link>
         </>
       )}
-      <Link className={`${pathname == '/cart'}`} href="/cart">
+      <Link
+        className={`${pathname == '/cart' ? 'active' : ''} cart`}
+        href="/cart"
+      >
         Cart
+        <div className="cart-icon">
+          <Image
+            className="cart-svg"
+            src={svg.src}
+            width={svg.width}
+            height={svg.height}
+            alt=""
+          ></Image>
+          <span className="amount">{cart?.totalLineItemQuantity ?? 0}</span>
+          <span className="total-price">
+            {cart?.totalPrice ? formatPrice(cart?.totalPrice) : 0}
+          </span>
+        </div>
       </Link>
-      <div className="cart">
-        <Image
-          className="cart-svg"
-          src={svg.src}
-          width={svg.width}
-          height={svg.height}
-          alt=""
-        ></Image>
-        <span className="amount">{cart?.totalLineItemQuantity ?? 0}</span>
-        <span className="total-price">
-          {cart?.totalPrice ? formatPrice(cart?.totalPrice) : 0}
-        </span>
-      </div>
     </>
   );
 }
