@@ -7,6 +7,7 @@ import { formatPrice } from '../../_utils/utility';
 import { QuantityChanger } from '@/app/_components/quantityChanger';
 import Link from 'next/link';
 import Loading from './loading';
+import { Attr } from '@/app/_components/attributes';
 
 export function Cart() {
   const { cart, isLoading } = useCart();
@@ -40,15 +41,6 @@ function ProductInCart({ product }: { product: LineItem }) {
   const variant = product.variant;
   const img = variant.images?.[0];
 
-  const productSpec = (
-    variant.attributes?.find(attr => attr.name == 'productspec')?.value[
-      locale
-    ] as string
-  )
-    ?.split('\n')
-    .map((spec, i) => <div key={i}>{spec}</div>);
-  const colorLabel = variant.attributes?.find(attr => attr.name == 'colorlabel')
-    ?.value[locale];
   const totalUndiscountedPrice = { ...product.price.value };
 
   totalUndiscountedPrice.centAmount *= product.quantity;
@@ -70,8 +62,7 @@ function ProductInCart({ product }: { product: LineItem }) {
         <Link href={href}>
           <h5 className={styles.h5}>{product.name[locale]}</h5>
         </Link>
-        <div>{productSpec ? productSpec : null}</div>
-        <div>{colorLabel ? 'color ' + colorLabel : null}</div>
+        <Attr displayedVariant={variant} />
       </div>
       <div>
         <span>{formatPrice(product.totalPrice)}</span>{' '}

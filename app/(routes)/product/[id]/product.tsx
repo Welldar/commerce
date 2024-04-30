@@ -6,6 +6,7 @@ import { BuyButton } from '@/app/_components/BuyButton';
 import Image from 'next/image';
 import { notFound, useSearchParams } from 'next/navigation';
 import { useState } from 'react';
+import { Attr } from '@/app/_components/attributes';
 
 export function Product({ product }: { product: ProductProjection }) {
   const searchParams = useSearchParams();
@@ -52,20 +53,6 @@ export function Product({ product }: { product: ProductProjection }) {
   const images = displayedVariant.images;
   const availableQuantity = displayedVariant.availability?.availableQuantity;
 
-  const productSpec = (
-    displayedVariant.attributes?.find(attr => attr.name == 'productspec')
-      ?.value[locale] as string
-  )
-    ?.split('\n')
-    .map(spec => <div key={spec}>{spec}</div>);
-
-  const colorLabel = displayedVariant.attributes?.find(
-    attr => attr.name == 'colorlabel'
-  )?.value[locale];
-
-  const color = displayedVariant.attributes?.find(attr => attr.name == 'color')
-    ?.value[locale];
-
   return (
     <div className={styles.wrapper}>
       <div className={styles.carousel}>
@@ -80,25 +67,7 @@ export function Product({ product }: { product: ProductProjection }) {
       <div>
         <h2>{product.name[locale]}</h2>
         <div>{product.description?.[locale]}</div>
-
-        <div className={styles.attr}>
-          <div className={styles.productSpec}>
-            {productSpec ? productSpec : null}
-          </div>
-          <div>
-            {colorLabel ? (
-              <>
-                <span className={styles.colorLabel}>Color: {colorLabel}</span>
-                {color ? (
-                  <span
-                    className={styles.color}
-                    style={{ backgroundColor: color }}
-                  ></span>
-                ) : null}
-              </>
-            ) : null}
-          </div>
-        </div>
+        <Attr displayedVariant={displayedVariant} />
         <div className={styles.variants}>{variantsThumbnails}</div>
       </div>
       <div className={styles.checkout}>

@@ -2,6 +2,8 @@
   display: grid;
   grid-template-columns: 100px auto 100px 100px;
   gap: 20px;
+  align-items: center;
+  justify-items: left;
 }
 
 .img {
@@ -31,7 +33,7 @@
   display: flex;
   gap: 20px;
   font-size: 14px;
-  width: 600px;
+  max-width: 900px;
   margin: 40px auto;
   padding: 20px;
   flex-direction: column;
