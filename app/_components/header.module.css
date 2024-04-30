@@ -34,7 +34,8 @@
   text-align: center;
 }
 
-.header a:hover:not(.active) {
+.header a:hover:not(.active),
+.header .click:hover {
   background-color: hsl(0deg 0% 67.72% / 25%);
 }
 
@@ -108,4 +109,15 @@
 .totalPrice {
   bottom: 0;
   background-color: darkcyan;
+}
+
+.modal {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+}
+
+.click {
+  cursor: pointer;
 }

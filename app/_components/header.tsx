@@ -4,11 +4,12 @@ import Link from 'next/link';
 import { ReadonlyURLSearchParams, usePathname } from 'next/navigation';
 import { useAuth } from '../_hooks/useAuth';
 import { useQueryRouting } from '../_hooks/useQueryRouting';
-import { Suspense } from 'react';
+import { Suspense, useState } from 'react';
 import { formatPrice } from '../_utils/utility';
 import svg from '@/app/_assets/cart.svg';
 import Image from 'next/image';
 import { useCart } from '../_hooks/useCart';
+import { Modal } from './modal';
 
 export default function Header() {
   return (
@@ -75,9 +76,7 @@ function HeaderInner() {
         {user ? (
           <>
             <span>{user.firstName ?? user.email}</span>
-            <Link href="/logout" onClick={logOut}>
-              Logout
-            </Link>
+            <Logout logout={logOut} />
           </>
         ) : (
           <>
@@ -122,5 +121,27 @@ function HeaderInner() {
         </Link>
       </div>
     </div>
+  );
+}
+
+function Logout({ logout }: { logout: React.ReactEventHandler }) {
+  const [isOpened, setIsOpened] = useState(false);
+
+  return (
+    <>
+      <span className={styles.click} onClick={() => setIsOpened(true)}>
+        Logout
+      </span>
+      {isOpened ? (
+        <Modal onClose={() => setIsOpened(false)}>
+          <div className={styles.modal}>
+            <div>Are you sure you wanna logout?</div>
+            <span className={styles.click} onClick={logout}>
+              Logout
+            </span>
+          </div>
+        </Modal>
+      ) : null}
+    </>
   );
 }
