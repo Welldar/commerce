@@ -1,5 +1,5 @@
 'use client';
-import './header.css';
+import styles from './header.module.css';
 import Link from 'next/link';
 import { ReadonlyURLSearchParams, usePathname } from 'next/navigation';
 import { useAuth } from '../_hooks/useAuth';
@@ -12,7 +12,7 @@ import { useCart } from '../_hooks/useCart';
 
 export default function Header() {
   return (
-    <header className="header">
+    <header className={styles.header}>
       <Suspense fallback={<h1>loading from header</h1>}>
         <HeaderInner></HeaderInner>
       </Suspense>
@@ -28,7 +28,7 @@ function SearchBar() {
 
   return (
     <form
-      className="search"
+      className={styles.search}
       onSubmit={e => {
         const value =
           new FormData(e.currentTarget).get('text')?.toString() ?? '';
@@ -46,13 +46,13 @@ function SearchBar() {
     >
       <input
         type="text"
-        className="search--input"
+        className={styles.searchInput}
         maxLength={256}
         placeholder="Search..."
         name="text"
         defaultValue={defaultValue}
       />
-      <button type="submit" className="search--button">
+      <button type="submit" className={styles.searchButton}>
         Find
       </button>
     </form>
@@ -66,58 +66,61 @@ function HeaderInner() {
   const { cart } = useCart();
 
   return (
-    <>
+    <div className={styles.wrapper}>
       <SearchBar></SearchBar>
-      <Link className={pathname == '/' ? 'active' : ''} href="/">
-        Main
-      </Link>
-      {user ? (
-        <>
-          <Link
-            className={pathname == '/profile' ? 'active' : ''}
-            href="/profile"
-          >
-            {user.firstName ?? user.email}
-          </Link>
-          <Link href={pathname} onClick={logOut}>
-            Logout
-          </Link>
-        </>
-      ) : (
-        <>
-          <Link
-            className={`${pathname == '/login' ? 'active' : ''}`}
-            href="/login"
-          >
-            Login
-          </Link>
-          <Link
-            className={`${pathname == '/signup' ? 'active' : ''}`}
-            href="/signup"
-          >
-            Signup
-          </Link>
-        </>
-      )}
-      <Link
-        className={`${pathname == '/cart' ? 'active' : ''} cart`}
-        href="/cart"
-      >
-        Cart
-        <div className="cart-icon">
-          <Image
-            className="cart-svg"
-            src={svg.src}
-            width={svg.width}
-            height={svg.height}
-            alt=""
-          ></Image>
-          <span className="amount">{cart?.totalLineItemQuantity ?? 0}</span>
-          <span className="total-price">
-            {cart?.totalPrice ? formatPrice(cart?.totalPrice) : 0}
-          </span>
-        </div>
-      </Link>
-    </>
+      <div className={styles.navigation}>
+        <Link className={pathname == '/' ? styles.active : ''} href="/">
+          Main
+        </Link>
+        {user ? (
+          <>
+            <span>{user.firstName ?? user.email}</span>
+            <Link href="/logout" onClick={logOut}>
+              Logout
+            </Link>
+          </>
+        ) : (
+          <>
+            <Link
+              className={`${pathname == '/login' ? styles.active : ''}`}
+              href="/login"
+            >
+              Login
+            </Link>
+            <Link
+              className={`${pathname == '/signup' ? styles.active : ''}`}
+              href="/signup"
+            >
+              Signup
+            </Link>
+          </>
+        )}
+        <Link
+          className={`${pathname == '/cart' ? styles.active : ''} ${
+            styles.cart
+          }`}
+          href="/cart"
+        >
+          Cart
+          <div className={styles.cartIcon}>
+            <Image
+              className={styles.cartSvg}
+              src={svg.src}
+              width={svg.width}
+              height={svg.height}
+              alt=""
+            ></Image>
+            <span className={styles.amount}>
+              {cart?.totalLineItemQuantity ?? 0}
+            </span>
+            <span className={styles.totalPrice}>
+              {cart?.totalPrice
+                ? formatPrice(cart?.totalPrice).slice(0, -3)
+                : '$0'}
+            </span>
+          </div>
+        </Link>
+      </div>
+    </div>
   );
 }
