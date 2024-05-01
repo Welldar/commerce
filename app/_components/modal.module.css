@@ -1,19 +1,19 @@
 .bg {
   z-index: 100000;
-  background: rgba(0, 0, 0, 0.8);
-  backdrop-filter: blur(7px);
+  background: rgba(0, 0, 0, 0.9);
+  /* backdrop-filter: blur(2px);
+  transform: translate3d(0, 0, 0); */
   top: 0;
   left: 0;
   bottom: 0;
   right: 0;
   position: fixed;
   overscroll-behavior: none;
-  transform: translate3d(0, 0, 0);
 }
 
 .wrapper {
-  max-width: 90vw;
-  max-height: 90vh;
+  max-width: calc(100vw - 40px);
+  max-height: calc(100vh - 40px);
   position: fixed;
   z-index: 100001;
   top: 50%;

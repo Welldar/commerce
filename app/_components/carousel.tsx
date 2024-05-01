@@ -1,4 +1,4 @@
-'use client';
+// 'use client';
 import { useKeenSlider } from 'keen-slider/react';
 import 'keen-slider/keen-slider.min.css';
 import { useState } from 'react';
@@ -9,10 +9,12 @@ export default function Carousel({
   slides,
   className,
   sizes,
+  onClick,
 }: {
   slides: img[];
   className: string;
   sizes: string;
+  onClick?: React.ReactEventHandler;
 }) {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [loaded, setLoaded] = useState(false);
@@ -28,7 +30,7 @@ export default function Carousel({
 
   return (
     <>
-      <div ref={sliderRef} className="keen-slider">
+      <div ref={sliderRef} className="keen-slider" onClick={onClick}>
         {slides.map(im => (
           <Image
             className={className}

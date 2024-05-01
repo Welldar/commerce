@@ -4,7 +4,8 @@ import styles from './gallery.module.css';
 import { useState } from 'react';
 
 export function Gallery({ images }: { images: ImageType[] }) {
-  const [displayedInd, setDesplayedId] = useState(0);
+  const [displayedInd, setDesplayedInd] = useState(0);
+
   const thumbnails = images.map((image, ind) => (
     <Image
       alt=""
@@ -14,7 +15,7 @@ export function Gallery({ images }: { images: ImageType[] }) {
       width={image.dimensions.w}
       height={image.dimensions.h}
       sizes="(max-width: 1920px) 150px"
-      onClick={() => setDesplayedId(ind)}
+      onClick={() => setDesplayedInd(ind)}
     />
   ));
 
@@ -24,16 +25,14 @@ export function Gallery({ images }: { images: ImageType[] }) {
     <div className={styles.wrapper}>
       <div className={styles.thumbnails}>{thumbnails}</div>
 
-      <div>
-        <Image
-          className={styles.image}
-          alt=""
-          src={img.url}
-          width={img.dimensions.w}
-          height={img.dimensions.h}
-          sizes="(max-width: 1920px) 90vw"
-        />
-      </div>
+      <Image
+        className={styles.image}
+        alt=""
+        src={img.url}
+        width={img.dimensions.w}
+        height={img.dimensions.h}
+        sizes="(max-width: 1920px) 90vw"
+      />
     </div>
   );
 }

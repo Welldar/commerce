@@ -1,5 +1,8 @@
 'use client';
-import { ProductProjection } from '@commercetools/platform-sdk';
+import {
+  Image as ImageType,
+  ProductProjection,
+} from '@commercetools/platform-sdk';
 import Carousel from '@/app/_components/carousel';
 import styles from './product.module.css';
 import { BuyButton } from '@/app/_components/BuyButton';
@@ -11,7 +14,6 @@ import { Modal } from '@/app/_components/modal';
 import { Gallery } from '@/app/_components/gallery';
 
 export function Product({ product }: { product: ProductProjection }) {
-  const [showModal, setShowModal] = useState(false);
   const searchParams = useSearchParams();
   const variantId = searchParams.get('variantId') ?? '1';
   const [displayedId, setDesplayedId] = useState(+variantId);
@@ -58,20 +60,7 @@ export function Product({ product }: { product: ProductProjection }) {
 
   return (
     <div className={styles.wrapper}>
-      <div className={styles.carousel} onClick={() => setShowModal(true)}>
-        {images ? (
-          <Carousel
-            className={styles.image + ' ' + 'keen-slider__slide'}
-            sizes="50vw"
-            slides={images}
-          ></Carousel>
-        ) : null}
-      </div>
-      {showModal ? (
-        <Modal onClose={() => setShowModal(false)}>
-          {images ? <Gallery images={images} /> : null}
-        </Modal>
-      ) : null}
+      {images ? <CarouselWrapper images={images} /> : null}
       <div>
         <h2>{product.name[locale]}</h2>
         <div>{product.description?.[locale]}</div>
@@ -85,5 +74,27 @@ export function Product({ product }: { product: ProductProjection }) {
         <BuyButton productId={product.id} productVariant={displayedVariant} />
       </div>
     </div>
+  );
+}
+
+function CarouselWrapper({ images }: { images: ImageType[] }) {
+  const [showModal, setShowModal] = useState(false);
+
+  return (
+    <>
+      <div className={styles.carousel}>
+        <Carousel
+          onClick={() => setShowModal(true)}
+          className={styles.image + ' ' + 'keen-slider__slide'}
+          sizes="50vw"
+          slides={images}
+        />
+      </div>
+      {showModal ? (
+        <Modal onClose={() => setShowModal(false)}>
+          <Gallery images={images} />
+        </Modal>
+      ) : null}
+    </>
   );
 }
