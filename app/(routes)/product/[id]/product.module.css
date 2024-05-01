@@ -50,3 +50,9 @@
 img.highlighted {
   border: 2px solid saddlebrown;
 }
+
+.modal {
+  width: auto;
+  height: 80vh;
+  object-fit: contain;
+}

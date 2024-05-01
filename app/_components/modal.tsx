@@ -9,7 +9,8 @@ export function Modal({
   onClose: React.ReactEventHandler;
 }) {
   const modal = (
-    <div className={styles.bg}>
+    <div>
+      <div className={styles.bg} onClick={onClose}></div>
       <div className={styles.wrapper}>
         <span className={styles.close} onClick={onClose}>
           Close

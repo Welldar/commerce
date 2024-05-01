@@ -8,9 +8,12 @@
   right: 0;
   position: fixed;
   overscroll-behavior: none;
+  transform: translate3d(0, 0, 0);
 }
 
 .wrapper {
+  max-width: 90vw;
+  max-height: 90vh;
   position: fixed;
   z-index: 100001;
   top: 50%;
