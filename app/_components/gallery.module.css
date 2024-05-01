@@ -1,0 +1,38 @@
+.wrapper {
+  display: grid;
+  gap: 20px;
+  grid-template-columns: 150px 1fr;
+  grid-auto-rows: minmax(100px, 100%);
+  min-height: 0;
+}
+
+.thumbnails {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  gap: 5px;
+  overflow-y: scroll;
+  scrollbar-width: thin;
+  padding: 10px;
+}
+
+.thumbnails img {
+  width: 100%;
+  height: auto;
+  border: 2px solid white;
+}
+
+img.active {
+  border: 2px solid sienna;
+}
+
+.thumbnails img:hover:not(.active) {
+  cursor: pointer;
+  border: 2px solid sandybrown;
+}
+
+.image {
+  max-height: 100%;
+  max-width: 100%;
+  object-fit: contain;
+}
