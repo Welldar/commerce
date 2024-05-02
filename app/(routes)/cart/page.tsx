@@ -1,5 +1,5 @@
-import { Cart } from './cart';
+import { Cart } from './cart'
 
 export default function Page() {
-  return <Cart></Cart>;
+  return <Cart></Cart>
 }

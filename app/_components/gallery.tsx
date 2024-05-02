@@ -1,10 +1,16 @@
-import type { Image as ImageType } from '@commercetools/platform-sdk';
-import Image from 'next/image';
-import styles from './gallery.module.css';
-import { useState } from 'react';
+import type { Image as ImageType } from '@commercetools/platform-sdk'
+import Image from 'next/image'
+import styles from './gallery.module.css'
+import React, { useState } from 'react'
 
-export function Gallery({ images }: { images: ImageType[] }) {
-  const [displayedInd, setDesplayedInd] = useState(0);
+export function Gallery({
+  images,
+  onClick,
+}: {
+  images: ImageType[]
+  onClick?: React.ReactEventHandler
+}) {
+  const [displayedInd, setDesplayedInd] = useState(0)
 
   const thumbnails = images.map((image, ind) => (
     <Image
@@ -17,15 +23,16 @@ export function Gallery({ images }: { images: ImageType[] }) {
       sizes="(max-width: 1920px) 150px"
       onClick={() => setDesplayedInd(ind)}
     />
-  ));
+  ))
 
-  const img = images[displayedInd];
+  const img = images[displayedInd]
 
   return (
     <div className={styles.wrapper}>
       <div className={styles.thumbnails}>{thumbnails}</div>
 
       <Image
+        onClick={onClick}
         className={styles.image}
         alt=""
         src={img.url}
@@ -34,5 +41,5 @@ export function Gallery({ images }: { images: ImageType[] }) {
         sizes="(max-width: 1920px) 90vw"
       />
     </div>
-  );
+  )
 }

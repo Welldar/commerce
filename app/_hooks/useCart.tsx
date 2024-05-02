@@ -1,4 +1,4 @@
-'use client';
+'use client'
 import {
   useContext,
   createContext,
@@ -6,86 +6,86 @@ import {
   useEffect,
   Dispatch,
   SetStateAction,
-} from 'react';
+} from 'react'
 import {
   Cart,
   LineItemDraft,
   MyCartChangeLineItemQuantityAction,
-} from '@commercetools/platform-sdk';
+} from '@commercetools/platform-sdk'
 
 type cartContext = {
-  cart: Cart | null;
-  isLoading: boolean;
-  addItemToCart: (lineItem: LineItemDraft) => void;
-  updateQuantity: (lineItemId: string, quantity: number) => void;
-  setCart: Dispatch<SetStateAction<Cart | null>>;
-};
+  cart: Cart | null
+  isLoading: boolean
+  addItemToCart: (lineItem: LineItemDraft) => void
+  updateQuantity: (lineItemId: string, quantity: number) => void
+  setCart: Dispatch<SetStateAction<Cart | null>>
+}
 
-const CartContext = createContext<cartContext | null>(null);
+const CartContext = createContext<cartContext | null>(null)
 
 export function CartProvider({ children }: { children: React.ReactNode }) {
-  const [cart, setCart] = useState<Cart | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const [cart, setCart] = useState<Cart | null>(null)
+  const [isLoading, setIsLoading] = useState(true)
 
   const addItemToCart = async (lineItem: LineItemDraft) => {
     const response = await fetch('/api/me/cart', {
       method: 'POST',
       body: JSON.stringify(lineItem),
-    });
+    })
 
-    const cart = await response.json();
+    const cart = await response.json()
 
-    response.ok ? setCart(cart) : console.log(cart);
-  };
+    response.ok ? setCart(cart) : console.log(cart)
+  }
 
   const updateQuantity = async (lineItemId: string, quantity: number) => {
     const body: MyCartChangeLineItemQuantityAction = {
       action: 'changeLineItemQuantity',
       lineItemId,
       quantity,
-    };
+    }
 
     const response = await fetch('/api/me/cart/update', {
       method: 'POST',
       body: JSON.stringify(body),
-    });
+    })
 
-    const cart = await response.json();
+    const cart = await response.json()
 
-    response.ok ? setCart(cart) : console.log(cart);
-  };
+    response.ok ? setCart(cart) : console.log(cart)
+  }
 
   useEffect(() => {
-    let ignore = false;
+    let ignore = false
 
     const fetchCart = async () => {
-      const response = await fetch('/api/me/cart');
+      const response = await fetch('/api/me/cart')
 
       if (!ignore) {
         switch (response.status) {
           case 200:
-            setCart(await response.json());
-            break;
+            setCart(await response.json())
+            break
           case 401:
-            console.log('no credentials');
-            break;
+            console.log('no credentials')
+            break
           case 404:
-            console.log('no cart');
-            break;
+            console.log('no cart')
+            break
           default:
-            break;
+            break
         }
 
-        setIsLoading(false);
+        setIsLoading(false)
       }
-    };
+    }
 
-    fetchCart();
+    fetchCart()
 
     return () => {
-      ignore = true;
-    };
-  }, []);
+      ignore = true
+    }
+  }, [])
 
   return (
     <CartContext.Provider
@@ -93,12 +93,12 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     >
       {children}
     </CartContext.Provider>
-  );
+  )
 }
 
 export const useCart = () => {
-  const context = useContext(CartContext);
+  const context = useContext(CartContext)
 
-  if (!context) throw new Error('useCart has to be used within <CartProvider>');
-  return context;
-};
+  if (!context) throw new Error('useCart has to be used within <CartProvider>')
+  return context
+}

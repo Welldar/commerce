@@ -1,59 +1,59 @@
-'use client';
+'use client'
 
-import { shortFormatter } from '@/app/_utils/utility';
-import { useQueryRouting } from '../../_hooks/useQueryRouting';
-import styles from './price-range.module.css';
-import { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { shortFormatter } from '@/app/_utils/utility'
+import { useQueryRouting } from '../../_hooks/useQueryRouting'
+import styles from './price-range.module.css'
+import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 
 export function PriceRange() {
-  const { queryRouting, searchParams, deleteQ } = useQueryRouting();
-  const [from, to] = searchParams.get('price_range')?.split(':') ?? ['', ''];
+  const { queryRouting, searchParams, deleteQ } = useQueryRouting()
+  const [from, to] = searchParams.get('price_range')?.split(':') ?? ['', '']
 
   const makeQueryValue = (form: HTMLFormElement) => {
-    const formData = new FormData(form);
+    const formData = new FormData(form)
     const parseInput = (field: 'from' | 'to') => {
-      const value = formData.get(field)!.toString().replaceAll(',', '');
+      const value = formData.get(field)!.toString().replaceAll(',', '')
 
-      return +value ? value : '';
-    };
-    const from = parseInput('from');
-    const to = parseInput('to');
+      return +value ? value : ''
+    }
+    const from = parseInput('from')
+    const to = parseInput('to')
 
-    return { from, to };
-  };
+    return { from, to }
+  }
 
   return (
     <form
       className={styles['price-range']}
-      onBlur={e => {}}
-      onSubmit={e => {
-        e.preventDefault();
+      onBlur={(e) => {}}
+      onSubmit={(e) => {
+        e.preventDefault()
 
-        const { from, to } = makeQueryValue(e.target as HTMLFormElement);
+        const { from, to } = makeQueryValue(e.target as HTMLFormElement)
 
-        if (from == to && from == '') return deleteQ('price_range');
+        if (from == to && from == '') return deleteQ('price_range')
 
-        queryRouting('price_range', `${from}:${to}`);
+        queryRouting('price_range', `${from}:${to}`)
       }}
     >
       <PriceInput field="from" price={from}></PriceInput>
       <PriceInput field="to" price={to}></PriceInput>
       <button type="submit" style={{ display: 'none' }}></button>
     </form>
-  );
+  )
 }
 
 function PriceInput({ field, price }: { field: string; price: string }) {
-  const [value, setValue] = useState(price);
-  const [caretPos, setCaretPos] = useState(0);
-  const [trigger, setTrigger] = useState(true);
-  const ref = useRef<HTMLInputElement>(null);
+  const [value, setValue] = useState(price)
+  const [caretPos, setCaretPos] = useState(0)
+  const [trigger, setTrigger] = useState(true)
+  const ref = useRef<HTMLInputElement>(null)
 
   useEffect(() => {
-    if (!ref.current) return;
+    if (!ref.current) return
 
-    ref.current.selectionStart = ref.current.selectionEnd = caretPos;
-  }, [caretPos, trigger]);
+    ref.current.selectionStart = ref.current.selectionEnd = caretPos
+  }, [caretPos, trigger])
   return (
     <label htmlFor={field} className={styles['price-input']}>
       <span>{field}</span>
@@ -65,30 +65,30 @@ function PriceInput({ field, price }: { field: string; price: string }) {
         inputMode="numeric"
         maxLength={9}
         value={value}
-        onChange={e => {
-          e.preventDefault();
-          const regex = new RegExp(/[^\d,]+/g);
-          const caretPos = e.target.selectionStart ?? 0;
+        onChange={(e) => {
+          e.preventDefault()
+          const regex = new RegExp(/[^\d,]+/g)
+          const caretPos = e.target.selectionStart ?? 0
 
-          setCaretPos(caretPos - 1);
+          setCaretPos(caretPos - 1)
           if (regex.test(e.target.value)) {
-            setTrigger(!trigger);
-            return;
+            setTrigger(!trigger)
+            return
           }
 
-          const valueNum = +e.target.value.replaceAll(',', '');
-          const length = e.target.value.length;
+          const valueNum = +e.target.value.replaceAll(',', '')
+          const length = e.target.value.length
 
           if (Number.isNaN(valueNum)) {
-            return;
+            return
           }
 
-          const newValue = shortFormatter.format(valueNum);
+          const newValue = shortFormatter.format(valueNum)
 
-          setValue(newValue == '0' ? '' : newValue);
-          setCaretPos(caretPos + newValue.length - length);
+          setValue(newValue == '0' ? '' : newValue)
+          setCaretPos(caretPos + newValue.length - length)
         }}
       />
     </label>
-  );
+  )
 }

@@ -1,5 +1,5 @@
-import Skeleton from '@/app/_components/skeleton';
-import styles from './[id]/product.module.css';
+import Skeleton from '@/app/_components/skeleton'
+import styles from './[id]/product.module.css'
 
 export default function Loading() {
   return (
@@ -35,5 +35,5 @@ export default function Loading() {
         <Skeleton />
       </div>
     </div>
-  );
+  )
 }

@@ -276,9 +276,8 @@ export async function getSession() {
   const anonymous_token = cookiesJar.get(anonymousCookie)?.value
 
   if (!access_token && refresh_token) {
-    const { access_token: token, expires_in } = await refreshToken(
-      refresh_token
-    )
+    const { access_token: token, expires_in } =
+      await refreshToken(refresh_token)
 
     setSecureCookie(accessCookie, token, expires_in)
 

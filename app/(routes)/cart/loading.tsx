@@ -1,5 +1,5 @@
-import styles from './cart.module.css';
-import Skeleton from '@/app/_components/skeleton';
+import styles from './cart.module.css'
+import Skeleton from '@/app/_components/skeleton'
 
 export default function Loading() {
   return (
@@ -24,5 +24,5 @@ export default function Loading() {
         </div>
       </div>
     </div>
-  );
+  )
 }

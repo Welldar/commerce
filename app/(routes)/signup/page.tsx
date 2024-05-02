@@ -1,5 +1,5 @@
-import Login from '../login/login';
+import Login from '../login/login'
 
 export default function Page() {
-  return <Login></Login>;
+  return <Login></Login>
 }

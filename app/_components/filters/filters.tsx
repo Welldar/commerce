@@ -1,7 +1,7 @@
-import styles from './filters.module.css';
-import { Suspense } from 'react';
-import { PriceRange } from './price-range';
-import { Sort } from './sort';
+import styles from './filters.module.css'
+import { Suspense } from 'react'
+import { PriceRange } from './price-range'
+import { Sort } from './sort'
 
 export function Filters() {
   return (
@@ -12,5 +12,5 @@ export function Filters() {
         <PriceRange />
       </Suspense>
     </div>
-  );
+  )
 }

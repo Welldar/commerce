@@ -1,15 +1,15 @@
-'use client';
-import styles from './header.module.css';
-import Link from 'next/link';
-import { ReadonlyURLSearchParams, usePathname } from 'next/navigation';
-import { useAuth } from '../_hooks/useAuth';
-import { useQueryRouting } from '../_hooks/useQueryRouting';
-import { Suspense, useState } from 'react';
-import { formatPrice } from '../_utils/utility';
-import svg from '@/app/_assets/cart.svg';
-import Image from 'next/image';
-import { useCart } from '../_hooks/useCart';
-import { Modal } from './modal';
+'use client'
+import styles from './header.module.css'
+import Link from 'next/link'
+import { ReadonlyURLSearchParams, usePathname } from 'next/navigation'
+import { useAuth } from '../_hooks/useAuth'
+import { useQueryRouting } from '../_hooks/useQueryRouting'
+import { Suspense, useState } from 'react'
+import { formatPrice } from '../_utils/utility'
+import svg from '@/app/_assets/cart.svg'
+import Image from 'next/image'
+import { useCart } from '../_hooks/useCart'
+import { Modal } from './modal'
 
 export default function Header() {
   return (
@@ -18,21 +18,21 @@ export default function Header() {
         <HeaderInner></HeaderInner>
       </Suspense>
     </header>
-  );
+  )
 }
 
 function SearchBar() {
-  const { queryRouting, searchParams, pathname } = useQueryRouting();
-  const defaultValue = searchParams.get('text.en-US') ?? '';
+  const { queryRouting, searchParams, pathname } = useQueryRouting()
+  const defaultValue = searchParams.get('text.en-US') ?? ''
 
-  const searchable = pathname == '/' || pathname.includes('category');
+  const searchable = pathname == '/' || pathname.includes('category')
 
   return (
     <form
       className={styles.search}
-      onSubmit={e => {
+      onSubmit={(e) => {
         const value =
-          new FormData(e.currentTarget).get('text')?.toString() ?? '';
+          new FormData(e.currentTarget).get('text')?.toString() ?? ''
 
         queryRouting(
           'text.en-US',
@@ -41,8 +41,8 @@ function SearchBar() {
           searchable
             ? searchParams
             : new ReadonlyURLSearchParams(new URLSearchParams())
-        );
-        e.preventDefault();
+        )
+        e.preventDefault()
       }}
     >
       <input
@@ -57,14 +57,14 @@ function SearchBar() {
         Find
       </button>
     </form>
-  );
+  )
 }
 
 function HeaderInner() {
-  const pathname = usePathname();
+  const pathname = usePathname()
 
-  const { logOut, user } = useAuth();
-  const { cart } = useCart();
+  const { logOut, user } = useAuth()
+  const { cart } = useCart()
 
   return (
     <div className={styles.wrapper}>
@@ -121,11 +121,11 @@ function HeaderInner() {
         </Link>
       </div>
     </div>
-  );
+  )
 }
 
 function Logout({ logout }: { logout: React.ReactEventHandler }) {
-  const [isOpened, setIsOpened] = useState(false);
+  const [isOpened, setIsOpened] = useState(false)
 
   return (
     <>
@@ -143,5 +143,5 @@ function Logout({ logout }: { logout: React.ReactEventHandler }) {
         </Modal>
       ) : null}
     </>
-  );
+  )
 }

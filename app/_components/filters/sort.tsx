@@ -1,9 +1,9 @@
-'use client';
-import styles from './sort.module.css';
-import { useQueryRouting } from '../../_hooks/useQueryRouting';
+'use client'
+import styles from './sort.module.css'
+import { useQueryRouting } from '../../_hooks/useQueryRouting'
 
 export function Sort() {
-  const { queryRouting, searchParams } = useQueryRouting();
+  const { queryRouting, searchParams } = useQueryRouting()
 
   const options = [
     { name: 'new', value: 'lastModifiedAt desc' },
@@ -17,8 +17,8 @@ export function Sort() {
       name: 'price desc',
       value: 'variants.scopedPrice.currentValue.centAmount desc',
     },
-  ];
-  const selected = searchParams.get('sort') ?? options[0].value;
+  ]
+  const selected = searchParams.get('sort') ?? options[0].value
 
   return (
     <>
@@ -27,7 +27,7 @@ export function Sort() {
         <select
           className={styles.sort}
           id="sort"
-          onChange={e => queryRouting('sort', e.target.value)}
+          onChange={(e) => queryRouting('sort', e.target.value)}
           defaultValue={selected}
         >
           {options.map(({ name, value }) => (
@@ -38,5 +38,5 @@ export function Sort() {
         </select>
       </label>
     </>
-  );
+  )
 }

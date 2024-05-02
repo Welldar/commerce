@@ -1,18 +1,18 @@
-'use client';
-import { LineItem } from '@commercetools/platform-sdk';
-import { useCart } from '@/app/_hooks/useCart';
-import Image from 'next/image';
-import styles from './cart.module.css';
-import { formatPrice } from '../../_utils/utility';
-import { QuantityChanger } from '@/app/_components/quantityChanger';
-import Link from 'next/link';
-import Loading from './loading';
-import { Attr } from '@/app/_components/attributes';
+'use client'
+import { LineItem } from '@commercetools/platform-sdk'
+import { useCart } from '@/app/_hooks/useCart'
+import Image from 'next/image'
+import styles from './cart.module.css'
+import { formatPrice } from '../../_utils/utility'
+import { QuantityChanger } from '@/app/_components/quantityChanger'
+import Link from 'next/link'
+import Loading from './loading'
+import { Attr } from '@/app/_components/attributes'
 
 export function Cart() {
-  const { cart, isLoading } = useCart();
+  const { cart, isLoading } = useCart()
 
-  const empty = <h2 className={styles.h2}>You didnt buy anything</h2>;
+  const empty = <h2 className={styles.h2}>You didnt buy anything</h2>
 
   return isLoading ? (
     <Loading />
@@ -22,7 +22,7 @@ export function Cart() {
         <div className={styles.wrapper}>
           {cart
             ? cart.totalLineItemQuantity
-              ? cart.lineItems.map(lineItem => (
+              ? cart.lineItems.map((lineItem) => (
                   <ProductInCart
                     key={lineItem.id}
                     product={lineItem}
@@ -33,19 +33,19 @@ export function Cart() {
         </div>
       }
     </>
-  );
+  )
 }
 
 function ProductInCart({ product }: { product: LineItem }) {
-  const locale = 'en-US';
-  const variant = product.variant;
-  const img = variant.images?.[0];
+  const locale = 'en-US'
+  const variant = product.variant
+  const img = variant.images?.[0]
 
-  const totalUndiscountedPrice = { ...product.price.value };
+  const totalUndiscountedPrice = { ...product.price.value }
 
-  totalUndiscountedPrice.centAmount *= product.quantity;
+  totalUndiscountedPrice.centAmount *= product.quantity
 
-  const href = `/product/${product.productId}?variantId=${product.variant.id}`;
+  const href = `/product/${product.productId}?variantId=${product.variant.id}`
 
   return (
     <div className={styles.product}>
@@ -80,5 +80,5 @@ function ProductInCart({ product }: { product: LineItem }) {
         </div>
       </div>
     </div>
-  );
+  )
 }

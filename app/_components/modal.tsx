@@ -1,12 +1,12 @@
-import { createPortal } from 'react-dom';
-import styles from './modal.module.css';
+import { createPortal } from 'react-dom'
+import styles from './modal.module.css'
 
 export function Modal({
   children,
   onClose,
 }: {
-  children: React.ReactNode;
-  onClose: React.ReactEventHandler;
+  children: React.ReactNode
+  onClose: React.ReactEventHandler
 }) {
   const modal = (
     <div>
@@ -18,6 +18,6 @@ export function Modal({
         {children}
       </div>
     </div>
-  );
-  return createPortal(modal, document.body);
+  )
+  return createPortal(modal, document.body)
 }

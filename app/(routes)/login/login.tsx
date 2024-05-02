@@ -1,22 +1,22 @@
-'use client';
-import styles from './login.module.css';
-import { useRouter } from 'next/navigation';
-import { useAuth } from '@/app/_hooks/useAuth';
+'use client'
+import styles from './login.module.css'
+import { useRouter } from 'next/navigation'
+import { useAuth } from '@/app/_hooks/useAuth'
 
 export default function Login({ isLogin = false }: { isLogin?: boolean }) {
-  const router = useRouter();
-  const { loginAction } = useAuth();
+  const router = useRouter()
+  const { loginAction } = useAuth()
 
   return (
     <>
       <form
-        onSubmit={async e => {
-          e.preventDefault();
-          const form = new FormData(e.currentTarget);
+        onSubmit={async (e) => {
+          e.preventDefault()
+          const form = new FormData(e.currentTarget)
 
-          const success = await loginAction(form);
+          const success = await loginAction(form)
 
-          if (success) router.push('/');
+          if (success) router.push('/')
         }}
         className={styles.main}
       >
@@ -36,5 +36,5 @@ export default function Login({ isLogin = false }: { isLogin?: boolean }) {
         <button>{isLogin ? 'Войти' : 'Зарегистрироваться'}</button>
       </form>
     </>
-  );
+  )
 }

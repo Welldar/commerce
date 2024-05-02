@@ -1,11 +1,11 @@
-import { ProductProjection } from '@commercetools/platform-sdk';
-import styles from './productCard.module.css';
-import Link from 'next/link';
-import Carousel from './carousel';
-import { BuyButton } from './BuyButton';
-import { ForwardedRef, forwardRef } from 'react';
+import { ProductProjection } from '@commercetools/platform-sdk'
+import styles from './productCard.module.css'
+import Link from 'next/link'
+import Carousel from './carousel'
+import { BuyButton } from './BuyButton'
+import { ForwardedRef, forwardRef } from 'react'
 
-export const ProductCard = forwardRef(Product);
+export const ProductCard = forwardRef(Product)
 
 function Product(
   {
@@ -13,28 +13,28 @@ function Product(
     product,
     asc,
   }: {
-    locale: string;
-    product: ProductProjection;
-    asc: boolean | undefined;
+    locale: string
+    product: ProductProjection
+    asc: boolean | undefined
   },
   ref: ForwardedRef<any>
 ) {
-  const desc = product.description?.[locale] ?? '';
-  const productId = product.id;
+  const desc = product.description?.[locale] ?? ''
+  const productId = product.id
 
   const variants = [product.masterVariant, ...product.variants].filter(
-    variant => variant.isMatchingVariant
-  );
+    (variant) => variant.isMatchingVariant
+  )
 
   if (asc != undefined)
     variants.sort(({ scopedPrice: p1 }, { scopedPrice: p2 }) => {
-      if (asc) return p1!.currentValue.centAmount - p2!.currentValue.centAmount;
-      else return p2!.currentValue.centAmount - p1!.currentValue.centAmount;
-    });
-  const displayedVariant = variants[0] ?? product.masterVariant;
-  const images = displayedVariant.images;
+      if (asc) return p1!.currentValue.centAmount - p2!.currentValue.centAmount
+      else return p2!.currentValue.centAmount - p1!.currentValue.centAmount
+    })
+  const displayedVariant = variants[0] ?? product.masterVariant
+  const images = displayedVariant.images
 
-  const href = `/product/${product.id}?variantId=${displayedVariant.id}`;
+  const href = `/product/${product.id}?variantId=${displayedVariant.id}`
 
   return (
     <>
@@ -58,5 +58,5 @@ function Product(
         productVariant={displayedVariant}
       ></BuyButton>
     </>
-  );
+  )
 }
