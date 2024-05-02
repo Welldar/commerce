@@ -5,10 +5,12 @@ export function Modal({
   children,
   onClose,
   fullscreen = false,
+  forwardUntouched = false,
 }: {
   children: React.ReactNode
   onClose: React.ReactEventHandler
   fullscreen?: boolean
+  forwardUntouched?: boolean
 }) {
   const modal = (
     <div>
@@ -23,5 +25,15 @@ export function Modal({
       </div>
     </div>
   )
-  return createPortal(modal, document.body)
+  return forwardUntouched ? (
+    <div>
+      <div></div>
+      <div>
+        <span></span>
+        {children}
+      </div>
+    </div>
+  ) : (
+    createPortal(modal, document.body)
+  )
 }

@@ -79,22 +79,29 @@ export function Product({ product }: { product: ProductProjection }) {
 
 function CarouselWrapper({ images }: { images: ImageType[] }) {
   const [showModal, setShowModal] = useState(false)
+  const [dislayedInd, setDesplayedInd] = useState(0)
 
   return (
     <>
-      <div className={styles.carousel}>
-        <Carousel
-          onClick={() => setShowModal(true)}
-          className={styles.image + ' ' + 'keen-slider__slide'}
-          sizes="50vw"
-          slides={images}
-        />
-      </div>
-      {showModal ? (
+      {showModal && (
         <Modal fullscreen={true} onClose={() => setShowModal(false)}>
-          <Gallery images={images} />
+          <Gallery
+            displayedInd={dislayedInd}
+            setDisplayedInd={setDesplayedInd}
+            images={images}
+          />
         </Modal>
-      ) : null}
+      )}
+
+      <Gallery
+        displayedInd={dislayedInd}
+        setDisplayedInd={setDesplayedInd}
+        images={images}
+        wrapperClass={styles.galleryWrapper}
+        mainImgClass={styles.galleryMainImg}
+        thumbnailsClass={styles.galleryThumbnails}
+        onClick={() => setShowModal(true)}
+      />
     </>
   )
 }

@@ -10,16 +10,32 @@
   margin-bottom: 10px;
 }
 
-.image {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
+.galleryWrapper {
+  grid-template-columns: none;
+  grid-template-rows: 350px max-content;
 }
 
-.carousel {
-  display: flex;
-  flex-direction: column;
-  height: inherit;
+.galleryMainImg:hover {
+  cursor: pointer;
+  transform: scale(1.2, 1.2);
+  transition: transform 0.2s;
+}
+
+.galleryThumbnails {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, 100px);
+  gap: 5px;
+  justify-content: center;
+  scrollbar-gutter: auto;
+  position: relative;
+  top: -60px;
+  width: 120%;
+}
+
+.galleryThumbnails img {
+  height: 100px;
+  object-fit: contain;
+  background: white;
 }
 
 .checkout {
@@ -49,10 +65,4 @@
 
 img.highlighted {
   border: 2px solid saddlebrown;
-}
-
-.modal {
-  width: auto;
-  height: 80vh;
-  object-fit: contain;
 }
