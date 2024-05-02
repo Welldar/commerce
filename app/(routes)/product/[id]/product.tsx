@@ -91,7 +91,7 @@ function CarouselWrapper({ images }: { images: ImageType[] }) {
         />
       </div>
       {showModal ? (
-        <Modal onClose={() => setShowModal(false)}>
+        <Modal fullscreen={true} onClose={() => setShowModal(false)}>
           <Gallery images={images} />
         </Modal>
       ) : null}

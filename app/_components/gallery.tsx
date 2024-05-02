@@ -29,8 +29,6 @@ export function Gallery({
 
   return (
     <div className={styles.wrapper}>
-      <div className={styles.thumbnails}>{thumbnails}</div>
-
       <Image
         onClick={onClick}
         className={styles.image}
@@ -40,6 +38,7 @@ export function Gallery({
         height={img.dimensions.h}
         sizes="(max-width: 1920px) 90vw"
       />
+      <div className={styles.thumbnails}>{thumbnails}</div>
     </div>
   )
 }

@@ -1,12 +1,9 @@
 .wrapper {
   display: grid;
   gap: 20px;
-  grid-template-columns: 150px auto;
-  grid-auto-rows: minmax(100px, 100%);
+  grid-template-columns: auto 150px;
   justify-items: center;
   min-height: 0;
-  /* width: 100vw;
-  height: 100vh; */
 }
 
 .thumbnails {
@@ -14,9 +11,11 @@
   flex-direction: column;
   height: 100%;
   gap: 5px;
-  overflow-y: scroll;
+  overflow-y: auto;
   scrollbar-width: thin;
+  scrollbar-gutter: stable;
   padding: 10px;
+  min-height: 0;
 }
 
 .thumbnails img {
@@ -35,6 +34,7 @@ img.active {
 }
 
 .image {
+  min-height: 0;
   height: 100%;
   width: auto;
   max-width: 100%;
