@@ -38,6 +38,7 @@ export function Gallery({
   return (
     <div className={`${styles.wrapper} ${wrapperClass || ''}`}>
       <Image
+        priority={true}
         onClick={onClick}
         className={`${styles.image} ${mainImgClass || ''}`}
         alt=""

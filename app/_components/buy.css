@@ -4,7 +4,7 @@
   --hover-buy-bg-color: hsla(0, 0%, 100%, 0.15);
   background-color: hsl(50, 50%, 50%);
   padding: 0 10px;
-  height: 40px;
+  min-height: 40px;
   border: none;
   color: white;
   display: flex;
