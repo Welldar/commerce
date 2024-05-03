@@ -1,68 +1,34 @@
-// 'use client';
-import { useKeenSlider } from 'keen-slider/react'
-import 'keen-slider/keen-slider.min.css'
-import { useState } from 'react'
+import { Image as ImageType } from '@commercetools/platform-sdk'
 import Image from 'next/image'
-import { type Image as img } from '@commercetools/platform-sdk'
+import { useState } from 'react'
+import styles from './carousel.module.css'
 
-export default function Carousel({
-  slides,
-  className,
-  sizes,
-  onClick,
-}: {
-  slides: img[]
-  className: string
-  sizes: string
-  onClick?: React.ReactEventHandler
-}) {
-  const [currentSlide, setCurrentSlide] = useState(0)
-  const [loaded, setLoaded] = useState(false)
-  const [sliderRef, instanceRef] = useKeenSlider<HTMLDivElement>({
-    initial: 0,
-    slideChanged(slider) {
-      setCurrentSlide(slider.track.details.rel)
-    },
-    created() {
-      setLoaded(true)
-    },
-  })
+export function Carousel({ images }: { images: ImageType[] }) {
+  const [displayedInd, setDisplayedInd] = useState(0)
+
+  const Img = images[displayedInd]
+  const hoveredDivs = images.map((img, ind) => (
+    <div
+      key={ind}
+      className={displayedInd == ind ? styles.active : ''}
+      onPointerOver={() => setDisplayedInd(ind)}
+    ></div>
+  ))
 
   return (
-    <>
-      <div ref={sliderRef} className="keen-slider" onClick={onClick}>
-        {slides.map((im) => (
-          <Image
-            className={className}
-            style={{ visibility: loaded ? 'visible' : 'hidden' }}
-            src={im.url}
-            alt=""
-            key={im.url}
-            width={im.dimensions.w}
-            height={im.dimensions.h}
-            sizes={sizes}
-          ></Image>
-        ))}
+    <div className={styles.wrapper}>
+      <div className={styles.carousel}>
+        <Image
+          alt=""
+          src={Img.url}
+          width={Img.dimensions.w}
+          height={Img.dimensions.h}
+          sizes="(max-width: 1920px) 300px"
+        />
+        <div className={styles.hoveredDivs}>{hoveredDivs}</div>
       </div>
-      {loaded && instanceRef.current && (
-        <div className="dots">
-          {[
-            ...new Array(instanceRef.current.track.details.slides.length)
-              .fill(0)
-              .map((item, ind) => ind),
-          ].map((idx) => {
-            return (
-              <button
-                key={idx}
-                onClick={() => {
-                  instanceRef.current?.moveToIdx(idx)
-                }}
-                className={'dot' + (currentSlide === idx ? ' active' : '')}
-              ></button>
-            )
-          })}
-        </div>
-      )}
-    </>
+
+      <div className={styles.dots}>{hoveredDivs}</div>
+    </div>
   )
 }

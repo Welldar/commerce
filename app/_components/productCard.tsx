@@ -1,9 +1,9 @@
 import { ProductProjection } from '@commercetools/platform-sdk'
 import styles from './productCard.module.css'
 import Link from 'next/link'
-import Carousel from './carousel'
 import { BuyButton } from './BuyButton'
 import { ForwardedRef, forwardRef } from 'react'
+import { Carousel } from './carousel'
 
 export const ProductCard = forwardRef(Product)
 
@@ -41,15 +41,7 @@ function Product(
       <Link ref={ref} href={href}>
         <h3>{product.name[locale]}</h3>
       </Link>
-      {images ? (
-        <Carousel
-          sizes="(max-width: 768px) 50vw, 25vw"
-          slides={images}
-          className={styles.image + ' ' + 'keen-slider__slide'}
-        ></Carousel>
-      ) : (
-        <div>No photo</div>
-      )}
+      {images ? <Carousel images={images} /> : <div>No photo</div>}
       <Link href={href} className={styles.desc}>
         {desc}
       </Link>

@@ -1,0 +1,44 @@
+.wrapper {
+  --dots-radius: 8px;
+  display: grid;
+  grid-template-rows: calc(100% - var(--dots-radius) * 2) 1fr;
+}
+
+.carousel {
+  position: relative;
+}
+
+.carousel img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.hoveredDivs {
+  position: absolute;
+  inset: 0;
+  display: flex;
+}
+
+.hoveredDivs div {
+  flex-basis: 0;
+  flex-grow: 1;
+}
+
+.dots {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+}
+
+.dots div {
+  width: var(--dots-radius);
+  height: var(--dots-radius);
+  border-radius: 50%;
+  background-color: hsl(50, 50%, 50%);
+}
+
+.dots .active {
+  background-color: hsl(50deg 85.04% 16.6%);
+}
