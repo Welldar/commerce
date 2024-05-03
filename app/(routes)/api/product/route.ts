@@ -12,7 +12,7 @@ export async function GET(request: NextRequest) {
     id ?? undefined
   )
 
-  return NextResponse.json(productsData ? productsData.results : [], {
+  return NextResponse.json(productsData ? productsData : [], {
     status: 200,
   })
 }

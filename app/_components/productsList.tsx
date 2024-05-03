@@ -1,5 +1,5 @@
 'use client'
-import { ProductProjection } from '@commercetools/platform-sdk'
+import { ProductProjection } from './types'
 import { ProductCard } from './productCard'
 import { useInView } from 'react-intersection-observer'
 import { useEffect, useState } from 'react'
@@ -15,8 +15,6 @@ export function ProductList({
   const [allProducts, setAllProducts] = useState(products)
   const [offset, setOffset] = useState(0)
   const searchParams = useSearchParams()
-
-  const asc = searchParams.get('sort')?.endsWith('asc')
 
   const { ref } = useInView({
     triggerOnce: true,
@@ -38,7 +36,6 @@ export function ProductList({
       fetchProducts()
     },
   })
-  const locale = 'en-US'
 
   useEffect(() => {
     setAllProducts(products)
@@ -51,11 +48,7 @@ export function ProductList({
         ? 'Nothing was found'
         : allProducts.map((product, idx, arr) => (
             <li key={product.id} ref={arr.length - 1 == idx ? ref : null}>
-              <ProductCard
-                asc={asc}
-                locale={locale}
-                product={product}
-              ></ProductCard>
+              <ProductCard product={product}></ProductCard>
             </li>
           ))}
     </ul>

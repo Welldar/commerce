@@ -1,4 +1,4 @@
-import { ProductProjectionPagedSearchResponse } from '@commercetools/platform-sdk'
+import { ProductProjection } from './types'
 import { Filters } from './filters/filters'
 import { ProductList } from './productsList'
 import { CategoryList } from './categoryList'
@@ -9,7 +9,7 @@ export default function Main({
   slug,
   id,
 }: {
-  products: ProductProjectionPagedSearchResponse | null
+  products: ProductProjection[] | null
   slug: string
   id?: string
 }) {
@@ -18,7 +18,7 @@ export default function Main({
       <Filters />
       {products ? (
         <Suspense fallback={<h1>loading from main</h1>}>
-          <ProductList id={id} products={products.results} />
+          <ProductList id={id} products={products} />
         </Suspense>
       ) : (
         <div>No such a page</div>
