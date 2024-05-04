@@ -3,7 +3,6 @@ import {
   Image as ImageType,
   ProductProjection,
 } from '@commercetools/platform-sdk'
-import Carousel from '@/app/_components/carousel'
 import styles from './product.module.css'
 import { BuyButton } from '@/app/_components/BuyButton'
 import Image from 'next/image'

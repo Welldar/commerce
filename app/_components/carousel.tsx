@@ -25,6 +25,7 @@ export function Carousel({ images }: { images: ImageType[] }) {
           height={Img.dimensions.h}
           sizes="(max-width: 1920px) 300px"
         />
+
         <div className={styles.hoveredDivs}>{hoveredDivs}</div>
       </div>
 

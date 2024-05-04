@@ -20,7 +20,11 @@ export default function Main({
       <Filters />
       {products ? (
         <Suspense fallback={<h1>loading from main</h1>}>
-          <ProductList key={searchParams} categoryId={id} products={products} />
+          <ProductList
+            key={searchParams}
+            categoryId={id}
+            initialProducts={products}
+          />
         </Suspense>
       ) : (
         <div>No such a page</div>
