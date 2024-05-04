@@ -2,15 +2,15 @@
 import { ProductProjection } from './types'
 import { ProductCard } from './productCard'
 import { useInView } from 'react-intersection-observer'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { useSearchParams } from 'next/navigation'
 
 export function ProductList({
   products,
-  id,
+  categoryId,
 }: {
   products: ProductProjection[]
-  id?: string
+  categoryId?: string
 }) {
   const [allProducts, setAllProducts] = useState(products)
   const [offset, setOffset] = useState(0)
@@ -25,7 +25,7 @@ export function ProductList({
         const newOffset = offset + 20
         const params = new URLSearchParams(searchParams.toString())
         params.set('offset', newOffset.toString())
-        if (id) params.set('category', id)
+        if (categoryId) params.set('category', categoryId)
         const response = await fetch(`/api/product?${params.toString()}`)
         const newProducts = (await response.json()) as ProductProjection[]
 
@@ -36,11 +36,6 @@ export function ProductList({
       fetchProducts()
     },
   })
-
-  useEffect(() => {
-    setAllProducts(products)
-    setOffset(0)
-  }, [products])
 
   return (
     <ul className="grid">

@@ -31,6 +31,11 @@ a {
   visibility: hidden;
 }
 
+.overflow-hidden {
+  overflow: hidden;
+  scrollbar-gutter: stable;
+}
+
 .grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, 300px);
@@ -41,7 +46,7 @@ a {
   li {
     list-style: none;
     display: grid;
-    grid-template-rows: auto 300px max-content max-content auto;
+    grid-template-rows: 1fr 300px max-content max-content auto;
     gap: 10px;
 
     a:first-child {
