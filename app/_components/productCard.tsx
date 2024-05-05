@@ -2,11 +2,15 @@ import { ProductProjection } from './types'
 import styles from './productCard.module.css'
 import Link from 'next/link'
 import { BuyButton } from './BuyButton'
-import { ForwardedRef, forwardRef } from 'react'
+import { ForwardedRef, forwardRef, memo } from 'react'
 import { Carousel } from './carousel'
 import Skeleton from 'react-loading-skeleton'
 
-export const ProductCard = forwardRef(Product)
+export const ProductCard = memo(forwardRef(Product), (prevProp, nextProps) =>
+  prevProp.product && nextProps.product
+    ? prevProp.product.id == nextProps.product.id
+    : true
+)
 
 function Product(
   {
