@@ -1,7 +1,7 @@
 'use client'
 import { useRouter } from 'next/navigation'
 import { useContext, createContext, useState, useEffect } from 'react'
-import { Cart, Customer } from '@commercetools/platform-sdk'
+import type { Cart, Customer } from '@commercetools/platform-sdk'
 import { useCart } from './useCart'
 
 type userData = Customer | null

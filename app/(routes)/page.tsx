@@ -13,5 +13,5 @@ export default async function Page({
 
   const productsResponse = await products({ queryArgs: query })
 
-  return <Main slug="" products={productsResponse} />
+  return <Main products={productsResponse} />
 }

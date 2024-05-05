@@ -12,8 +12,8 @@ export default async function Page({
   params: { slug: string }
   searchParams?: { [key: string]: string | string[] | undefined }
 }) {
-  const cat = await category()
-  const id = cat.results.find((c) => c.slug['en-US'] == params.slug)?.id
+  const categories = await category()
+  const id = categories.results.find((c) => c.slug['en-US'] == params.slug)?.id
 
   if (!id) return notFound()
 
@@ -21,5 +21,5 @@ export default async function Page({
 
   const productsData = await products({ queryArgs: query }, id)
 
-  return <Main slug={params.slug} products={productsData} id={id}></Main>
+  return <Main products={productsData} id={id}></Main>
 }

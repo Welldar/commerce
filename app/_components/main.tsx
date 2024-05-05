@@ -6,24 +6,24 @@ import { Suspense } from 'react'
 
 export default function Main({
   products,
-  slug,
   id,
 }: {
   products: ProductProjection[] | null
-  slug: string
   id?: string
 }) {
   return (
     <main>
       <Filters />
       {products ? (
-        <Suspense fallback={<h1>loading from main</h1>}>
+        <Suspense fallback={<h1>loading products</h1>}>
           <ProductList categoryId={id} initialProducts={products} />
         </Suspense>
       ) : (
         <div>No such a page</div>
       )}
-      <CategoryList slug={slug} />
+      <Suspense fallback={<h1>Loading category</h1>}>
+        <CategoryList categoryId={id} />
+      </Suspense>
     </main>
   )
 }
