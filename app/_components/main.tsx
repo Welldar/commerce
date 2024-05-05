@@ -7,12 +7,10 @@ import { Suspense } from 'react'
 export default function Main({
   products,
   slug,
-  searchParams = '',
   id,
 }: {
   products: ProductProjection[] | null
   slug: string
-  searchParams?: string
   id?: string
 }) {
   return (
@@ -20,11 +18,7 @@ export default function Main({
       <Filters />
       {products ? (
         <Suspense fallback={<h1>loading from main</h1>}>
-          <ProductList
-            key={searchParams}
-            categoryId={id}
-            initialProducts={products}
-          />
+          <ProductList categoryId={id} initialProducts={products} />
         </Suspense>
       ) : (
         <div>No such a page</div>

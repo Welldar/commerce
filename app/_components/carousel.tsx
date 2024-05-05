@@ -7,11 +7,11 @@ export function Carousel({ images }: { images: ImageType[] }) {
   const [displayedInd, setDisplayedInd] = useState(0)
 
   const Img = images[displayedInd]
-  const hoveredDivs = images.map((img, ind) => (
+  const hoveredDivs = images.map((img, ind, arr) => (
     <div
       key={ind}
       className={displayedInd == ind ? styles.active : ''}
-      onPointerOver={() => setDisplayedInd(ind)}
+      onPointerOver={arr.length == 1 ? undefined : () => setDisplayedInd(ind)}
     ></div>
   ))
 
