@@ -1,72 +1,27 @@
-'use client'
-import { ProductProjection } from './types'
-import { ProductCard } from './productCard'
-import { useInView } from 'react-intersection-observer'
-import { useState } from 'react'
-import { useSearchParams } from 'next/navigation'
+import { products } from '../_services/commerce'
+import { parseParams } from '../_utils/utility'
+import { ProductListInner } from './productListClient'
 
-export function ProductList({
-  initialProducts,
+export async function ProductList({
+  searchParams,
   categoryId,
 }: {
-  initialProducts: ProductProjection[]
+  searchParams?: { [key: string]: string | string[] | undefined }
   categoryId?: string
 }) {
-  const [allProducts, setAllProducts] = useState(initialProducts)
-  const [offset, setOffset] = useState(0)
-  const [loaders, setLoaders] = useState<React.ReactNode[] | null>(null)
-  const searchParams = useSearchParams()
+  const query = parseParams(searchParams)
 
-  const { ref } = useInView({
-    triggerOnce: true,
-    onChange: (inView) => {
-      if (!inView) return
+  const productsResponse = await products({ queryArgs: query }, categoryId)
+  const searchString = query.toString()
 
-      const fetchProducts = async () => {
-        const newOffset = offset + 20
-        const params = new URLSearchParams(searchParams.toString())
-
-        params.set('offset', newOffset.toString())
-
-        if (categoryId) params.set('category', categoryId)
-
-        setLoaders(
-          new Array(16).fill(0).map((value, index) => (
-            <li key={index}>
-              <ProductCard />
-            </li>
-          ))
-        )
-
-        const response = await fetch(`/api/product?${params.toString()}`)
-
-        if (response.ok) {
-          const newProducts = (await response.json()) as ProductProjection[]
-
-          setOffset(newOffset)
-          setAllProducts((products) => [...products, ...newProducts])
-          setLoaders(null)
-        } else console.error(await response.json())
-      }
-
-      fetchProducts()
-    },
-  })
-
-  const skeletons = loaders ? loaders : []
-
-  return (
-    <ul className="grid">
-      {allProducts.length == 0
-        ? 'Nothing was found'
-        : [
-            ...allProducts.map((product, idx, arr) => (
-              <li key={product.id} ref={arr.length - 1 == idx ? ref : null}>
-                <ProductCard product={product} />
-              </li>
-            )),
-            ...skeletons,
-          ]}
-    </ul>
+  return productsResponse ? (
+    <ProductListInner
+      initialProducts={productsResponse}
+      key={searchString}
+      searchParams={searchString}
+      categoryId={categoryId}
+    />
+  ) : (
+    'no such a page'
   )
 }

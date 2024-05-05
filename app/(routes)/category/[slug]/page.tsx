@@ -17,9 +17,5 @@ export default async function Page({
 
   if (!id) return notFound()
 
-  const query = parseParams(searchParams)
-
-  const productsData = await products({ queryArgs: query }, id)
-
-  return <Main products={productsData} id={id}></Main>
+  return <Main searchParams={searchParams} id={id}></Main>
 }
