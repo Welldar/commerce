@@ -90,6 +90,7 @@
 
 .amount,
 .totalPrice {
+  min-width: 20px;
   right: 15px;
   transform: translateX(100%);
   line-height: 1;

@@ -10,6 +10,8 @@ import svg from '@/app/_assets/cart.svg'
 import Image from 'next/image'
 import { useCart } from '../_hooks/useCart'
 import { Modal } from './modal'
+import Skeleton from 'react-loading-skeleton'
+import { Spinner } from './spinner'
 
 export default function Header() {
   return (
@@ -63,8 +65,8 @@ function SearchBar() {
 function HeaderInner() {
   const pathname = usePathname()
 
-  const { logOut, user } = useAuth()
-  const { cart } = useCart()
+  const { logOut, user, isLoading: userLoading } = useAuth()
+  const { cart, isLoading: cartLoading } = useCart()
 
   return (
     <div className={styles.wrapper}>
@@ -73,7 +75,12 @@ function HeaderInner() {
         <Link className={pathname == '/' ? styles.active : ''} href="/">
           Main
         </Link>
-        {user ? (
+        {userLoading ? (
+          <>
+            <Skeleton />
+            <Skeleton />
+          </>
+        ) : user ? (
           <>
             <span>{user.firstName ?? user.email}</span>
             <Logout logout={logOut} />
@@ -108,14 +115,18 @@ function HeaderInner() {
               width={svg.width}
               height={svg.height}
               alt=""
-            ></Image>
+            />
             <span className={styles.amount}>
-              {cart?.totalLineItemQuantity ?? 0}
+              {cartLoading ? <Spinner /> : cart?.totalLineItemQuantity ?? 0}
             </span>
             <span className={styles.totalPrice}>
-              {cart?.totalPrice
-                ? formatPrice(cart?.totalPrice).slice(0, -3)
-                : '$0'}
+              {cartLoading ? (
+                <Spinner />
+              ) : cart?.totalPrice ? (
+                formatPrice(cart?.totalPrice).slice(0, -3)
+              ) : (
+                '$0'
+              )}
             </span>
           </div>
         </Link>

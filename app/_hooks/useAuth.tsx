@@ -10,14 +10,14 @@ type authContext = {
   user: userData
   loginAction: (data: FormData) => Promise<boolean>
   logOut: () => void
-  loading: boolean
+  isLoading: boolean
 }
 
 const AuthContext = createContext<authContext | null>(null)
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<userData>(null)
-  const [loading, setLoading] = useState(true)
+  const [isLoading, setIsLoading] = useState(true)
   const { setCart } = useCart()
   const router = useRouter()
 
@@ -78,7 +78,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
             break
         }
 
-        setLoading(false)
+        setIsLoading(false)
       }
     }
 
@@ -90,7 +90,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, [])
 
   return (
-    <AuthContext.Provider value={{ user, loginAction, logOut, loading }}>
+    <AuthContext.Provider value={{ user, loginAction, logOut, isLoading }}>
       {children}
     </AuthContext.Provider>
   )
