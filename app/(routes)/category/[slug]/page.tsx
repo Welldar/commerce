@@ -1,6 +1,5 @@
 import Main from '@/app/_components/main'
-import { parseParams } from '@/app/_utils/utility'
-import { category, products } from '@/app/_services/commerce'
+import { category } from '@/app/_services/commerce'
 import { notFound } from 'next/navigation'
 
 export const revalidate = 0

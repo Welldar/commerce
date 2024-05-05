@@ -36,9 +36,9 @@ export function PriceRange() {
         queryRouting('price_range', `${from}:${to}`)
       }}
     >
-      <PriceInput field="from" price={from}></PriceInput>
-      <PriceInput field="to" price={to}></PriceInput>
-      <button type="submit" style={{ display: 'none' }}></button>
+      <PriceInput field="from" price={from} />
+      <PriceInput field="to" price={to} />
+      <button type="submit" style={{ display: 'none' }} />
     </form>
   )
 }
@@ -49,11 +49,12 @@ function PriceInput({ field, price }: { field: string; price: string }) {
   const [trigger, setTrigger] = useState(true)
   const ref = useRef<HTMLInputElement>(null)
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (!ref.current) return
 
     ref.current.selectionStart = ref.current.selectionEnd = caretPos
   }, [caretPos, trigger])
+
   return (
     <label htmlFor={field} className={styles['price-input']}>
       <span>{field}</span>

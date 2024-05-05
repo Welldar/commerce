@@ -35,8 +35,7 @@ export async function CategoryList({ categoryId }: { categoryId?: string }) {
   ]
 
   return (
-    <div>
-      <h2 className={styles.h2}>Categories</h2>
+    <>
       <nav className={styles.nav}>{breadcrumbs}</nav>
       <ul className={styles.list}>
         {currentTree.map((c) => (
@@ -45,6 +44,6 @@ export async function CategoryList({ categoryId }: { categoryId?: string }) {
           </li>
         ))}
       </ul>
-    </div>
+    </>
   )
 }

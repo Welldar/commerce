@@ -27,6 +27,10 @@ a {
   text-decoration: none;
 }
 
+.lineHeight-1 {
+  line-height: 1;
+}
+
 .hidden {
   visibility: hidden;
 }

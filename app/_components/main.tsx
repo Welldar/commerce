@@ -2,6 +2,7 @@ import { Filters } from './filters/filters'
 import { ProductList } from './productsList'
 import { CategoryList } from './categoryList'
 import { Suspense } from 'react'
+import { CategoriesLoader, ProductListLoader } from '../(routes)/loading'
 
 export default function Main({
   id,
@@ -13,13 +14,16 @@ export default function Main({
   return (
     <main>
       <Filters />
-      <Suspense fallback={<h1>loading products</h1>}>
+      <Suspense fallback={<ProductListLoader />}>
         <ProductList searchParams={searchParams} categoryId={id} />
       </Suspense>
 
-      <Suspense fallback={<h1>Loading category</h1>}>
-        <CategoryList categoryId={id} />
-      </Suspense>
+      <div>
+        <h2>Categories</h2>
+        <Suspense fallback={<CategoriesLoader />}>
+          <CategoryList categoryId={id} />
+        </Suspense>
+      </div>
     </main>
   )
 }

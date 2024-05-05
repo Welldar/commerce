@@ -22,7 +22,6 @@ export function Sort() {
 
   return (
     <>
-      <h3>Sort by</h3>
       <label htmlFor="sort">
         <select
           className={styles.sort}
