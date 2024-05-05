@@ -2,40 +2,41 @@ import { category } from '@/app/_services/commerce'
 import Link from 'next/link'
 import styles from './categoryList.module.css'
 
-export async function CategoryList({ slug }: { slug: string }) {
-  const cat = await category()
+export async function CategoryList({ categoryId }: { categoryId?: string }) {
   const locale = 'en-US'
+  const categories = await category()
 
-  const id = cat.results.find((c) => c.slug[locale] == slug)
-
-  const currentTree = id
-    ? cat.results.filter((c) => c.parent?.id == id.id)
-    : cat.results.filter((c) => !c.parent)
-
-  const nav =
-    id?.ancestors.map((c) =>
-      cat.results.find((categor) => categor.id == c.id)
-    ) ?? []
-
-  nav.push(id)
-
-  const breadcrumbs = nav.map((c) =>
-    c ? (
-      <Link key={c.id} href={c.slug[locale]}>
-        {c.name[locale]}
-      </Link>
-    ) : null
+  const currentCategory = categories.results.find(
+    (category) => category.id == categoryId
   )
 
-  breadcrumbs.unshift(
+  const currentTree = categoryId
+    ? categories.results.filter((category) => category.parent?.id == categoryId)
+    : categories.results.filter((category) => !category.parent)
+
+  const nav = [
+    ...(currentCategory?.ancestors.map(({ id }) =>
+      categories.results.find((category) => category.id == id)
+    ) ?? []),
+    currentCategory,
+  ]
+
+  const breadcrumbs = [
     <Link key="/" href="/">
       All
-    </Link>
-  )
+    </Link>,
+    ...nav.map((category) =>
+      category ? (
+        <Link key={category.id} href={category.slug[locale]}>
+          {category.name[locale]}
+        </Link>
+      ) : null
+    ),
+  ]
 
   return (
     <div>
-      <h2 className={styles.h2}>Категории</h2>
+      <h2 className={styles.h2}>Categories</h2>
       <nav className={styles.nav}>{breadcrumbs}</nav>
       <ul className={styles.list}>
         {currentTree.map((c) => (
