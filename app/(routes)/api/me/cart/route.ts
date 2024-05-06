@@ -11,7 +11,6 @@ import {
 import { getSession } from '@/app/_utils/serverUtility'
 import { setSecureCookie } from '@/app/_utils/serverUtility'
 import {
-  CartAddLineItemAction,
   LineItemDraft,
   MyCartAddLineItemAction,
   MyCartUpdate,

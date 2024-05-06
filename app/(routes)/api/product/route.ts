@@ -1,4 +1,4 @@
-import { products } from '@/app/_services/storefront'
+import { getProducts } from '@/app/_services/storefront'
 import { NextRequest, NextResponse } from 'next/server'
 
 export async function GET(request: NextRequest) {
@@ -7,10 +7,7 @@ export async function GET(request: NextRequest) {
 
   searchParams.delete('category')
 
-  const productsData = await products(
-    { queryArgs: searchParams },
-    id ?? undefined
-  )
+  const productsData = await getProducts(searchParams, id ?? undefined)
 
   return NextResponse.json(productsData ? productsData : [], {
     status: 200,

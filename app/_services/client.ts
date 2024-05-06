@@ -17,6 +17,7 @@ class ApiClient {
     path: string,
     { requestInit = {}, token }: { requestInit?: RequestInit; token?: string }
   ) {
+    token = token ? `Bearer ${token}` : undefined
     const authToken = token ?? this.bearerToken ?? (await this.getToken())
 
     const url = `${this.apiUrl}/${this.projectKey}/${path}`
@@ -38,11 +39,11 @@ class ApiClient {
 
   async get(
     path: string,
-    {
-      queryArgs = new URLSearchParams(),
-      token,
-    }: { queryArgs?: URLSearchParams; token?: string }
+    options?: { queryArgs?: URLSearchParams; token?: string }
   ) {
+    const queryArgs = options?.queryArgs ?? new URLSearchParams()
+    const token = options?.token
+
     return this.makeRequest(`${path}?${queryArgs.toString()}`, {
       token,
     })
@@ -59,4 +60,4 @@ class ApiClient {
   }
 }
 
-export const apiClient = new ApiClient()
+export const client = new ApiClient()

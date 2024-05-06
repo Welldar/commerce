@@ -1,4 +1,5 @@
-import { client } from './apiClient'
+import { authorizeAnon, authorizeUser, refreshToken } from './auth'
+import { client } from './client'
 
 import {
   Customer,
@@ -10,16 +11,18 @@ import {
 } from '@commercetools/platform-sdk'
 
 export async function login(credentials: { email: string; password: string }) {
-  return client.authorizeUser(credentials)
+  return authorizeUser(credentials)
 }
 export async function user(token: string): Promise<Customer> {
-  return client.request('me', 'GET', { token })
+  return client.get('me', { token })
 }
 
 export async function getCart(token: string): Promise<Cart | null> {
-  const response = (await client.request('me/active-cart', 'GET', {
+  const response = (await client.get('me/active-cart', {
     token,
   })) as Cart | ResourceNotFoundError
+
+  console.log(response)
 
   const predicate = (cart: Cart | ResourceNotFoundError): cart is Cart =>
     'errors' in cart ? false : true
@@ -37,7 +40,7 @@ export async function createCart(
     locale: 'en-US',
     lineItems: [lineItem],
   }
-  return client.request('me/carts', 'POST', { body, token })
+  return client.post('me/carts', { body, token })
 }
 
 export async function updateCart(
@@ -45,13 +48,13 @@ export async function updateCart(
   cartId: string,
   body: MyCartUpdate
 ): Promise<Cart> {
-  return client.request(`me/carts/${cartId}`, 'POST', { body, token })
+  return client.post(`me/carts/${cartId}`, { body, token })
 }
 
-export async function refreshToken(token: string) {
-  return client.refreshToken(token)
+export async function updateToken(token: string) {
+  return refreshToken(token)
 }
 
 export async function getAnonToken() {
-  return client.authorizeAnon()
+  return authorizeAnon()
 }

@@ -1,10 +1,10 @@
-import { category } from '../_services/storefront'
+import { getCategories } from '../_services/storefront'
 import Link from 'next/link'
 import styles from './categoryList.module.css'
 
 export async function CategoryList({ categoryId }: { categoryId?: string }) {
   const locale = 'en-US'
-  const categories = await category()
+  const categories = await getCategories()
 
   const currentCategory = categories.results.find(
     (category) => category.id == categoryId

@@ -1,4 +1,4 @@
-import { products } from '../_services/storefront'
+import { getProducts } from '../_services/storefront'
 import { parseParams } from '../_utils/clientUtility'
 import { ProductListInner } from './productListClient'
 
@@ -11,7 +11,7 @@ export async function ProductList({
 }) {
   const query = parseParams(searchParams)
 
-  const productsResponse = await products({ queryArgs: query }, categoryId)
+  const productsResponse = await getProducts(query, categoryId)
   const searchString = query.toString()
 
   return productsResponse ? (
