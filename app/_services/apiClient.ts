@@ -48,8 +48,6 @@ class ApiClient {
   }): Promise<authUserRespone> {
     const Authorization = this.basicAuthHeader
 
-    // &scope=view_published_products:${this.projectKey}%20manage_my_orders:${this.projectKey}%20manage_my_profile:${this.projectKey}
-
     const response = await fetch(
       `${this.authUrl}/oauth/${this.projectKey}/customers/token?grant_type=password&username=${email}&password=${password}`,
       { method: 'POST', headers: { Authorization }, cache: 'no-cache' }
@@ -93,14 +91,12 @@ class ApiClient {
       options.queryArgs ? '?' + options.queryArgs.toString() : ''
     }`
 
-    console.log(url, ' eldar ')
-
     if (options.token) options.token = `Bearer ${options.token}`
 
     const Authorization =
       options.token ?? this.bearerAuthHeader ?? (await this.authorizeClient())
 
-    console.log(Authorization, path)
+    console.log(Authorization, url)
 
     const fetchData = (Authorization: string) =>
       fetch(url, {
