@@ -1,5 +1,5 @@
 import Main from '@/app/_components/main'
-import { category } from '@/app/_services/commerce'
+import { category } from '@/app/_services/storefront'
 import { notFound } from 'next/navigation'
 
 export const revalidate = 0

@@ -2,7 +2,7 @@
 import { ProductCard } from './productCard'
 import { useInView } from 'react-intersection-observer'
 import { useState } from 'react'
-import { ProductProjection } from './types'
+import { ProductProjection } from '../_services/interfaces'
 
 export function ProductListInner({
   initialProducts,

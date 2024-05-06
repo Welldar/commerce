@@ -1,4 +1,4 @@
-import { category } from '@/app/_services/commerce'
+import { category } from '../_services/storefront'
 import Link from 'next/link'
 import styles from './categoryList.module.css'
 

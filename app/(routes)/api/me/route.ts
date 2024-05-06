@@ -1,4 +1,5 @@
-import { getSession, user } from '@/app/_services/commerce'
+import { user } from '@/app/_services/user'
+import { getSession } from '@/app/_utils/serverUtility'
 
 import { NextRequest, NextResponse } from 'next/server'
 

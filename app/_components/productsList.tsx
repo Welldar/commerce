@@ -1,5 +1,5 @@
-import { products } from '../_services/commerce'
-import { parseParams } from '../_utils/utility'
+import { products } from '../_services/storefront'
+import { parseParams } from '../_utils/clientUtility'
 import { ProductListInner } from './productListClient'
 
 export async function ProductList({

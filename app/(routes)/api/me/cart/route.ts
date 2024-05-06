@@ -1,13 +1,15 @@
 import {
   updateCart,
-  anonymousCookie,
-  anonymousRefreshCookie,
   createCart,
   getAnonToken,
   getCart,
-  getSession,
-  setSecureCookie,
-} from '@/app/_services/commerce'
+} from '@/app/_services/user'
+import {
+  anonymousCookie,
+  anonymousRefreshCookie,
+} from '@/app/_utils/serverUtility'
+import { getSession } from '@/app/_utils/serverUtility'
+import { setSecureCookie } from '@/app/_utils/serverUtility'
 import {
   CartAddLineItemAction,
   LineItemDraft,

@@ -1,11 +1,6 @@
-import {
-  accessCookie,
-  getCart,
-  login,
-  refreshCookie,
-  setSecureCookie,
-  user,
-} from '@/app/_services/commerce'
+import { getCart, login, user } from '@/app/_services/user'
+import { accessCookie, refreshCookie } from '@/app/_utils/serverUtility'
+import { setSecureCookie } from '@/app/_utils/serverUtility'
 import { NextRequest, NextResponse } from 'next/server'
 
 export async function POST(request: NextRequest) {

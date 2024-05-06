@@ -1,6 +1,6 @@
 'use client'
 import { ProductVariant } from '@commercetools/platform-sdk'
-import { formatPrice } from '../_utils/utility'
+import { formatPrice } from '../_utils/clientUtility'
 import './buy.css'
 import { useCart } from '../_hooks/useCart'
 import { QuantityChanger } from './quantityChanger'

@@ -1,5 +1,5 @@
 import { Product } from './product'
-import { product as productById } from '@/app/_services/commerce'
+import { product as productById } from '@/app/_services/storefront'
 import { notFound } from 'next/navigation'
 
 export default async function Page({ params }: { params: { id: string } }) {

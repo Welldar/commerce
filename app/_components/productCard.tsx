@@ -1,4 +1,4 @@
-import { ProductProjection } from './types'
+import { ProductProjection } from '../_services/interfaces'
 import styles from './productCard.module.css'
 import Link from 'next/link'
 import { BuyButton } from './BuyButton'

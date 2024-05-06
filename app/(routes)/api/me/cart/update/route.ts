@@ -1,4 +1,5 @@
-import { updateCart, getCart, getSession } from '@/app/_services/commerce'
+import { updateCart, getCart } from '@/app/_services/user'
+import { getSession } from '@/app/_utils/serverUtility'
 import {
   MyCartChangeLineItemQuantityAction,
   MyCartUpdate,

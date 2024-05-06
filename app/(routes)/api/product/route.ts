@@ -1,4 +1,4 @@
-import { products } from '@/app/_services/commerce'
+import { products } from '@/app/_services/storefront'
 import { NextRequest, NextResponse } from 'next/server'
 
 export async function GET(request: NextRequest) {
