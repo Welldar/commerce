@@ -15,7 +15,7 @@ class ApiClient {
 
   async makeRequest(
     path: string,
-    { requestInit, token }: { requestInit: RequestInit; token?: string }
+    { requestInit = {}, token }: { requestInit?: RequestInit; token?: string }
   ) {
     const authToken = token ?? this.bearerToken ?? (await this.getToken())
 
@@ -38,16 +38,17 @@ class ApiClient {
 
   async get(
     path: string,
-    queryArgs: URLSearchParams = new URLSearchParams(),
-    token?: string
+    {
+      queryArgs = new URLSearchParams(),
+      token,
+    }: { queryArgs?: URLSearchParams; token?: string }
   ) {
     return this.makeRequest(`${path}?${queryArgs.toString()}`, {
-      requestInit: {},
       token,
     })
   }
 
-  async post(path: string, body: object | undefined, token?: string) {
+  async post(path: string, { body, token }: { body?: object; token?: string }) {
     const requestInit: RequestInit = {
       body: JSON.stringify(body),
       method: 'POST',

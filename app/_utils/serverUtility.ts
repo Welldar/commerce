@@ -1,6 +1,5 @@
 import { cookies } from 'next/headers'
 import { refreshToken } from '../_services/user'
-import { accessCookie, refreshCookie, anonymousCookie } from './serverUtility'
 
 export function setSecureCookie(
   name: string,
