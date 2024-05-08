@@ -1,7 +1,6 @@
-import { authorizeAnon, authorizeUser, refreshToken } from './auth'
 import { client } from './client'
 
-import {
+import type {
   Customer,
   Cart,
   ResourceNotFoundError,
@@ -10,10 +9,7 @@ import {
   MyCartUpdate,
 } from '@commercetools/platform-sdk'
 
-export async function login(credentials: { email: string; password: string }) {
-  return authorizeUser(credentials)
-}
-export async function user(token: string): Promise<Customer> {
+export async function getUser(token: string): Promise<Customer> {
   return client.get('me', { token })
 }
 
@@ -21,8 +17,6 @@ export async function getCart(token: string): Promise<Cart | null> {
   const response = (await client.get('me/active-cart', {
     token,
   })) as Cart | ResourceNotFoundError
-
-  console.log(response)
 
   const predicate = (cart: Cart | ResourceNotFoundError): cart is Cart =>
     'errors' in cart ? false : true
@@ -49,12 +43,4 @@ export async function updateCart(
   body: MyCartUpdate
 ): Promise<Cart> {
   return client.post(`me/carts/${cartId}`, { body, token })
-}
-
-export async function updateToken(token: string) {
-  return refreshToken(token)
-}
-
-export async function getAnonToken() {
-  return authorizeAnon()
 }

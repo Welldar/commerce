@@ -1,3 +1,4 @@
+import { queriesAdapter } from '../_utils/serverUtility'
 import { client } from './client'
 
 import type {
@@ -15,27 +16,7 @@ export async function getProducts(
   queryArgs: URLSearchParams = new URLSearchParams(),
   categoryId?: string
 ) {
-  queryArgs.set('localeProjection', 'en-US')
-  queryArgs.set('priceCurrency', 'USD')
-  queryArgs.set('priceCountry', 'US')
-  queryArgs.set('markMatchingVariants', 'true')
-  queryArgs.get('sort') ? null : queryArgs.set('sort', 'lastModifiedAt desc')
-
-  const priceRange = queryArgs.get('price_range')
-
-  if (priceRange) {
-    let [from, to] = priceRange
-      .split(':')
-      .map((item) => (item ? item.concat('00') : '*'))
-
-    queryArgs.append(
-      'filter.query',
-      `variants.scopedPrice.currentValue.centAmount:range(${from} to ${to})`
-    )
-  }
-
-  if (categoryId)
-    queryArgs.append('filter.query', `categories.id: subtree("${categoryId}")`)
+  queryArgs = queriesAdapter(queryArgs, categoryId)
 
   const predicate = (
     products: productsResponse

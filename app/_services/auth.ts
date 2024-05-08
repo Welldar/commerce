@@ -1,4 +1,13 @@
-import { authClientResponse, authUserRespone } from './interfaces'
+export type authClientResponse = {
+  access_token: string
+  expires_in: number // seconds (2 days)
+  scope: string
+  token_type: string
+}
+
+export type authUserRespone = authClientResponse & {
+  refresh_token: string
+}
 
 const authUrl = process.env.AUTH_URL
 const projectKey = process.env.PROJECT_KEY

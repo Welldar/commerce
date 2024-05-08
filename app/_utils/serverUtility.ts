@@ -1,5 +1,5 @@
 import { cookies } from 'next/headers'
-import { updateToken } from '../_services/user'
+import { refreshToken } from '../_services/auth'
 
 export function setSecureCookie(
   name: string,
@@ -24,7 +24,8 @@ export async function getSession() {
   const anonymous_token = cookiesJar.get(anonymousCookie)?.value
 
   if (!access_token && refresh_token) {
-    const { access_token: token, expires_in } = await updateToken(refresh_token)
+    const { access_token: token, expires_in } =
+      await refreshToken(refresh_token)
 
     setSecureCookie(accessCookie, token, expires_in)
 
@@ -33,6 +34,36 @@ export async function getSession() {
 
   return { access_token, refresh_token, anonymous_token }
 }
+
+export function queriesAdapter(
+  queryArgs: URLSearchParams,
+  categoryId?: string
+) {
+  queryArgs.set('localeProjection', 'en-US')
+  queryArgs.set('priceCurrency', 'USD')
+  queryArgs.set('priceCountry', 'US')
+  queryArgs.set('markMatchingVariants', 'true')
+  queryArgs.get('sort') ? null : queryArgs.set('sort', 'lastModifiedAt desc')
+
+  const priceRange = queryArgs.get('price_range')
+
+  if (priceRange) {
+    let [from, to] = priceRange
+      .split(':')
+      .map((item) => (item ? item.concat('00') : '*'))
+
+    queryArgs.append(
+      'filter.query',
+      `variants.scopedPrice.currentValue.centAmount:range(${from} to ${to})`
+    )
+  }
+
+  if (categoryId)
+    queryArgs.append('filter.query', `categories.id: subtree("${categoryId}")`)
+
+  return queryArgs
+}
+
 export const accessCookie = 'access-token'
 export const refreshCookie = 'refresh-token'
 export const anonymousCookie = 'anon-token'
