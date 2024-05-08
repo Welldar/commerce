@@ -1,9 +1,5 @@
-import {
-  updateCart,
-  createCart,
-  getAnonToken,
-  getCart,
-} from '@/app/_services/user'
+import { authorizeAnon } from '@/app/_services/auth'
+import { updateCart, createCart, getCart } from '@/app/_services/user'
 import {
   anonymousCookie,
   anonymousRefreshCookie,
@@ -21,7 +17,7 @@ export async function POST(request: NextRequest) {
   let { access_token, anonymous_token } = await getSession()
 
   if (!access_token && !anonymous_token) {
-    const { access_token, expires_in, refresh_token } = await getAnonToken()
+    const { access_token, expires_in, refresh_token } = await authorizeAnon()
 
     setSecureCookie(anonymousCookie, access_token, expires_in)
     setSecureCookie(anonymousRefreshCookie, refresh_token)

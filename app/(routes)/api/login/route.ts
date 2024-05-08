@@ -1,4 +1,5 @@
-import { getCart, login, user } from '@/app/_services/user'
+import { authorizeUser } from '@/app/_services/auth'
+import { getCart, getUser } from '@/app/_services/user'
 import { accessCookie, refreshCookie } from '@/app/_utils/serverUtility'
 import { setSecureCookie } from '@/app/_utils/serverUtility'
 import { NextRequest, NextResponse } from 'next/server'
@@ -14,13 +15,13 @@ export async function POST(request: NextRequest) {
       { status: 401, statusText: 'invalid credentials' }
     )
 
-  const { access_token, expires_in, refresh_token } = await login({
+  const { access_token, expires_in, refresh_token } = await authorizeUser({
     email,
     password,
   })
 
   const [customer, cart] = await Promise.all([
-    user(access_token),
+    getUser(access_token),
     getCart(access_token),
   ])
 

@@ -1,4 +1,4 @@
-import { user } from '@/app/_services/user'
+import { getUser } from '@/app/_services/user'
 import { getSession } from '@/app/_utils/serverUtility'
 
 import { NextRequest, NextResponse } from 'next/server'
@@ -9,7 +9,7 @@ export async function GET(request: NextRequest) {
   if (!access_token)
     return NextResponse.json('', { status: 401, statusText: 'invalid token' })
 
-  const customer = await user(access_token)
+  const customer = await getUser(access_token)
 
   return NextResponse.json(customer)
 }
