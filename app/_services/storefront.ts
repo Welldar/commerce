@@ -1,4 +1,4 @@
-import { queriesAdapter } from '../_utils/serverUtility'
+import { productAdapter, queriesAdapter } from '../_utils/serverUtility'
 import { client } from './client'
 
 import type {
@@ -18,7 +18,7 @@ export async function getProducts(
 ) {
   queryArgs = queriesAdapter(queryArgs, categoryId)
 
-  const predicate = (
+  const isProductsResponse = (
     products: productsResponse
   ): products is ProductProjectionPagedSearchResponse =>
     'errors' in products ? false : true
@@ -27,34 +27,14 @@ export async function getProducts(
     queryArgs,
   })) as productsResponse
 
-  if (predicate(response)) {
-    const sort = queryArgs.get('sort')
-    let asc: boolean | undefined = undefined
+  if (isProductsResponse(response)) {
+    const sort = queryArgs.get('sort') ?? ''
+    const asc = sort.includes('centAmount') ? sort.includes('asc') : undefined
 
-    if (sort?.includes('centAmount')) asc = sort.includes('asc')
+    const modifiedResponse = response.results.map((product) =>
+      productAdapter(product, asc)
+    )
 
-    const modifiedResponse = response.results.map((product) => {
-      const variants = [product.masterVariant, ...product.variants].filter(
-        (variant) => variant.isMatchingVariant
-      )
-
-      if (asc != undefined)
-        variants.sort(({ scopedPrice: p1 }, { scopedPrice: p2 }) => {
-          if (asc)
-            return p1!.currentValue.centAmount - p2!.currentValue.centAmount
-          else return p2!.currentValue.centAmount - p1!.currentValue.centAmount
-        })
-
-      const displayedVariant = variants[0] ?? product.masterVariant
-
-      const modifiedProduct = {
-        name: product.name['en-US'],
-        description: product.description?.['en-US'],
-        id: product.id,
-        masterVariant: displayedVariant,
-      }
-      return modifiedProduct
-    })
     return modifiedResponse
   } else return null
 }

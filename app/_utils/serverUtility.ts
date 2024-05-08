@@ -1,5 +1,6 @@
 import { cookies } from 'next/headers'
 import { refreshToken } from '../_services/auth'
+import { ProductProjection } from '@commercetools/platform-sdk'
 
 export function setSecureCookie(
   name: string,
@@ -62,6 +63,27 @@ export function queriesAdapter(
     queryArgs.append('filter.query', `categories.id: subtree("${categoryId}")`)
 
   return queryArgs
+}
+
+export function productAdapter(product: ProductProjection, asc?: boolean) {
+  const variants = [product.masterVariant, ...product.variants].filter(
+    (variant) => variant.isMatchingVariant
+  )
+
+  if (asc != undefined)
+    variants.sort(({ scopedPrice: p1 }, { scopedPrice: p2 }) => {
+      if (asc) return p1!.currentValue.centAmount - p2!.currentValue.centAmount
+      else return p2!.currentValue.centAmount - p1!.currentValue.centAmount
+    })
+
+  const displayedVariant = variants[0] ?? product.masterVariant
+
+  return {
+    name: product.name['en-US'],
+    description: product.description?.['en-US'],
+    id: product.id,
+    masterVariant: displayedVariant,
+  }
 }
 
 export const accessCookie = 'access-token'
