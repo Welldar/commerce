@@ -1,14 +1,14 @@
 'use client'
-import { useRouter } from 'next/navigation'
 import { useContext, createContext, useState, useEffect } from 'react'
-import type { Cart, Customer } from '@commercetools/platform-sdk'
+import type { Customer } from '@commercetools/platform-sdk'
 import { useCart } from './useCart'
+import { logoutAction, loginAction } from '../_actions/authActions'
 
 type userData = Customer | null
 
 type authContext = {
   user: userData
-  loginAction: (data: FormData) => Promise<boolean>
+  login: (data: FormData) => Promise<any>
   logOut: () => void
   isLoading: boolean
 }
@@ -19,45 +19,23 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<userData>(null)
   const [isLoading, setIsLoading] = useState(true)
   const { setCart } = useCart()
-  const router = useRouter()
 
-  const loginAction = async (data: FormData) => {
-    try {
-      const response = await fetch('/api/login/', {
-        method: 'POST',
-        body: data,
-      })
+  const login = async (formData: FormData) => {
+    const data = await loginAction(formData)
 
-      switch (response.status) {
-        case 200:
-          const { customer, cart } = (await response.json()) as {
-            customer: Customer
-            cart: Cart | null
-          }
-          setUser(customer)
-          setCart(cart)
-          return true
-          break
-        case 401:
-          console.log(response.statusText)
-          break
-      }
-    } catch (err) {
-      console.error(err)
+    if (data.error == undefined) {
+      setUser(data.customer)
+      setCart(data.cart)
+      return true
+    } else {
+      return data.error
     }
-
-    return false
   }
 
   const logOut = async () => {
-    const response = await fetch('/api/logout')
-    if (response.ok) {
-      setUser(null)
-      setCart(null)
-      router.push('/')
-    } else {
-      console.error(response.statusText)
-    }
+    await logoutAction()
+    setUser(null)
+    setCart(null)
   }
 
   useEffect(() => {
@@ -90,7 +68,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, [])
 
   return (
-    <AuthContext.Provider value={{ user, loginAction, logOut, isLoading }}>
+    <AuthContext.Provider value={{ user, login, logOut, isLoading }}>
       {children}
     </AuthContext.Provider>
   )

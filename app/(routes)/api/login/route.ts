@@ -28,5 +28,5 @@ export async function POST(request: NextRequest) {
   setSecureCookie(accessCookie, access_token, expires_in)
   setSecureCookie(refreshCookie, refresh_token)
 
-  return NextResponse.json({ customer, cart }, { status: 200, headers: {} })
+  return NextResponse.json({ customer, cart }, { status: 200 })
 }

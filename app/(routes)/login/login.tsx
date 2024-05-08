@@ -5,7 +5,7 @@ import { useAuth } from '@/app/_hooks/useAuth'
 
 export default function Login({ isLogin = false }: { isLogin?: boolean }) {
   const router = useRouter()
-  const { loginAction } = useAuth()
+  const { login } = useAuth()
 
   return (
     <>
@@ -14,7 +14,7 @@ export default function Login({ isLogin = false }: { isLogin?: boolean }) {
           e.preventDefault()
           const form = new FormData(e.currentTarget)
 
-          const success = await loginAction(form)
+          const success = await login(form)
 
           if (success) router.push('/')
         }}

@@ -135,7 +135,7 @@ function HeaderInner() {
   )
 }
 
-function Logout({ logout }: { logout: React.ReactEventHandler }) {
+function Logout({ logout }: { logout: () => void }) {
   const [isOpened, setIsOpened] = useState(false)
 
   return (
@@ -147,7 +147,13 @@ function Logout({ logout }: { logout: React.ReactEventHandler }) {
         <Modal onClose={() => setIsOpened(false)}>
           <div className={styles.modal}>
             <div>Are you sure you wanna logout?</div>
-            <span className={styles.click} onClick={logout}>
+            <span
+              className={styles.click}
+              onClick={async () => {
+                await logout()
+                setIsOpened(false)
+              }}
+            >
               Logout
             </span>
           </div>
