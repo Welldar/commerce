@@ -20,20 +20,38 @@ export function setSecureCookie(
 export async function getSession() {
   const cookiesJar = cookies()
 
-  let access_token = cookiesJar.get(accessCookie)?.value
-  const refresh_token = cookiesJar.get(refreshCookie)?.value
-  const anonymous_token = cookiesJar.get(anonymousCookie)?.value
+  const access_token = await getAccessToken(accessCookie, refreshCookie)
+  const anonymous_token = await getAccessToken(
+    anonymousCookie,
+    anonymousRefreshCookie
+  )
 
-  if (!access_token && refresh_token) {
-    const { access_token: token, expires_in } =
-      await refreshToken(refresh_token)
-
-    setSecureCookie(accessCookie, token, expires_in)
-
-    access_token = token
+  if (access_token && anonymous_token) {
+    cookiesJar.delete(anonymousCookie)
+    cookiesJar.delete(anonymousRefreshCookie)
+    return { access_token }
   }
 
-  return { access_token, refresh_token, anonymous_token }
+  return { access_token, anonymous_token }
+
+  async function getAccessToken(accessName: string, refreshName: string) {
+    const access_token = cookiesJar.get(accessName)?.value
+    const refresh_token = cookiesJar.get(refreshName)?.value
+
+    if (!access_token && refresh_token) {
+      return await updateToken(refresh_token, accessName)
+    }
+
+    return access_token
+  }
+}
+
+const updateToken = async (refresh_token: string, cookieName: string) => {
+  const { access_token, expires_in } = await refreshToken(refresh_token)
+
+  setSecureCookie(cookieName, access_token, expires_in)
+
+  return access_token
 }
 
 export function queriesAdapter(
