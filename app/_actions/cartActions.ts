@@ -16,18 +16,17 @@ import { authorizeAnon } from '../_services/auth'
 import { createCart, getCart, updateCart } from '../_services/user'
 
 export async function addItemAction(lineItem: LineItemDraft) {
-  let { access_token, anonymous_token } = await getSession()
+  const { access_token, anonymous_token } = await getSession()
+  let token = access_token ?? anonymous_token
 
-  if (!access_token && !anonymous_token) {
+  if (!token) {
     const { access_token, expires_in, refresh_token } = await authorizeAnon()
 
     setSecureCookie(anonymousCookie, access_token, expires_in)
     setSecureCookie(anonymousRefreshCookie, refresh_token)
 
-    anonymous_token = access_token
+    token = access_token
   }
-
-  const token = access_token ?? anonymous_token!
 
   let cart = await getCart(token)
 
@@ -48,7 +47,9 @@ export async function addItemAction(lineItem: LineItemDraft) {
 export async function updateAction(update: MyCartUpdateAction) {
   let { access_token, anonymous_token } = await getSession()
 
-  const token = access_token ?? anonymous_token!
+  const token = access_token ?? anonymous_token
+
+  if (!token) throw new Error('invalid action')
 
   let cart = await getCart(token)
 

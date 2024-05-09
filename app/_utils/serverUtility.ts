@@ -27,8 +27,7 @@ export async function getSession() {
   )
 
   if (access_token && anonymous_token) {
-    cookiesJar.delete(anonymousCookie)
-    cookiesJar.delete(anonymousRefreshCookie)
+    deleteAnonCookies()
     return { access_token }
   }
 
@@ -52,6 +51,13 @@ const updateToken = async (refresh_token: string, cookieName: string) => {
   setSecureCookie(cookieName, access_token, expires_in)
 
   return access_token
+}
+
+export function deleteAnonCookies() {
+  const cookiesJar = cookies()
+
+  cookiesJar.delete(anonymousCookie)
+  cookiesJar.delete(anonymousRefreshCookie)
 }
 
 export function queriesAdapter(

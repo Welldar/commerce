@@ -2,9 +2,11 @@
 
 import { cookies } from 'next/headers'
 import { authorizeUser } from '../_services/auth'
-import { getCart, getUser } from '../_services/user'
+import { authenticateUser } from '../_services/user'
 import {
   accessCookie,
+  deleteAnonCookies,
+  getSession,
   refreshCookie,
   setSecureCookie,
 } from '../_utils/serverUtility'
@@ -14,23 +16,23 @@ export async function loginAction(formData: FormData) {
   const email = formData.get('email')
   const password = formData.get('password')
 
+  const { access_token: haveToken, anonymous_token } = await getSession()
+
+  if (haveToken) redirect('/')
+
   if (!email || !password || email instanceof File || password instanceof File)
-    return { error: 'invalid credentials' }
+    throw new Error('invalid credentials')
 
   const { access_token, expires_in, refresh_token } = await authorizeUser({
     email,
     password,
   })
 
-  const [customer, cart] = await Promise.all([
-    getUser(access_token),
-    getCart(access_token),
-  ])
-
   setSecureCookie(accessCookie, access_token, expires_in)
   setSecureCookie(refreshCookie, refresh_token)
+  deleteAnonCookies()
 
-  return { customer, cart }
+  return await authenticateUser({ email, password }, anonymous_token)
 }
 
 export async function logoutAction() {

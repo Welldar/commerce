@@ -7,10 +7,18 @@ import type {
   LineItemDraft,
   CartDraft,
   MyCartUpdate,
+  CustomerSignInResult,
 } from '@commercetools/platform-sdk'
 
 export async function getUser(token: string): Promise<Customer> {
   return client.get('me', { token })
+}
+
+export async function authenticateUser(
+  body: { email: string; password: string },
+  token?: string
+): Promise<CustomerSignInResult> {
+  return client.post('me/login', { token, body })
 }
 
 export async function getCart(token: string): Promise<Cart | null> {
