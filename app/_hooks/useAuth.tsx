@@ -45,16 +45,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       const response = await fetch('/api/me')
 
       if (!ignore) {
-        switch (response.status) {
-          case 200:
-            setUser(await response.json())
-            break
-          case 401:
-            console.log('not sign in')
-            break
-          default:
-            break
-        }
+        if (response.ok) setUser(await response.json())
+        else console.error(await response.json())
 
         setIsLoading(false)
       }
