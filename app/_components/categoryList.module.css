@@ -2,7 +2,6 @@
   display: flex;
   flex-wrap: wrap;
   column-gap: 10px;
-  margin: 10px 0;
 }
 
 .nav a:hover {
@@ -21,15 +20,19 @@
   content: '';
 }
 
-.list li {
-  margin-bottom: 5px;
-}
-
-.list li a {
-  padding: 2px 5px;
-  border-radius: 3px;
+.list {
+  list-style: none;
 }
 
 .list li a:hover {
-  background-color: hsl(0deg 0% 67.72% / 25%);
+  color: hsl(0deg 0% 67.72% / 80%);
+}
+
+@media (width <= 1000px) {
+  .list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 20px;
+    justify-content: space-between;
+  }
 }

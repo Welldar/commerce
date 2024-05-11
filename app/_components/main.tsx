@@ -18,7 +18,7 @@ export default function Main({
         <ProductList searchParams={searchParams} categoryId={id} />
       </Suspense>
 
-      <div>
+      <div className="sticky">
         <h2>Categories</h2>
         <Suspense fallback={<CategoriesLoader />}>
           <CategoryList categoryId={id} />

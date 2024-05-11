@@ -42,10 +42,9 @@ a {
 
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, 300px);
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
   justify-content: center;
   gap: 20px 10px;
-  margin: 0 20px;
 
   li {
     list-style: none;
@@ -59,36 +58,17 @@ a {
   }
 }
 
-.loader {
-  --degree: 90;
-  background: linear-gradient(
-    calc(var(--degree) * 1deg),
-    rgb(169 169 169) 0%,
-    rgb(215 215 215) 100%
-  );
-  animation: loading infinite 2s steps(90);
-}
-
-@keyframes loading {
-  from {
-    --degree: 0;
-  }
-  to {
-    --degree: 90;
-  }
-}
-
-.productLoader {
-  display: grid;
-  gap: 10px;
-  grid-template-rows: 42px 300px 30px 45px 40px;
-}
-
 main {
   display: grid;
   grid-template-columns: 1fr minmax(300px, 1280px) 1fr;
   gap: 10px;
   margin: 0 10px;
+}
+
+main > div:last-child {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
 .dots {
@@ -114,4 +94,42 @@ main {
 
 .dot.active {
   background: #000;
+}
+
+.sticky {
+  position: sticky;
+  top: 75px;
+  height: max-content;
+}
+
+@media (width <= 1000px) {
+  .sticky {
+    position: static;
+  }
+
+  main {
+    grid-template-columns: 5fr 1fr;
+    grid-template-areas: 'a c' 'b b';
+  }
+
+  main .grid {
+    grid-area: b;
+  }
+
+  main > div:last-child {
+    grid-area: a;
+  }
+
+  main > div:first-child {
+    grid-area: c;
+    justify-self: end;
+  }
+
+  main > div:first-child > div:first-child {
+    display: none;
+  }
+
+  main > div:first-child > div:last-child {
+    display: block;
+  }
 }
