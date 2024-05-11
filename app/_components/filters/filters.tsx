@@ -3,10 +3,22 @@ import { Suspense } from 'react'
 import { PriceRange } from './price-range'
 import { Sort } from './sort'
 import { InputLoader } from '@/app/(routes)/loading'
+import { FiltersMobile } from './filtersMobile'
 
 export function Filters() {
   return (
-    <div className={styles.filters}>
+    <div className="sticky">
+      <FiltersDesktop />
+      <FiltersMobile className={styles.mobile}>
+        <FiltersDesktop />
+      </FiltersMobile>
+    </div>
+  )
+}
+
+function FiltersDesktop() {
+  return (
+    <div className={`${styles.filters}`}>
       <h3>Sort by</h3>
       <Suspense fallback={<InputLoader />}>
         <Sort />
