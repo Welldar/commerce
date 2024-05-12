@@ -60,7 +60,7 @@ export function Product({ product }: { product: ProductProjection }) {
   return (
     <div className={styles.wrapper}>
       {images ? <CarouselWrapper images={images} /> : null}
-      <div>
+      <div className={styles.text}>
         <h2>{product.name[locale]}</h2>
         <div>{product.description?.[locale]}</div>
         <Attr displayedVariant={displayedVariant} />

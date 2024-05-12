@@ -105,14 +105,15 @@
   background-color: #6e1212;
   vertical-align: super;
   position: absolute;
-  top: -6px;
+  top: -3px;
 }
 
 .totalPrice {
   background-color: #0e5b2d;
   vertical-align: sub;
   position: relative;
-  top: 3px;
+  top: 6px;
+  display: inline-block;
 }
 
 .modal {

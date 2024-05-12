@@ -24,7 +24,7 @@ export default function RootLayout({
         <CartProvider>
           <AuthProvider>
             <Header />
-            {children};
+            {children}
           </AuthProvider>
         </CartProvider>
       </body>
