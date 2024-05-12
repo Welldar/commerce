@@ -107,6 +107,10 @@ main > div:last-child {
     position: static;
   }
 
+  h2 {
+    font-size: 1em;
+  }
+
   main {
     grid-template-columns: 5fr 1fr;
     grid-template-areas: 'a c' 'b b';
@@ -118,6 +122,7 @@ main > div:last-child {
 
   main > div:last-child {
     grid-area: a;
+    gap: 7px;
   }
 
   main > div:first-child {

@@ -101,21 +101,15 @@ function HeaderInner() {
             </Link>
           </>
         )}
+
         <Link
           className={`${pathname == '/cart' ? styles.active : ''} ${
             styles.cart
           }`}
           href="/cart"
         >
-          Cart
           <div className={styles.cartIcon}>
-            <Image
-              className={styles.cartSvg}
-              src={svg.src}
-              width={svg.width}
-              height={svg.height}
-              alt=""
-            />
+            Cart
             <span className={styles.amount}>
               {cartLoading ? <Spinner /> : cart?.totalLineItemQuantity ?? 0}
             </span>
