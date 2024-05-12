@@ -1,12 +1,14 @@
 .product {
   display: grid;
   grid-template-columns: 100px auto 100px 100px;
+  grid-template-areas: 'image text price quantity';
   gap: 20px;
   align-items: center;
   justify-items: left;
 }
 
 .img {
+  grid-area: image;
   width: 100px;
   height: 100px;
 }
@@ -18,7 +20,16 @@
 }
 
 .spec {
+  grid-area: text;
   flex-grow: 1;
+}
+
+.price {
+  grid-area: price;
+}
+
+.quantity {
+  grid-area: quantity;
 }
 
 .h2 {
@@ -27,6 +38,10 @@
 .h5 {
   font-size: 16px;
   margin-bottom: 10px;
+}
+
+.contentWrapper {
+  padding: 0 15px;
 }
 
 .wrapper {
@@ -45,4 +60,11 @@
 
 .undiscounted {
   text-decoration: line-through 1px;
+}
+
+@media (width <= 600px) {
+  .product {
+    grid-template-columns: 1fr 2fr;
+    grid-template-areas: 'image text' 'price quantity';
+  }
 }

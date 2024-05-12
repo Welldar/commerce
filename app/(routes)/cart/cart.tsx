@@ -17,7 +17,7 @@ export function Cart() {
   return isLoading ? (
     <Loading />
   ) : (
-    <>
+    <div className={styles.contentWrapper}>
       {
         <div className={styles.wrapper}>
           {cart
@@ -32,7 +32,7 @@ export function Cart() {
             : empty}
         </div>
       }
-    </>
+    </div>
   )
 }
 
@@ -64,7 +64,7 @@ function ProductInCart({ product }: { product: LineItem }) {
         </Link>
         <Attr displayedVariant={variant} />
       </div>
-      <div>
+      <div className={styles.price}>
         <span>{formatPrice(product.totalPrice)}</span>{' '}
         <span className={styles.undiscounted}>
           {product.price.discounted
@@ -72,7 +72,7 @@ function ProductInCart({ product }: { product: LineItem }) {
             : null}
         </span>
       </div>
-      <div>
+      <div className={styles.quantity}>
         <QuantityChanger quantity={product.quantity} lineItemId={product.id} />
         <div>
           {formatPrice(product.price.discounted?.value ?? product.price.value)}{' '}
