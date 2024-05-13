@@ -1,3 +1,7 @@
+.wrapper {
+  justify-self: end;
+}
+
 .filters {
   font-size: 14px;
   display: flex;

@@ -3,7 +3,6 @@
   grid-template-columns: 100px auto 100px 100px;
   grid-template-areas: 'image text price quantity';
   gap: 20px;
-  align-items: center;
   justify-items: left;
 }
 
@@ -30,6 +29,18 @@
 
 .quantity {
   grid-area: quantity;
+  display: flex;
+  align-items: center;
+  align-content: flex-start;
+  gap: 2px 30px;
+  flex-wrap: wrap;
+}
+
+.quantity,
+.spec,
+.price,
+.width100 {
+  width: 100%;
 }
 
 .h2 {

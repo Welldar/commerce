@@ -7,7 +7,7 @@ import { FiltersMobile } from './filtersMobile'
 
 export function Filters() {
   return (
-    <div className="sticky">
+    <div className={`sticky ${styles.wrapper}`}>
       <FiltersDesktop />
       <FiltersMobile className={styles.mobile}>
         <FiltersDesktop />

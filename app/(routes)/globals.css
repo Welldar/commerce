@@ -42,7 +42,7 @@ a {
 
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   justify-content: center;
   gap: 20px 10px;
 
@@ -60,9 +60,15 @@ a {
 
 main {
   display: grid;
-  grid-template-columns: 1fr minmax(300px, 1280px) 1fr;
+  grid-template-columns: minmax(min-content, 15%) calc(70% - 30px) minmax(
+      min-content,
+      15%
+    );
+  justify-content: center;
   gap: 10px;
-  margin: 0 10px;
+  margin: 0 auto;
+  padding: 0 15px;
+  max-width: 1920px;
 }
 
 main > div:last-child {
