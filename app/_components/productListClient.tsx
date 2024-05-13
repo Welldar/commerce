@@ -15,7 +15,8 @@ export function ProductListInner({
 }) {
   const [allProducts, setAllProducts] = useState(initialProducts)
   const [offset, setOffset] = useState(0)
-  const [loaders, setLoaders] = useState<React.ReactNode[] | null>(null)
+  const [loaders, setLoaders] = useState<React.ReactNode[]>([])
+  const limit = 20
 
   const { ref } = useInView({
     triggerOnce: true,
@@ -23,7 +24,7 @@ export function ProductListInner({
       if (!inView) return
 
       const fetchProducts = async () => {
-        const newOffset = offset + 20
+        const newOffset = offset + limit
         const params = new URLSearchParams(searchParams.toString())
 
         params.set('offset', newOffset.toString())
@@ -31,11 +32,7 @@ export function ProductListInner({
         if (categoryId) params.set('category', categoryId)
 
         setLoaders(
-          new Array(8).fill(0).map((value, index) => (
-            <li key={index}>
-              <ProductCard />
-            </li>
-          ))
+          new Array(16).fill(0).map((_, index) => <ProductCard key={index} />)
         )
 
         const response = await fetch(`/api/product?${params.toString()}`)
@@ -47,14 +44,12 @@ export function ProductListInner({
           setAllProducts((products) => [...products, ...newProducts])
         } else console.error(await response.json())
 
-        setLoaders(null)
+        setLoaders([])
       }
 
       fetchProducts()
     },
   })
-
-  const skeletons = loaders ? loaders : []
 
   return (
     <ul className="grid">
@@ -62,11 +57,13 @@ export function ProductListInner({
         ? 'Nothing was found'
         : [
             ...allProducts.map((product, idx, arr) => (
-              <li key={product.id} ref={arr.length - 10 == idx ? ref : null}>
-                <ProductCard product={product} />
-              </li>
+              <ProductCard
+                key={product.id}
+                ref={arr.length - limit / 2 == idx ? ref : null}
+                product={product}
+              />
             )),
-            ...skeletons,
+            ...loaders,
           ]}
     </ul>
   )

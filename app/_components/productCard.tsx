@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { BuyButton } from './BuyButton'
 import { ForwardedRef, forwardRef, memo } from 'react'
 import { Carousel } from './carousel'
-import Skeleton from 'react-loading-skeleton'
+import { ProductLoader } from '../(routes)/loading'
 
 export const ProductCard = memo(forwardRef(Product), (prevProp, nextProps) =>
   prevProp.product && nextProps.product
@@ -20,19 +20,7 @@ function Product(
   },
   ref: ForwardedRef<any>
 ) {
-  if (!product)
-    return (
-      <>
-        <Link href="">
-          <Skeleton />
-        </Link>
-        <Skeleton style={{ height: '100%' }} />
-        <Link href="">
-          <Skeleton className={styles.desc} count={2} />
-        </Link>
-        <Skeleton />
-      </>
-    )
+  if (!product) return <ProductLoader />
   const desc = product.description ?? ''
 
   const displayedVariant = product.masterVariant
@@ -41,7 +29,7 @@ function Product(
   const href = `/product/${product.id}?variantId=${displayedVariant.id}`
 
   return (
-    <>
+    <li>
       <Link ref={ref} href={href}>
         <h3>{product.name}</h3>
       </Link>
@@ -50,6 +38,6 @@ function Product(
         {desc}
       </Link>
       <BuyButton productId={product.id} productVariant={displayedVariant} />
-    </>
+    </li>
   )
 }

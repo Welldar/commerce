@@ -1,6 +1,7 @@
 import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
 import filtersStyle from '@/app/_components/filters/filters.module.css'
+import categoriesStyle from '@/app/_components/categoryList.module.css'
 
 export default function Loading() {
   return (
@@ -38,30 +39,37 @@ export function InputLoader() {
 export function CategoriesLoader() {
   return (
     <>
-      <div
-        style={{
-          margin: '10px 0',
-          display: 'flex',
-          alignItems: 'center',
-          flexWrap: 'wrap',
-        }}
-      >
-        <Skeleton style={{ width: '80px' }} /> {' > '}
-        <Skeleton style={{ width: '80px' }} /> {' > '}
-        <Skeleton style={{ width: '80px' }} />
-      </div>
-      <Skeleton count={4} />
+      <nav className={categoriesStyle.nav}>
+        {new Array(3).fill(0).map((_, ind) => (
+          <span style={{ flexGrow: '1' }} key={ind}>
+            <Skeleton />
+          </span>
+        ))}
+      </nav>
+      <ul className={categoriesStyle.list}>
+        {new Array(4).fill(0).map((_, ind) => (
+          <li style={{ flexGrow: '1' }} key={ind}>
+            <Skeleton />
+          </li>
+        ))}
+      </ul>
     </>
   )
 }
 
 export function ProductListLoader() {
-  const productLoader = new Array(8).fill(0).map((_, ind) => (
-    <li key={ind}>
+  const productLoader = new Array(8)
+    .fill(0)
+    .map((_, ind) => <ProductLoader key={ind} />)
+  return <div className="grid">{productLoader}</div>
+}
+
+export function ProductLoader() {
+  return (
+    <li>
       {new Array(5).fill(0).map((_, ind) => (
         <Skeleton key={ind} height={'100%'} />
       ))}
     </li>
-  ))
-  return <div className="grid">{productLoader}</div>
+  )
 }
