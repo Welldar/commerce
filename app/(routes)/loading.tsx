@@ -58,7 +58,7 @@ export function CategoriesLoader() {
 }
 
 export function ProductListLoader() {
-  const productLoader = new Array(8)
+  const productLoader = new Array(16)
     .fill(0)
     .map((_, ind) => <ProductLoader key={ind} />)
   return <div className="grid">{productLoader}</div>

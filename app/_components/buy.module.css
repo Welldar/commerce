@@ -1,0 +1,62 @@
+.buy {
+  --discount-bg-color: hsl(0deg 0% 0%);
+  --color: white;
+  --hover-buy-bg-color: hsla(0, 0%, 100%, 0.15);
+  background-color: hsl(50, 50%, 50%);
+  padding: 0 10px;
+  min-height: 40px;
+  border: none;
+  color: white;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.buy > span:first-child,
+.buy > span:last-child {
+  flex-grow: 1;
+  flex-basis: 0;
+}
+
+.buy.inCart:hover {
+  cursor: default;
+}
+
+.discount {
+  position: relative;
+  z-index: 2;
+}
+
+.discount::after {
+  left: 0;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%) rotate(353deg);
+  display: block;
+  content: '';
+  width: 100%;
+  height: 1px;
+  background-color: white;
+}
+
+.discount span {
+  font-weight: 600;
+  left: 50%;
+  position: absolute;
+  z-index: -1;
+  color: hsl(0deg 0% 90%);
+  padding: 3px 4px;
+  border-radius: 5px;
+  background-color: var(--discount-bg-color);
+  transform: translateY(15px) translateX(20%) rotate(10deg);
+}
+
+.buy:not(.inCart):hover {
+  background-color: hsl(50deg 85.04% 16.6%);
+  --discount-bg-color: hsl(49.15deg 100% 50%);
+  cursor: pointer;
+}
+
+.buy:not(.inCart):hover .discount span {
+  color: black;
+}

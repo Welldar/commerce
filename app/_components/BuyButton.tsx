@@ -1,7 +1,7 @@
 'use client'
 import { ProductVariant } from '@commercetools/platform-sdk'
 import { formatPrice } from '../_utils/clientUtility'
-import './buy.css'
+import styles from './buy.module.css'
 import { useCart } from '../_hooks/useCart'
 import { QuantityChanger } from './quantityChanger'
 
@@ -33,15 +33,15 @@ export function BuyButton({
 
   return (
     <button
-      className={`buy ${inCart ? 'inCart' : ''}`}
-      onClick={() =>
+      className={`${styles.buy} ${inCart ? styles.inCart : ''}`}
+      onClick={
         inCart
           ? undefined
-          : addItemToCart({ productId, variantId: productVariant.id })
+          : () => addItemToCart({ productId, variantId: productVariant.id })
       }
     >
       <span>
-        <span className={discounted ? 'discount' : ''}>
+        <span className={discounted ? styles.discount : ''}>
           {fullPrice}
           <span>{discounted ? `${discountPrice}` : null}</span>
         </span>
@@ -51,7 +51,7 @@ export function BuyButton({
         <QuantityChanger
           lineItemId={productInCart?.id!}
           quantity={productInCart?.quantity!}
-        ></QuantityChanger>
+        />
       ) : (
         <span>Add to cart</span>
       )}
