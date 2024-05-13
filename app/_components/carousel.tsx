@@ -23,7 +23,7 @@ export function Carousel({ images }: { images: ImageType[] }) {
           src={Img.url}
           width={Img.dimensions.w}
           height={Img.dimensions.h}
-          sizes="(max-width: 1920px) 300px"
+          sizes="300px"
         />
 
         <div className={styles.hoveredDivs}>{hoveredDivs}</div>

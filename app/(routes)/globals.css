@@ -60,10 +60,7 @@ a {
 
 main {
   display: grid;
-  grid-template-columns: minmax(min-content, 15%) calc(70% - 30px) minmax(
-      min-content,
-      15%
-    );
+  grid-template-columns: minmax(min-content, 1fr) 5fr minmax(min-content, 1fr);
   justify-content: center;
   gap: 10px;
   margin: 0 auto;

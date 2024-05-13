@@ -10,7 +10,7 @@
 }
 
 .header {
-  box-shadow: 0 2px 2px hsla(0, 10%, 10%, 0.1);
+  box-shadow: 0 -2px 20px 8px hsla(0, 10%, 10%, 0.1);
   margin-bottom: 15px;
   height: 60px;
   position: sticky;
@@ -45,7 +45,6 @@
 }
 
 .search {
-  /* width: 300px; */
   min-width: 200px;
   background-color: brown;
   border-radius: 10px;
@@ -130,8 +129,10 @@
 @media (width <= 1000px) {
   .header {
     position: static;
+    box-shadow: none;
   }
   .navigation {
+    box-shadow: 0 -2px 20px 8px hsla(0, 10%, 10%, 0.1);
     overflow-x: auto;
     font-size: 14px;
     padding: 10px;

@@ -28,7 +28,7 @@ export function Gallery({
       key={image.url}
       width={image.dimensions.w}
       height={image.dimensions.h}
-      sizes="(max-width: 1920px) 150px"
+      sizes="150px"
       onClick={() => setDisplayedInd(ind)}
     />
   ))
