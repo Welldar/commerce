@@ -1,5 +1,5 @@
 'use client'
-import { LineItem } from '@commercetools/platform-sdk'
+import type { Cart, LineItem } from '@commercetools/platform-sdk'
 import { useCart } from '@/app/_hooks/use-cart'
 import Image from 'next/image'
 import styles from './cart.module.css'
@@ -8,11 +8,14 @@ import { QuantityChanger } from '@/app/_components/quantity-changer/quantity-cha
 import Link from 'next/link'
 import Loading from './loading'
 import { Attr } from '@/app/_components/attributes/attributes'
+import { useEffect } from 'react'
 
-export function Cart() {
-  const { cart, isLoading } = useCart()
+export function Cart({ syncCart }: { syncCart: Cart | null }) {
+  const { cart, isLoading, setCart } = useCart()
 
   const empty = <h2 className={styles.h2}>You didnt buy anything</h2>
+
+  useEffect(() => setCart(syncCart), [setCart, syncCart])
 
   return isLoading ? (
     <Loading />
@@ -23,10 +26,7 @@ export function Cart() {
           {cart
             ? cart.totalLineItemQuantity
               ? cart.lineItems.map((lineItem) => (
-                  <ProductInCart
-                    key={lineItem.id}
-                    product={lineItem}
-                  ></ProductInCart>
+                  <ProductInCart key={lineItem.id} product={lineItem} />
                 ))
               : empty
             : empty}

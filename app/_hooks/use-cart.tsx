@@ -6,6 +6,7 @@ import {
   useEffect,
   Dispatch,
   SetStateAction,
+  useCallback,
 } from 'react'
 import type {
   Cart,
@@ -24,29 +25,38 @@ type cartContext = {
 
 const CartContext = createContext<cartContext | null>(null)
 
+const fetchCart = async (
+  setCart: cartContext['setCart'],
+  ignore: { ignore: boolean } = { ignore: false },
+  setIsLoading?: Dispatch<SetStateAction<boolean>>
+) => {}
+
 export function CartProvider({ children }: { children: React.ReactNode }) {
   const [cart, setCart] = useState<Cart | null>(null)
   const [isLoading, setIsLoading] = useState(true)
 
-  const addItemToCart = async (lineItem: LineItemDraft) => {
+  const addItemToCart = useCallback(async (lineItem: LineItemDraft) => {
     const cart = await addItemAction(lineItem)
     setCart(cart)
-  }
+  }, [])
 
-  const updateQuantity = async (lineItemId: string, quantity: number) => {
-    const update: MyCartChangeLineItemQuantityAction = {
-      action: 'changeLineItemQuantity',
-      lineItemId,
-      quantity,
-    }
-    const cart = await updateAction(update)
-    setCart(cart)
-  }
+  const updateQuantity = useCallback(
+    async (lineItemId: string, quantity: number) => {
+      const update: MyCartChangeLineItemQuantityAction = {
+        action: 'changeLineItemQuantity',
+        lineItemId,
+        quantity,
+      }
+      const cart = await updateAction(update)
+      setCart(cart)
+    },
+    []
+  )
 
   useEffect(() => {
     let ignore = false
 
-    const fetchCart = async () => {
+    async function fetchCart() {
       const response = await fetch('/api/me/cart')
 
       if (!ignore) {
@@ -69,7 +79,13 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
 
   return (
     <CartContext.Provider
-      value={{ cart, isLoading, addItemToCart, updateQuantity, setCart }}
+      value={{
+        cart,
+        isLoading,
+        addItemToCart,
+        updateQuantity,
+        setCart,
+      }}
     >
       {children}
     </CartContext.Provider>
@@ -80,5 +96,6 @@ export const useCart = () => {
   const context = useContext(CartContext)
 
   if (!context) throw new Error('useCart has to be used within <CartProvider>')
+
   return context
 }
