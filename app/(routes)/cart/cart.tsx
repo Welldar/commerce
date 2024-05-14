@@ -73,7 +73,7 @@ function ProductInCart({ product }: { product: LineItem }) {
         </span>
       </div>
       <div className={styles.quantity}>
-        <QuantityChanger quantity={product.quantity} lineItemId={product.id} />
+        <QuantityChanger lineItemId={product.id} />
         <div>
           {formatPrice(product.price.discounted?.value ?? product.price.value)}{' '}
           for each

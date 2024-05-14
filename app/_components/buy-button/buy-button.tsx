@@ -48,10 +48,7 @@ export function BuyButton({
       </span>
       <span>|</span>
       {inCart ? (
-        <QuantityChanger
-          lineItemId={productInCart?.id!}
-          quantity={productInCart?.quantity!}
-        />
+        <QuantityChanger lineItemId={productInCart?.id!} />
       ) : (
         <span>Add to cart</span>
       )}
