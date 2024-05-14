@@ -1,7 +1,7 @@
 'use client'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { useCallback } from 'react'
-import { createQueryString, deleteQuery } from '../_utils/clientUtility'
+import { createQueryString, deleteQuery } from '../_utils/client-utility'
 
 export function useQueryRouting() {
   const pathname = usePathname()

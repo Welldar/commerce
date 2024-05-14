@@ -1,7 +1,7 @@
 'use client'
 
-import { shortFormatter } from '@/app/_utils/clientUtility'
-import { useQueryRouting } from '../../_hooks/useQueryRouting'
+import { shortFormatter } from '@/app/_utils/client-utility'
+import { useQueryRouting } from '../../_hooks/use-query-routing'
 import styles from './price-range.module.css'
 import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 

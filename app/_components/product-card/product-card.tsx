@@ -1,10 +1,10 @@
-import { ProductProjection } from '../_services/interfaces'
-import styles from './productCard.module.css'
+import { ProductProjection } from '../../_services/interfaces'
+import styles from './product-card.module.css'
 import Link from 'next/link'
-import { BuyButton } from './BuyButton'
+import { BuyButton } from '../buy-button/buy-button'
 import { ForwardedRef, forwardRef, memo } from 'react'
-import { Carousel } from './carousel'
-import { ProductLoader } from '../(routes)/loading'
+import { Carousel } from '../carousel/carousel'
+import { ProductLoader } from '../../(routes)/loading'
 
 export const ProductCard = memo(forwardRef(Product), (prevProp, nextProps) =>
   prevProp.product && nextProps.product

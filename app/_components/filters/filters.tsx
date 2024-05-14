@@ -3,7 +3,7 @@ import { Suspense } from 'react'
 import { PriceRange } from './price-range'
 import { Sort } from './sort'
 import { InputLoader } from '@/app/(routes)/loading'
-import { FiltersMobile } from './filtersMobile'
+import { FiltersMobile } from './filters-mobile'
 
 export function Filters() {
   return (

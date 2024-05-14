@@ -4,13 +4,13 @@ import {
   ProductProjection,
 } from '@commercetools/platform-sdk'
 import styles from './product.module.css'
-import { BuyButton } from '@/app/_components/BuyButton'
+import { BuyButton } from '@/app/_components/buy-button/buy-button'
 import Image from 'next/image'
 import { notFound, useSearchParams } from 'next/navigation'
 import { useState } from 'react'
-import { Attr } from '@/app/_components/attributes'
-import { Modal } from '@/app/_components/modal'
-import { Gallery } from '@/app/_components/gallery'
+import { Attr } from '@/app/_components/attributes/attributes'
+import { Modal } from '@/app/_components/modal/modal'
+import { Gallery } from '@/app/_components/gallery/gallery'
 
 export function Product({ product }: { product: ProductProjection }) {
   const searchParams = useSearchParams()

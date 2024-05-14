@@ -3,9 +3,9 @@ import { Inter } from 'next/font/google'
 import './normalize.css'
 import './globals.css'
 
-import Header from '@/app/_components/header'
-import { AuthProvider } from '@/app/_hooks/useAuth'
-import { CartProvider } from '@/app/_hooks/useCart'
+import Header from '@/app/_components/header/header'
+import { AuthProvider } from '@/app/_hooks/use-auth'
+import { CartProvider } from '@/app/_hooks/use-cart'
 
 const inter = Inter({ subsets: ['latin'] })
 

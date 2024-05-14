@@ -1,5 +1,5 @@
 import { getUser } from '@/app/_services/user'
-import { getSession } from '@/app/_utils/serverUtility'
+import { getSession } from '@/app/_utils/server-utility'
 
 import { NextRequest, NextResponse } from 'next/server'
 

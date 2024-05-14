@@ -1,6 +1,6 @@
-import { getCategories } from '../_services/storefront'
+import { getCategories } from '../../_services/storefront'
 import Link from 'next/link'
-import styles from './categoryList.module.css'
+import styles from './category-list.module.css'
 
 export async function CategoryList({ categoryId }: { categoryId?: string }) {
   const locale = 'en-US'

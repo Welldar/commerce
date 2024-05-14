@@ -1,9 +1,9 @@
 'use client'
 import { ProductVariant } from '@commercetools/platform-sdk'
-import { formatPrice } from '../_utils/clientUtility'
+import { formatPrice } from '../../_utils/client-utility'
 import styles from './buy.module.css'
-import { useCart } from '../_hooks/useCart'
-import { QuantityChanger } from './quantityChanger'
+import { useCart } from '../../_hooks/use-cart'
+import { QuantityChanger } from '../quantity-changer/quantity-changer'
 
 export function BuyButton({
   productVariant,

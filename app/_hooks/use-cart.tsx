@@ -12,7 +12,7 @@ import type {
   LineItemDraft,
   MyCartChangeLineItemQuantityAction,
 } from '@commercetools/platform-sdk'
-import { addItemAction, updateAction } from '../_actions/cartActions'
+import { addItemAction, updateAction } from '../_actions/cart-actions'
 
 type cartContext = {
   cart: Cart | null

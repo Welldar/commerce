@@ -1,8 +1,8 @@
 'use client'
 import { useContext, createContext, useState, useEffect } from 'react'
 import type { Customer } from '@commercetools/platform-sdk'
-import { useCart } from './useCart'
-import { logoutAction, loginAction } from '../_actions/authActions'
+import { useCart } from './use-cart'
+import { logoutAction, loginAction } from '../_actions/auth-actions'
 
 type userData = Customer | null
 

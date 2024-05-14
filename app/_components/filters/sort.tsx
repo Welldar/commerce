@@ -1,6 +1,6 @@
 'use client'
 import styles from './sort.module.css'
-import { useQueryRouting } from '../../_hooks/useQueryRouting'
+import { useQueryRouting } from '../../_hooks/use-query-routing'
 
 export function Sort() {
   const { queryRouting, searchParams } = useQueryRouting()

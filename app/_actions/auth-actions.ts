@@ -9,7 +9,7 @@ import {
   getSession,
   refreshCookie,
   setSecureCookie,
-} from '../_utils/serverUtility'
+} from '../_utils/server-utility'
 import { redirect } from 'next/navigation'
 
 export async function loginAction(formData: FormData) {

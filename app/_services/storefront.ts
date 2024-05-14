@@ -1,4 +1,4 @@
-import { productAdapter, queriesAdapter } from '../_utils/serverUtility'
+import { productAdapter, queriesAdapter } from '../_utils/server-utility'
 import { client } from './client'
 
 import type {

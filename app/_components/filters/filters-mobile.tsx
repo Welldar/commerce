@@ -1,6 +1,6 @@
 'use client'
 import { useState } from 'react'
-import { Modal } from '../modal'
+import { Modal } from '../modal/modal'
 import filters from '@/app/_assets/filters.svg'
 import Image from 'next/image'
 

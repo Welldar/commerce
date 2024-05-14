@@ -1,6 +1,6 @@
-import { getProducts } from '../_services/storefront'
-import { parseParams } from '../_utils/clientUtility'
-import { ProductListInner } from './productListClient'
+import { getProducts } from '../../_services/storefront'
+import { parseParams } from '../../_utils/client-utility'
+import { ProductListInner } from './products-list-client'
 
 export async function ProductList({
   searchParams,

@@ -1,8 +1,8 @@
 'use client'
-import { ProductCard } from './productCard'
+import { ProductCard } from '../product-card/product-card'
 import { useInView } from 'react-intersection-observer'
 import { useState } from 'react'
-import { ProductProjection } from '../_services/interfaces'
+import { ProductProjection } from '../../_services/interfaces'
 
 export function ProductListInner({
   initialProducts,

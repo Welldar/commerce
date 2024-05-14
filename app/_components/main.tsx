@@ -1,6 +1,6 @@
 import { Filters } from './filters/filters'
-import { ProductList } from './productsList'
-import { CategoryList } from './categoryList'
+import { ProductList } from './products-list/products-list'
+import { CategoryList } from './category-list/category-list'
 import { Suspense } from 'react'
 import { CategoriesLoader, ProductListLoader } from '../(routes)/loading'
 

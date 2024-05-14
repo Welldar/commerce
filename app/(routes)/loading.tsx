@@ -1,7 +1,7 @@
 import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
 import filtersStyle from '@/app/_components/filters/filters.module.css'
-import categoriesStyle from '@/app/_components/categoryList.module.css'
+import categoriesStyle from '@/app/_components/category-list/category-list.module.css'
 
 export default function Loading() {
   return (

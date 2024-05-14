@@ -1,6 +1,6 @@
 'use client'
-import styles from './quantityChanger.module.css'
-import { useCart } from '../_hooks/useCart'
+import styles from './quantity-changer.module.css'
+import { useCart } from '../../_hooks/use-cart'
 
 export function QuantityChanger({
   quantity,

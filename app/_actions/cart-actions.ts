@@ -11,7 +11,7 @@ import {
   anonymousRefreshCookie,
   getSession,
   setSecureCookie,
-} from '../_utils/serverUtility'
+} from '../_utils/server-utility'
 import { authorizeAnon } from '../_services/auth'
 import { createCart, getCart, updateCart } from '../_services/user'
 

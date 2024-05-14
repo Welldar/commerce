@@ -2,14 +2,14 @@
 import styles from './header.module.css'
 import Link from 'next/link'
 import { ReadonlyURLSearchParams, usePathname } from 'next/navigation'
-import { useAuth } from '../_hooks/useAuth'
-import { useQueryRouting } from '../_hooks/useQueryRouting'
+import { useAuth } from '../../_hooks/use-auth'
+import { useQueryRouting } from '../../_hooks/use-query-routing'
 import { Suspense, useState } from 'react'
-import { formatPrice } from '../_utils/clientUtility'
-import { useCart } from '../_hooks/useCart'
-import { Modal } from './modal'
+import { formatPrice } from '../../_utils/client-utility'
+import { useCart } from '../../_hooks/use-cart'
+import { Modal } from '../modal/modal'
 import Skeleton from 'react-loading-skeleton'
-import { Spinner } from './spinner'
+import { Spinner } from '../spinner/spinner'
 
 export default function Header() {
   return (

@@ -1,13 +1,13 @@
 'use client'
 import { LineItem } from '@commercetools/platform-sdk'
-import { useCart } from '@/app/_hooks/useCart'
+import { useCart } from '@/app/_hooks/use-cart'
 import Image from 'next/image'
 import styles from './cart.module.css'
-import { formatPrice } from '../../_utils/clientUtility'
-import { QuantityChanger } from '@/app/_components/quantityChanger'
+import { formatPrice } from '../../_utils/client-utility'
+import { QuantityChanger } from '@/app/_components/quantity-changer/quantity-changer'
 import Link from 'next/link'
 import Loading from './loading'
-import { Attr } from '@/app/_components/attributes'
+import { Attr } from '@/app/_components/attributes/attributes'
 
 export function Cart() {
   const { cart, isLoading } = useCart()
