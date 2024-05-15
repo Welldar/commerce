@@ -7,6 +7,7 @@ import {
   Dispatch,
   SetStateAction,
   useCallback,
+  useMemo,
 } from 'react'
 import type {
   Cart,
@@ -14,6 +15,7 @@ import type {
   MyCartChangeLineItemQuantityAction,
 } from '@commercetools/platform-sdk'
 import { addItemAction, updateAction } from '../_actions/cart-actions'
+import { debounce } from '../_utils/client-utility'
 
 type cartContext = {
   cart: Cart | null
@@ -25,12 +27,6 @@ type cartContext = {
 
 const CartContext = createContext<cartContext | null>(null)
 
-const fetchCart = async (
-  setCart: cartContext['setCart'],
-  ignore: { ignore: boolean } = { ignore: false },
-  setIsLoading?: Dispatch<SetStateAction<boolean>>
-) => {}
-
 export function CartProvider({ children }: { children: React.ReactNode }) {
   const [cart, setCart] = useState<Cart | null>(null)
   const [isLoading, setIsLoading] = useState(true)
@@ -40,16 +36,19 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     setCart(cart)
   }, [])
 
-  const updateQuantity = useCallback(
-    async (lineItemId: string, quantity: number) => {
-      const update: MyCartChangeLineItemQuantityAction = {
-        action: 'changeLineItemQuantity',
-        lineItemId,
-        quantity,
-      }
-      const cart = await updateAction(update)
-      setCart(cart)
-    },
+  const updateQuantity = useMemo(
+    () =>
+      debounce(async (lineItemId: string, quantity: number) => {
+        const update: MyCartChangeLineItemQuantityAction = {
+          action: 'changeLineItemQuantity',
+          lineItemId,
+          quantity,
+        }
+        console.log('quantity update')
+
+        const cart = await updateAction(update)
+        setCart(cart)
+      }, 600),
     []
   )
 

@@ -46,7 +46,7 @@ export function BuyButton({
       </span>
       <span>{isLoading ? <Spinner /> : '|'}</span>
       {variantInCart !== undefined ? (
-        <QuantityChanger lineItemId={variantInCart.id} />
+        <QuantityChanger lineItem={variantInCart} />
       ) : (
         <span>Add to cart</span>
       )}
