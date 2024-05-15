@@ -9,6 +9,7 @@ import Link from 'next/link'
 import Loading from './loading'
 import { Attr } from '@/app/_components/attributes/attributes'
 import { useEffect } from 'react'
+import { DiscountPrice } from '@/app/_components/discount-price/discount-price'
 
 export function Cart({ syncCart }: { syncCart: Cart | null }) {
   const { cart, isLoading, setCart } = useCart()
@@ -46,6 +47,9 @@ function ProductInCart({ product }: { product: LineItem }) {
   totalUndiscountedPrice.centAmount *= product.quantity
 
   const href = `/product/${product.productId}?variantId=${product.variant.id}`
+  const fullPrice = product.price.discounted
+    ? formatPrice(totalUndiscountedPrice)
+    : null
 
   return (
     <div className={styles.product}>
@@ -56,7 +60,7 @@ function ProductInCart({ product }: { product: LineItem }) {
           width={img?.dimensions.w}
           height={img?.dimensions.h}
           sizes="10vw"
-        ></Image>
+        />
       </Link>
       <div className={styles.spec}>
         <Link href={href}>
@@ -66,11 +70,7 @@ function ProductInCart({ product }: { product: LineItem }) {
       </div>
       <div className={styles.price}>
         <span>{formatPrice(product.totalPrice)}</span>{' '}
-        <span className={styles.undiscounted}>
-          {product.price.discounted
-            ? formatPrice(totalUndiscountedPrice)
-            : null}
-        </span>
+        {fullPrice ? <DiscountPrice fullPrice={fullPrice} /> : null}
       </div>
       <div className={styles.quantity}>
         <QuantityChanger lineItem={product} />

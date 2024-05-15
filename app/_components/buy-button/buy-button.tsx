@@ -6,6 +6,7 @@ import { useCart } from '../../_hooks/use-cart'
 import { QuantityChanger } from '../quantity-changer/quantity-changer'
 import { Spinner } from '../spinner/spinner'
 import { useState } from 'react'
+import { DiscountPrice } from '../discount-price/discount-price'
 
 export function BuyButton({
   productVariant,
@@ -15,7 +16,7 @@ export function BuyButton({
   productId: string
 }) {
   const { addItemToCart, cart } = useCart()
-  const [isClicked, setIsClicked] = useState(false)
+  const [isPending, setIsPending] = useState(false)
   const price = productVariant.price
 
   if (!price) return <div>no price</div>
@@ -31,7 +32,7 @@ export function BuyButton({
       productId == id && variant.id == productVariant.id
   )
 
-  const disabled = variantInCart !== undefined || isClicked
+  const disabled = variantInCart !== undefined || isPending
 
   return (
     <button
@@ -40,22 +41,23 @@ export function BuyButton({
         disabled
           ? undefined
           : async () => {
-              setIsClicked(true)
+              setIsPending(true)
               await addItemToCart({ productId, variantId: productVariant.id })
-              setIsClicked(false)
+              setIsPending(false)
             }
       }
     >
       <span>
-        <span className={discounted ? styles.discount : ''}>
-          {fullPrice}
-          <span>{discounted ? `${discountPrice}` : null}</span>
-        </span>
+        <DiscountPrice fullPrice={fullPrice}>
+          {discountPrice ? (
+            <span className={styles.discount}>{discountPrice}</span>
+          ) : null}
+        </DiscountPrice>
       </span>
       <span>|</span>
       {variantInCart !== undefined ? (
         <QuantityChanger lineItem={variantInCart} />
-      ) : isClicked ? (
+      ) : isPending ? (
         <span>
           <Spinner />
         </span>

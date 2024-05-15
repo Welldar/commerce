@@ -2,6 +2,7 @@
   --spinner-size: 20px;
   --discount-bg-color: hsl(0deg 0% 0%);
   --color: white;
+  --discount-color: var(--color);
   --hover-buy-bg-color: hsla(0, 0%, 100%, 0.15);
   background-color: hsl(50, 50%, 50%);
   padding: 0 10px;
@@ -24,23 +25,6 @@
 }
 
 .discount {
-  position: relative;
-  z-index: 2;
-}
-
-.discount::after {
-  left: 0;
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%) rotate(353deg);
-  display: block;
-  content: '';
-  width: 100%;
-  height: 1px;
-  background-color: white;
-}
-
-.discount span {
   font-weight: 600;
   left: 50%;
   position: absolute;
@@ -58,6 +42,6 @@
   cursor: pointer;
 }
 
-.buy:not(.inCart):hover .discount span {
+.buy:not(.inCart):hover .discount {
   color: black;
 }
