@@ -4,6 +4,7 @@ import { formatPrice } from '../../_utils/client-utility'
 import styles from './buy.module.css'
 import { useCart } from '../../_hooks/use-cart'
 import { QuantityChanger } from '../quantity-changer/quantity-changer'
+import { Spinner } from '../spinner/spinner'
 
 export function BuyButton({
   productVariant,
@@ -12,7 +13,7 @@ export function BuyButton({
   productVariant: ProductVariant
   productId: string
 }) {
-  const { addItemToCart, cart } = useCart()
+  const { addItemToCart, cart, isLoading } = useCart()
   const price = productVariant.price
 
   if (!price) return <div>no price</div>
@@ -23,19 +24,16 @@ export function BuyButton({
     : undefined
   const fullPrice = formatPrice(price.value)
 
-  const productInCart = cart?.lineItems.find(
-    ({ productId: id }) => productId == id
+  const variantInCart = cart?.lineItems.find(
+    ({ variant, productId: id }) =>
+      productId == id && variant.id == productVariant.id
   )
-
-  const variantInCart = productInCart?.variant
-
-  const inCart = variantInCart?.id == productVariant.id
 
   return (
     <button
-      className={`${styles.buy} ${inCart ? styles.inCart : ''}`}
+      className={`${styles.buy} ${variantInCart !== undefined ? styles.inCart : ''}`}
       onClick={
-        inCart
+        variantInCart !== undefined
           ? undefined
           : () => addItemToCart({ productId, variantId: productVariant.id })
       }
@@ -46,9 +44,9 @@ export function BuyButton({
           <span>{discounted ? `${discountPrice}` : null}</span>
         </span>
       </span>
-      <span>|</span>
-      {inCart ? (
-        <QuantityChanger lineItemId={productInCart?.id!} />
+      <span>{isLoading ? <Spinner /> : '|'}</span>
+      {variantInCart !== undefined ? (
+        <QuantityChanger lineItemId={variantInCart.id} />
       ) : (
         <span>Add to cart</span>
       )}
