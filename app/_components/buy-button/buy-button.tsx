@@ -5,6 +5,7 @@ import styles from './buy.module.css'
 import { useCart } from '../../_hooks/use-cart'
 import { QuantityChanger } from '../quantity-changer/quantity-changer'
 import { Spinner } from '../spinner/spinner'
+import { useState } from 'react'
 
 export function BuyButton({
   productVariant,
@@ -13,7 +14,8 @@ export function BuyButton({
   productVariant: ProductVariant
   productId: string
 }) {
-  const { addItemToCart, cart, isLoading } = useCart()
+  const { addItemToCart, cart } = useCart()
+  const [isClicked, setIsClicked] = useState(false)
   const price = productVariant.price
 
   if (!price) return <div>no price</div>
@@ -29,13 +31,19 @@ export function BuyButton({
       productId == id && variant.id == productVariant.id
   )
 
+  const disabled = variantInCart !== undefined || isClicked
+
   return (
     <button
-      className={`${styles.buy} ${variantInCart !== undefined ? styles.inCart : ''}`}
+      className={`${styles.buy} ${disabled ? styles.inCart : ''}`}
       onClick={
-        variantInCart !== undefined
+        disabled
           ? undefined
-          : () => addItemToCart({ productId, variantId: productVariant.id })
+          : async () => {
+              setIsClicked(true)
+              await addItemToCart({ productId, variantId: productVariant.id })
+              setIsClicked(false)
+            }
       }
     >
       <span>
@@ -44,9 +52,13 @@ export function BuyButton({
           <span>{discounted ? `${discountPrice}` : null}</span>
         </span>
       </span>
-      <span>{isLoading ? <Spinner /> : '|'}</span>
+      <span>|</span>
       {variantInCart !== undefined ? (
         <QuantityChanger lineItem={variantInCart} />
+      ) : isClicked ? (
+        <span>
+          <Spinner />
+        </span>
       ) : (
         <span>Add to cart</span>
       )}

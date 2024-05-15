@@ -115,7 +115,7 @@ function HeaderInner() {
               {cartLoading ? (
                 <Spinner />
               ) : cart?.totalPrice ? (
-                formatPrice(cart?.totalPrice).slice(0, -3)
+                formatPrice(cart.totalPrice).replace(/\.\d*/gi, '')
               ) : (
                 '$0'
               )}

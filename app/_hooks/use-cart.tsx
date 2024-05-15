@@ -20,7 +20,7 @@ import { debounce } from '../_utils/client-utility'
 type cartContext = {
   cart: Cart | null
   isLoading: boolean
-  addItemToCart: (lineItem: LineItemDraft) => void
+  addItemToCart: (lineItem: LineItemDraft) => Promise<void>
   updateQuantity: (lineItemId: string, quantity: number) => void
   setCart: Dispatch<SetStateAction<Cart | null>>
 }

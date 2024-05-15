@@ -1,4 +1,5 @@
 .buy {
+  --spinner-size: 20px;
   --discount-bg-color: hsl(0deg 0% 0%);
   --color: white;
   --hover-buy-bg-color: hsla(0, 0%, 100%, 0.15);
