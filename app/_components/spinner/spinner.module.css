@@ -1,8 +1,13 @@
 .spinner {
-  width: 10px;
-  height: 10px;
-  border: 2px solid white;
-  border-bottom: 2px solid #c3c3c3;
+  display: inline-block;
+  background: transparent;
+  vertical-align: middle;
+  aspect-ratio: 1;
+  width: auto;
+  height: var(--spinner-size, 10px);
+
+  border: var(--spinner-width, 2px) solid white;
+  border-bottom: var(--spinner-width, 2px) solid #c3c3c3;
   border-radius: 50%;
   animation: spin 1s linear infinite;
 }
