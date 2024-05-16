@@ -58,7 +58,7 @@ export function Cart({ syncCart }: { syncCart: Cart | null }) {
 
               if (user) return
 
-              router.push('/login')
+              router.push('/login?modal=true')
             }}
           >
             Proceed to checkout

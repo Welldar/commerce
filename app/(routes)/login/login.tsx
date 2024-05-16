@@ -1,11 +1,12 @@
 'use client'
 import styles from './login.module.css'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { useAuth } from '@/app/_hooks/use-auth'
 import { useState } from 'react'
 
 export default function Login({ isLogin = false }: { isLogin?: boolean }) {
   const router = useRouter()
+  const searchParams = useSearchParams()
   const { login } = useAuth()
   const [error, setError] = useState<null | string>(null)
 
@@ -19,7 +20,8 @@ export default function Login({ isLogin = false }: { isLogin?: boolean }) {
           const error = await login(form)
 
           if (!error) {
-            return router.back()
+            const fromModal = Boolean(searchParams.get('modal'))
+            return fromModal ? router.back() : router.replace('/')
           }
 
           setError(error)
