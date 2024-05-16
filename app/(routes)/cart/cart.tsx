@@ -11,14 +11,15 @@ import { Attr } from '@/app/_components/attributes/attributes'
 import { useEffect, useState } from 'react'
 import { DiscountPrice } from '@/app/_components/discount-price/discount-price'
 import { useAuth } from '@/app/_hooks/use-auth'
+import { usePathname, useRouter } from 'next/navigation'
 import { Modal } from '@/app/_components/modal/modal'
-import Login from '../login/login'
-import { useRouter } from 'next/navigation'
 
 export function Cart({ syncCart }: { syncCart: Cart | null }) {
   const { cart, isLoading, setCart } = useCart()
   const { user, isLoading: userLoading } = useAuth()
+  const [showModal, setShowModal] = useState(false)
   const router = useRouter()
+  const pathname = usePathname()
 
   const empty = (
     <div className={styles.contentWrapper}>
@@ -56,13 +57,16 @@ export function Cart({ syncCart }: { syncCart: Cart | null }) {
             onClick={() => {
               if (userLoading) return
 
-              if (user) return
+              if (user) return setShowModal(true)
 
-              router.push('/login?modal=true')
+              router.push(`/login?redirect=${pathname}`)
             }}
           >
             Proceed to checkout
           </div>
+          {showModal && (
+            <Modal onClose={() => setShowModal(false)}>Not implemented</Modal>
+          )}
         </div>
       </div>
     </div>

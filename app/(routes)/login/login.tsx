@@ -20,8 +20,8 @@ export default function Login({ isLogin = false }: { isLogin?: boolean }) {
           const error = await login(form)
 
           if (!error) {
-            const fromModal = Boolean(searchParams.get('modal'))
-            return fromModal ? router.back() : router.replace('/')
+            const redirect = searchParams.get('redirect') ?? '/'
+            return router.replace(redirect)
           }
 
           setError(error)
