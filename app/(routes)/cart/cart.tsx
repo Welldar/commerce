@@ -1,5 +1,5 @@
 'use client'
-import type { Cart, LineItem, TypedMoney } from '@commercetools/platform-sdk'
+import type { Cart, LineItem } from '@commercetools/platform-sdk'
 import { useCart } from '@/app/_hooks/use-cart'
 import Image from 'next/image'
 import styles from './cart.module.css'
@@ -10,11 +10,16 @@ import Loading from './loading'
 import { Attr } from '@/app/_components/attributes/attributes'
 import { useEffect } from 'react'
 import { DiscountPrice } from '@/app/_components/discount-price/discount-price'
+import { checkoutAction } from '@/app/_actions/cart-actions'
 
 export function Cart({ syncCart }: { syncCart: Cart | null }) {
   const { cart, isLoading, setCart } = useCart()
 
-  const empty = <h2 className={styles.h2}>You didnt buy anything</h2>
+  const empty = (
+    <div className={styles.contentWrapper}>
+      <h2 className={styles.h2}>You didnt buy anything</h2>
+    </div>
+  )
 
   useEffect(() => setCart(syncCart), [setCart, syncCart])
 
@@ -41,7 +46,12 @@ export function Cart({ syncCart }: { syncCart: Cart | null }) {
               })}
             />
           </div>
-          <div className={styles.checkout}>Proceed to checkout</div>
+          <div
+            className={styles.checkout}
+            onClick={async () => await checkoutAction()}
+          >
+            Proceed to checkout
+          </div>
         </div>
       </div>
     </div>

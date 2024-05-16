@@ -23,10 +23,14 @@ export async function loginAction(formData: FormData) {
   if (!email || !password || email instanceof File || password instanceof File)
     throw new Error('invalid credentials')
 
-  const { access_token, expires_in, refresh_token } = await authorizeUser({
+  const response = await authorizeUser({
     email,
     password,
   })
+
+  if ('errors' in response) return { error: response.message }
+
+  const { access_token, expires_in, refresh_token } = response
 
   setSecureCookie(accessCookie, access_token, expires_in)
   setSecureCookie(refreshCookie, refresh_token)

@@ -8,7 +8,7 @@ type userData = Customer | null
 
 type authContext = {
   user: userData
-  login: (data: FormData) => Promise<any>
+  login: (data: FormData) => Promise<string | undefined>
   logOut: () => void
   isLoading: boolean
 }
@@ -23,12 +23,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const login = async (formData: FormData) => {
     const data = await loginAction(formData)
 
-    if (data.error == undefined) {
-      setUser(data.customer)
-      setCart(data.cart)
-      return true
-    } else {
+    if ('error' in data) {
       return data.error
+    } else {
+      setUser(data.customer)
+      setCart(data.cart ?? null)
     }
   }
 

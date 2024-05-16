@@ -1,3 +1,5 @@
+import { AuthErrorResponse } from '@commercetools/platform-sdk'
+
 export type authClientResponse = {
   access_token: string
   expires_in: number // seconds (2 days)
@@ -40,7 +42,7 @@ export function authorizeUser({
 }: {
   email: string
   password: string
-}): Promise<authUserRespone> {
+}): Promise<authUserRespone | AuthErrorResponse> {
   return getAccessToken(
     `${projectKey}/customers/token?grant_type=password&username=${email}&password=${password}`
   )

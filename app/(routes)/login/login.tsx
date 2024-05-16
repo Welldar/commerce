@@ -1,11 +1,13 @@
 'use client'
 import styles from './login.module.css'
 import { useRouter } from 'next/navigation'
-import { useAuth } from '@/app/_hooks/useAuth'
+import { useAuth } from '@/app/_hooks/use-auth'
+import { useState } from 'react'
 
 export default function Login({ isLogin = false }: { isLogin?: boolean }) {
   const router = useRouter()
   const { login } = useAuth()
+  const [error, setError] = useState<null | string>(null)
 
   return (
     <>
@@ -14,13 +16,15 @@ export default function Login({ isLogin = false }: { isLogin?: boolean }) {
           e.preventDefault()
           const form = new FormData(e.currentTarget)
 
-          const success = await login(form)
+          const result = await login(form)
 
-          if (success) router.push('/')
+          if (!result) return router.push('/')
+
+          setError(result)
         }}
         className={styles.main}
       >
-        <h1 className={styles.header}>{isLogin ? 'Войти' : 'Регистрация'}</h1>
+        <h1 className={styles.header}>{isLogin ? 'Sign in' : 'Sign up'}</h1>
         {!isLogin ? (
           <>
             <label htmlFor="FName">Введите имя</label>
@@ -33,6 +37,7 @@ export default function Login({ isLogin = false }: { isLogin?: boolean }) {
         <input type="password" required id="password" name="password" />
         <label htmlFor="email">Введите email</label>
         <input type="email" required id="email" name="email" />
+        <div>{error}</div>
         <button>{isLogin ? 'Войти' : 'Зарегистрироваться'}</button>
       </form>
     </>
