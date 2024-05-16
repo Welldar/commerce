@@ -69,8 +69,24 @@
   --hover-buy-bg-color: hsla(32, 100%, 50%, 0.15);
 }
 
-.undiscounted {
-  text-decoration: line-through 1px;
+.footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+}
+
+.footer > div {
+  flex-grow: 1;
+  text-align: center;
+}
+
+.checkout {
+  background: green;
+  color: white;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
 }
 
 @media (width <= 600px) {

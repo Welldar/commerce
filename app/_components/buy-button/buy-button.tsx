@@ -21,8 +21,7 @@ export function BuyButton({
 
   if (!price) return <div>no price</div>
 
-  const discounted = price.discounted
-  const discountPrice = discounted
+  const discountPrice = price.discounted
     ? formatPrice(price.discounted.value)
     : undefined
   const fullPrice = formatPrice(price.value)
@@ -55,15 +54,15 @@ export function BuyButton({
         </DiscountPrice>
       </span>
       <span>|</span>
-      {variantInCart !== undefined ? (
-        <QuantityChanger lineItem={variantInCart} />
-      ) : isPending ? (
-        <span>
+      <span>
+        {variantInCart !== undefined ? (
+          <QuantityChanger lineItem={variantInCart} />
+        ) : isPending ? (
           <Spinner />
-        </span>
-      ) : (
-        <span>Add to cart</span>
-      )}
+        ) : (
+          'Add to cart'
+        )}
+      </span>
     </button>
   )
 }

@@ -1,5 +1,5 @@
 'use client'
-import type { Cart, LineItem } from '@commercetools/platform-sdk'
+import type { Cart, LineItem, TypedMoney } from '@commercetools/platform-sdk'
 import { useCart } from '@/app/_hooks/use-cart'
 import Image from 'next/image'
 import styles from './cart.module.css'
@@ -18,55 +18,68 @@ export function Cart({ syncCart }: { syncCart: Cart | null }) {
 
   useEffect(() => setCart(syncCart), [setCart, syncCart])
 
-  return isLoading ? (
-    <Loading />
-  ) : (
+  if (isLoading) return <Loading />
+  if (!cart || !cart.totalLineItemQuantity) return empty
+
+  const cartFullPriceCentAmount = cart.lineItems
+    .map((lineItem) => lineItem.price.value.centAmount * lineItem.quantity)
+    .reduce((sum, price) => sum + price, 0)
+
+  return (
     <div className={styles.contentWrapper}>
-      {
-        <div className={styles.wrapper}>
-          {cart
-            ? cart.totalLineItemQuantity
-              ? cart.lineItems.map((lineItem) => (
-                  <ProductInCart key={lineItem.id} product={lineItem} />
-                ))
-              : empty
-            : empty}
+      <div className={styles.wrapper}>
+        {cart.lineItems.map((lineItem) => (
+          <ProductInCart key={lineItem.id} product={lineItem} />
+        ))}
+        <div className={styles.footer}>
+          <div className={styles.totalPrice}>
+            {formatPrice(cart.totalPrice)}{' '}
+            <DiscountPrice
+              fullPrice={formatPrice({
+                ...cart.totalPrice,
+                centAmount: cartFullPriceCentAmount,
+              })}
+            />
+          </div>
+          <div className={styles.checkout}>Proceed to checkout</div>
         </div>
-      }
+      </div>
     </div>
   )
 }
 
 function ProductInCart({ product }: { product: LineItem }) {
   const locale = 'en-US'
-  const variant = product.variant
-  const img = variant.images?.[0]
-
-  const totalUndiscountedPrice = { ...product.price.value }
-
-  totalUndiscountedPrice.centAmount *= product.quantity
-
+  const img = product.variant.images?.[0]
   const href = `/product/${product.productId}?variantId=${product.variant.id}`
+
   const fullPrice = product.price.discounted
-    ? formatPrice(totalUndiscountedPrice)
+    ? formatPrice({
+        ...product.price.value,
+        centAmount: product.price.value.centAmount * product.quantity,
+      })
     : null
 
   return (
     <div className={styles.product}>
       <Link href={href} className={styles.img}>
-        <Image
-          alt=""
-          src={img?.url ?? ''}
-          width={img?.dimensions.w}
-          height={img?.dimensions.h}
-          sizes="10vw"
-        />
+        {img ? (
+          <Image
+            alt=""
+            src={img.url}
+            width={img.dimensions.w}
+            height={img.dimensions.h}
+            sizes="10vw"
+          />
+        ) : (
+          <div>No photo</div>
+        )}
       </Link>
       <div className={styles.spec}>
         <Link href={href}>
           <h5 className={styles.h5}>{product.name[locale]}</h5>
         </Link>
-        <Attr displayedVariant={variant} />
+        <Attr displayedVariant={product.variant} />
       </div>
       <div className={styles.price}>
         <span>{formatPrice(product.totalPrice)}</span>{' '}
