@@ -61,13 +61,3 @@ export async function updateAction(update: MyCartUpdateAction) {
 
   return cart
 }
-
-export async function checkoutAction() {
-  let { access_token, anonymous_token } = await getSession()
-
-  if (access_token) return { error: 'Not implemented' }
-
-  if (!anonymous_token) return { error: 'Invalid request' }
-
-  redirect('login')
-}

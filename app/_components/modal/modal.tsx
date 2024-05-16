@@ -1,6 +1,7 @@
+'use client'
 import { createPortal } from 'react-dom'
 import styles from './modal.module.css'
-import { SyntheticEvent, useLayoutEffect } from 'react'
+import { useLayoutEffect } from 'react'
 
 export function Modal({
   children,

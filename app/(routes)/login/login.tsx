@@ -16,11 +16,13 @@ export default function Login({ isLogin = false }: { isLogin?: boolean }) {
           e.preventDefault()
           const form = new FormData(e.currentTarget)
 
-          const result = await login(form)
+          const error = await login(form)
 
-          if (!result) return router.push('/')
+          if (!error) {
+            return router.back()
+          }
 
-          setError(result)
+          setError(error)
         }}
         className={styles.main}
       >

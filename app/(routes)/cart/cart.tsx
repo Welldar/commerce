@@ -8,12 +8,17 @@ import { QuantityChanger } from '@/app/_components/quantity-changer/quantity-cha
 import Link from 'next/link'
 import Loading from './loading'
 import { Attr } from '@/app/_components/attributes/attributes'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { DiscountPrice } from '@/app/_components/discount-price/discount-price'
-import { checkoutAction } from '@/app/_actions/cart-actions'
+import { useAuth } from '@/app/_hooks/use-auth'
+import { Modal } from '@/app/_components/modal/modal'
+import Login from '../login/login'
+import { useRouter } from 'next/navigation'
 
 export function Cart({ syncCart }: { syncCart: Cart | null }) {
   const { cart, isLoading, setCart } = useCart()
+  const { user, isLoading: userLoading } = useAuth()
+  const router = useRouter()
 
   const empty = (
     <div className={styles.contentWrapper}>
@@ -48,7 +53,13 @@ export function Cart({ syncCart }: { syncCart: Cart | null }) {
           </div>
           <div
             className={styles.checkout}
-            onClick={async () => await checkoutAction()}
+            onClick={() => {
+              if (userLoading) return
+
+              if (user) return
+
+              router.push('/login')
+            }}
           >
             Proceed to checkout
           </div>
