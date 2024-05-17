@@ -44,5 +44,4 @@ export async function logoutAction() {
 
   cookiesJar.delete(accessCookie)
   cookiesJar.delete(refreshCookie)
-  redirect('/')
 }

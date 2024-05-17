@@ -1,12 +1,15 @@
 'use client'
 import styles from './login.module.css'
-import { useRouter, useSearchParams } from 'next/navigation'
 import { useAuth } from '@/app/_hooks/use-auth'
 import { useState } from 'react'
 
-export default function Login({ isLogin = false }: { isLogin?: boolean }) {
-  const router = useRouter()
-  const searchParams = useSearchParams()
+export function Login({
+  onLogin,
+  isLogin = false,
+}: {
+  onLogin: Function
+  isLogin?: boolean
+}) {
   const { login } = useAuth()
   const [error, setError] = useState<null | string>(null)
 
@@ -20,8 +23,7 @@ export default function Login({ isLogin = false }: { isLogin?: boolean }) {
           const error = await login(form)
 
           if (!error) {
-            const redirect = searchParams.get('redirect') ?? '/'
-            return router.replace(redirect)
+            return onLogin()
           }
 
           setError(error)
@@ -31,18 +33,18 @@ export default function Login({ isLogin = false }: { isLogin?: boolean }) {
         <h1 className={styles.header}>{isLogin ? 'Sign in' : 'Sign up'}</h1>
         {!isLogin ? (
           <>
-            <label htmlFor="FName">Введите имя</label>
+            <label htmlFor="FName">First Name</label>
             <input type="text" id="FName" />
-            <label htmlFor="LName">Введите фамилию</label>
+            <label htmlFor="LName">Last Name</label>
             <input type="text" id="LName" />
           </>
         ) : null}
-        <label htmlFor="password">Введите пароль</label>
+        <label htmlFor="password">Enter password</label>
         <input type="password" required id="password" name="password" />
-        <label htmlFor="email">Введите email</label>
+        <label htmlFor="email">Enter email</label>
         <input type="email" required id="email" name="email" />
         <div>{error}</div>
-        <button>{isLogin ? 'Войти' : 'Зарегистрироваться'}</button>
+        <button>{isLogin ? 'Sign in' : 'Sign up'}</button>
       </form>
     </>
   )

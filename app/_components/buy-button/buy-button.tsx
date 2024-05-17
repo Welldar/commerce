@@ -47,11 +47,13 @@ export function BuyButton({
       }
     >
       <span>
-        <DiscountPrice fullPrice={fullPrice}>
-          {discountPrice ? (
+        {discountPrice ? (
+          <DiscountPrice fullPrice={fullPrice}>
             <span className={styles.discount}>{discountPrice}</span>
-          ) : null}
-        </DiscountPrice>
+          </DiscountPrice>
+        ) : (
+          fullPrice
+        )}
       </span>
       <span>|</span>
       <span>

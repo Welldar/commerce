@@ -8,13 +8,14 @@ import { Suspense, useState } from 'react'
 import { formatPrice } from '../../_utils/client-utility'
 import { useCart } from '../../_hooks/use-cart'
 import { Modal } from '../modal/modal'
-import Skeleton from 'react-loading-skeleton'
 import { Spinner } from '../spinner/spinner'
+import { Login } from '@/app/_components/login/login'
+import Skeleton from '../skeleton'
 
 export default function Header() {
   return (
     <header className={styles.header}>
-      <Suspense fallback={<h1>loading from header</h1>}>
+      <Suspense fallback={null}>
         <HeaderInner></HeaderInner>
       </Suspense>
     </header>
@@ -85,18 +86,8 @@ function HeaderInner() {
           </>
         ) : (
           <>
-            <Link
-              className={`${pathname == '/login' ? styles.active : ''}`}
-              href="/login"
-            >
-              Login
-            </Link>
-            <Link
-              className={`${pathname == '/signup' ? styles.active : ''}`}
-              href="/signup"
-            >
-              Signup
-            </Link>
+            <SignIn />
+            <SignUp />
           </>
         )}
 
@@ -127,23 +118,61 @@ function HeaderInner() {
   )
 }
 
-function Logout({ logout }: { logout: () => void }) {
-  const [isOpened, setIsOpened] = useState(false)
+export function SignIn() {
+  const [showModal, setShowModal] = useState(false)
 
   return (
     <>
-      <span className={styles.click} onClick={() => setIsOpened(true)}>
+      <span className={styles.click} onClick={() => setShowModal(true)}>
+        Sign in
+      </span>
+      {showModal ? (
+        <Modal onClose={() => setShowModal(false)}>
+          <div className={styles.modal}>
+            <Login isLogin onLogin={() => setShowModal(false)} />
+          </div>
+        </Modal>
+      ) : null}
+    </>
+  )
+}
+
+function SignUp() {
+  const [showModal, setShowModal] = useState(false)
+
+  return (
+    <>
+      <span className={styles.click} onClick={() => setShowModal(true)}>
+        Sign up
+      </span>
+      {showModal ? (
+        <Modal onClose={() => setShowModal(false)}>
+          <div className={styles.modal}>
+            <Login onLogin={() => setShowModal(false)} />
+          </div>
+        </Modal>
+      ) : null}
+    </>
+  )
+}
+
+function Logout({ logout }: { logout: () => void }) {
+  const [showModal, setShowModal] = useState(false)
+
+  return (
+    <>
+      <span className={styles.click} onClick={() => setShowModal(true)}>
         Logout
       </span>
-      {isOpened ? (
-        <Modal onClose={() => setIsOpened(false)}>
+      {showModal ? (
+        <Modal onClose={() => setShowModal(false)}>
           <div className={styles.modal}>
             <div>Are you sure you wanna logout?</div>
             <span
               className={styles.click}
               onClick={async () => {
                 await logout()
-                setIsOpened(false)
+                setShowModal(false)
               }}
             >
               Logout
