@@ -9,7 +9,7 @@ type userData = Customer | null
 type authContext = {
   user: userData
   login: (data: FormData) => Promise<string | undefined>
-  logOut: () => void
+  logOut: () => Promise<void>
   isLoading: boolean
 }
 

@@ -1,8 +1,6 @@
 import styles from './filters.module.css'
-import { Suspense } from 'react'
 import { PriceRange } from './price-range'
 import { Sort } from './sort'
-import { InputLoader } from '@/app/(routes)/loading'
 import { FiltersMobile } from './filters-mobile'
 
 export function Filters() {
@@ -20,13 +18,9 @@ function FiltersDesktop() {
   return (
     <div className={`${styles.filters}`}>
       <h3>Sort by</h3>
-      <Suspense fallback={<InputLoader />}>
-        <Sort />
-      </Suspense>
+      <Sort />
       <h3>Filter by</h3>
-      <Suspense fallback={<InputLoader />}>
-        <PriceRange />
-      </Suspense>
+      <PriceRange />
     </div>
   )
 }

@@ -3,25 +3,31 @@
   gap: 20px;
   grid-template-columns: auto 150px;
   justify-items: center;
+  align-content: space-between;
   min-height: 0;
+  flex-grow: 1;
 }
 
 .thumbnails {
   height: 100%;
   width: 100%;
+  gap: 10px;
   overflow-y: auto;
   scrollbar-width: thin;
   scrollbar-gutter: stable;
   padding: 10px;
+  line-height: 0;
 }
 
 .thumbnails img {
+  display: inline-block;
   width: 100%;
   height: auto;
   border: 2px solid rgb(151, 151, 151);
+  margin-bottom: 5px;
 }
 
-img.active {
+html img.active {
   border: 2px solid sienna;
 }
 
@@ -36,4 +42,23 @@ img.active {
   width: 100%;
   max-width: 100%;
   object-fit: contain;
+}
+
+@media (width <= 600px) {
+  .wrapper {
+    grid-template-columns: none;
+    grid-template-rows: auto 100px;
+    align-content: normal;
+  }
+
+  .thumbnails {
+    text-align: center;
+    text-wrap: nowrap;
+  }
+
+  .thumbnails img {
+    width: auto;
+    height: 100%;
+    margin-right: 5px;
+  }
 }

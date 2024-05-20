@@ -36,18 +36,18 @@ export function Gallery({
   const img = images[displayedInd]
 
   return (
-    <div className={`${styles.wrapper} ${wrapperClass || ''}`}>
+    <div className={`${wrapperClass || styles.wrapper}`}>
       <Image
         priority={true}
         onClick={onClick}
-        className={`${styles.image} ${mainImgClass || ''}`}
+        className={`${mainImgClass || styles.image}`}
         alt=""
         src={img.url}
         width={img.dimensions.w}
         height={img.dimensions.h}
         sizes="(max-width: 1920px) 90vw"
       />
-      <div className={`${styles.thumbnails} ${thumbnailsClass || ''}`}>
+      <div className={`${thumbnailsClass || styles.thumbnails}`}>
         {thumbnails}
       </div>
     </div>
