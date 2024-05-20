@@ -16,7 +16,7 @@ export default function Header() {
   return (
     <header className={styles.header}>
       <Suspense fallback={null}>
-        <HeaderInner></HeaderInner>
+        <HeaderInner />
       </Suspense>
     </header>
   )
@@ -69,7 +69,7 @@ function HeaderInner() {
 
   return (
     <div className={styles.wrapper}>
-      <SearchBar></SearchBar>
+      <SearchBar />
       <div className={styles.navigation}>
         <Link className={pathname == '/' ? styles.active : ''} href="/">
           Main
@@ -92,9 +92,7 @@ function HeaderInner() {
         )}
 
         <Link
-          className={`${pathname == '/cart' ? styles.active : ''} ${
-            styles.cart
-          }`}
+          className={`${pathname == '/cart' && styles.active} ${styles.cart}`}
           href="/cart"
         >
           <div className={styles.cartIcon}>
@@ -118,7 +116,7 @@ function HeaderInner() {
   )
 }
 
-export function SignIn() {
+function SignIn() {
   const [showModal, setShowModal] = useState(false)
 
   return (
@@ -128,9 +126,7 @@ export function SignIn() {
       </span>
       {showModal ? (
         <Modal onClose={() => setShowModal(false)}>
-          <div className={styles.modal}>
-            <Login isLogin onLogin={() => setShowModal(false)} />
-          </div>
+          <Login onLogin={() => setShowModal(false)} />
         </Modal>
       ) : null}
     </>
@@ -147,16 +143,14 @@ function SignUp() {
       </span>
       {showModal ? (
         <Modal onClose={() => setShowModal(false)}>
-          <div className={styles.modal}>
-            <Login onLogin={() => setShowModal(false)} />
-          </div>
+          <div>Not implemented</div>
         </Modal>
       ) : null}
     </>
   )
 }
 
-function Logout({ logout }: { logout: () => void }) {
+function Logout({ logout }: { logout: ReturnType<typeof useAuth>['logOut'] }) {
   const [showModal, setShowModal] = useState(false)
 
   return (

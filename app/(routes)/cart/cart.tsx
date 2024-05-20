@@ -65,7 +65,7 @@ export function Cart({ syncCart }: { syncCart: Cart | null }) {
               {user ? (
                 <div>not implemented</div>
               ) : (
-                <Login isLogin onLogin={() => setShowModal(false)} />
+                <Login onLogin={() => setShowModal(false)} />
               )}
             </Modal>
           )}
