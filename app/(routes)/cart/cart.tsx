@@ -14,18 +14,20 @@ import { useAuth } from '@/app/_hooks/use-auth'
 import { Modal } from '@/app/_components/modal/modal'
 import { Login } from '@/app/_components/login/login'
 
-export function Cart({ syncCart }: { syncCart: Cart | null }) {
-  const { cart, isLoading, setCart } = useCart()
+export function Cart() {
+  const { cart, isLoading, updateCart } = useCart()
   const { user, isLoading: userLoading } = useAuth()
   const [showModal, setShowModal] = useState(false)
+
+  useEffect(() => {
+    updateCart()
+  }, [updateCart])
 
   const empty = (
     <div className={styles.contentWrapper}>
       <h2 className={styles.h2}>You didnt buy anything</h2>
     </div>
   )
-
-  useEffect(() => setCart(syncCart), [setCart, syncCart])
 
   if (isLoading) return <Loading />
   if (!cart || !cart.totalLineItemQuantity) return empty
@@ -43,12 +45,14 @@ export function Cart({ syncCart }: { syncCart: Cart | null }) {
         <div className={styles.footer}>
           <div className={styles.totalPrice}>
             {formatPrice(cart.totalPrice)}{' '}
-            <DiscountPrice
-              fullPrice={formatPrice({
-                ...cart.totalPrice,
-                centAmount: cartFullPriceCentAmount,
-              })}
-            />
+            {cart.totalPrice.centAmount != cartFullPriceCentAmount ? (
+              <DiscountPrice
+                fullPrice={formatPrice({
+                  ...cart.totalPrice,
+                  centAmount: cartFullPriceCentAmount,
+                })}
+              />
+            ) : null}
           </div>
           <div
             className={styles.checkout}

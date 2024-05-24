@@ -23,6 +23,11 @@ type cartContext = {
   addItemToCart: (lineItem: LineItemDraft) => Promise<void>
   updateQuantity: (lineItemId: string, quantity: number) => void
   setCart: Dispatch<SetStateAction<Cart | null>>
+  updateCart: () => Promise<void>
+}
+
+async function fetchCart(): Promise<Cart | null> {
+  return (await fetch('/api/me/cart')).json()
 }
 
 const CartContext = createContext<cartContext | null>(null)
@@ -52,24 +57,25 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     []
   )
 
+  const updateCart = useCallback(async () => {
+    const response = await fetchCart()
+
+    setCart(response)
+  }, [])
+
   useEffect(() => {
     let ignore = false
 
-    async function fetchCart() {
-      const response = await fetch('/api/me/cart')
+    async function getCart() {
+      const response = await fetchCart()
 
-      if (!ignore) {
-        if (response.ok) setCart(await response.json())
-        else {
-          console.error(`${response.status} ${response.statusText}`)
-          console.error(await response.json())
-        }
+      if (ignore) return
 
-        setIsLoading(false)
-      }
+      setCart(response)
+      setIsLoading(false)
     }
 
-    fetchCart()
+    getCart()
 
     return () => {
       ignore = true
@@ -84,6 +90,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
         addItemToCart,
         updateQuantity,
         setCart,
+        updateCart,
       }}
     >
       {children}

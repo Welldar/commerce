@@ -8,8 +8,7 @@ export async function GET() {
   const { access_token, anonymous_token } = await getSession()
   const token = access_token ?? anonymous_token
 
-  if (!token)
-    return NextResponse.json('', { status: 401, statusText: 'no credentials' })
+  if (!token) return NextResponse.json(null)
 
   const cart = await getCart(token)
 
